@@ -34,7 +34,7 @@ import (
 type SimpleChaincode struct {
 }
 
-var marbleIndexStr = "_marbleindex"				//name for the key/value that will store a list of all known marbles
+var marbleIndexStr = "_marbleindex"			//name for the key/value that will store a list of all known marbles
 var openTradesStr = "_opentrades"				//name for the key/value that will store all open trades
 
 type Marble struct{
@@ -59,6 +59,20 @@ type AnOpenTrade struct{
 type AllTrades struct{
 	OpenTrades []AnOpenTrade `json:"open_trades"`
 }
+
+
+
+type Corporation struct {
+    Timestamp string `json:"timestamp"`
+    Jurisdictions []string `json:"jurisdictions"`
+    Name string `json:"name"`
+    Address string `json:"address"`
+    Email string `json:"email"`
+    Date string `json:"date"`
+    Status string `json:"status"`
+}
+
+
 
 // ============================================================================================================================
 // Main
