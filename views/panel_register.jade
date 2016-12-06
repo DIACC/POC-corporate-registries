@@ -1,90 +1,111 @@
 #registerPanel.panel
 	div(class="row")
 		div(class="twelve columns")
-			h4 Register
-			p Register a corporation across jurisdictions.  This form will create a registry entry on the blockchain for one or more jurisdictions for a single corporation.
+			h3 Register
+			p Register a corporation in a jurisdiction.  This form will create a registry entry on the blockchain for a corporation.
 	form(action="/create" method="POST")#createform
 		div(class="row")
 			div(class="twelve columns")
-				legend 
-					b Corporation Name:
+				h5 Corporate Information
+		div(class="row")
+			div(class="six columns") 
+				legend
+					b Jurisdiction:
 					br
-					input(type="text" name="corporationName" placeholder="" class="u-full-width")
+					select(name="jurisdiction" class="u-full-width")
+							option(value="" disabled="disabled" selected="selected") Jurisdiction
+							option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
+							option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
+							option(value="#{bag.setup.USER3}") #{bag.setup.USER3longname}
+							option(value="#{bag.setup.USER4}") #{bag.setup.USER4longname}	
+							option(value="#{bag.setup.USER5}") #{bag.setup.USER5longname}
+							option(value="#{bag.setup.USER6}") #{bag.setup.USER6longname}
+							option(value="#{bag.setup.USER7}") #{bag.setup.USER7longname}
+							option(value="#{bag.setup.USER8}") #{bag.setup.USER8longname}
+							option(value="#{bag.setup.USER9}") #{bag.setup.USER9longname}
+							option(value="#{bag.setup.USER10}") #{bag.setup.USER10longname}
+							option(value="#{bag.setup.USER11}") #{bag.setup.USER11longname}
+							option(value="#{bag.setup.USER12}") #{bag.setup.USER12longname}
+							option(value="#{bag.setup.USER13}") #{bag.setup.USER13longname}
+							option(value="#{bag.setup.USER14}") #{bag.setup.USER14longname}
+			div(class="six columns")
+				legend 
+					b Filling Date:
+					br
+					input(type="text" name="email" placeholder="MM-DD-YYYY" class="u-full-width")
+		div(class="row")
+			div(class="six columns") 
+				legend 
+					b Corporate Name:
+					br
+					input(type="text" name="corporateName" placeholder="" class="u-full-width")
+			div(class="six columns")
+				legend 
+					b Corporation Number:
+					br
+					input(type="text" name="corporationNumber" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="six columns")
+				legend 
+					b Director First Name:
+					br
+					input(type="text" name="firstname" placeholder="" class="u-full-width")
+			div(class="six columns")
+				legend 
+					b Director Last Name:
+					br
+					input(type="text" name="lastname" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="twelve columns")
 				legend 
 					b E-Mail Address:
 					br
 					input(type="text" name="email" placeholder="" class="u-full-width")
-				legend 
-					b Mailing Address:
-					br
-					textarea(rows="5" class="u-full-width")
-				legend 
-					b Filling Date:
-					br
-					input(type="text" name="email" placeholder="MM-DD-YYYY")
-
 		div(class="row")
 			div(class="twelve columns")
-				b Jurisdiction(s):
-				p Choose jurisdictions in which to register
+				h5 Registered Office Address
 		div(class="row")
-			div(class="four columns")
-				input(type="checkbox" name="#{bag.setup.USER1}")
-				|  #{bag.setup.USER1longname}
-				br
-				input(type="checkbox" name="MB")
-				|  Manitoba
-				br
-				input(type="checkbox" name="NB")
-				|  New Brunswick
-				br
-				input(type="checkbox" name="NL")
-				|  Newfoundland and Labrador
-				br
-				input(type="checkbox" name="NT")
-				|  Northwest Territories
-				br
-			div(class="four columns")
-				input(type="checkbox" name="NS")
-				|  Nova Scotia
-				br
-				input(type="checkbox" name="NU")
-				|  Nunavut
-				br
-				input(type="checkbox" name="ON")
-				|  Ontario
-				br
-				input(type="checkbox" name="PE")
-				|  Prince Edward Island
-				br
-			div(class="four columns")
-				input(type="checkbox" name="QC")
-				|  Quebec
-				br
-				input(type="checkbox" name="SK")
-				|  Saskatchewan
-				br
-				input(type="checkbox" name="YT")
-				|  Yukon
-				br
-				input(type="checkbox" name="FED")
-				|  Federal Government
-				br
-					
-				//legend
-				//	select(name="transactionType")
-				//		option(value="35" disabled="disabled" selected="selected") Transaction Type
-				//		option(value="R") Register
-				//		option(value="NC") Name Change
-				//		option(value="Re") Report
-				//		option(value="D") Dissolve		
-				//br
-				//legend 
-				//	select(name="user")
-				//		option(value="#{bag.setup.USER1}" disabled="disabled" selected="selected") Jurisdiction
-				//		option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
-				//		option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
-				//br
+			div(class="six columns")
+				legend 
+					b Address Line 1:
+					br
+					input(type="text" name="address1" placeholder="" class="u-full-width")
+			div(class="six columns")
+				legend 
+					b Address Line 2:
+					br
+					input(type="text" name="address2" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="six columns")
+				legend 
+					b City:
+					br
+					input(type="text" name="city" placeholder="" class="u-full-width")
+			div(class="three columns")
+				legend
+					b Province:
+					br
+					select(name="province" class="u-full-width")
+							option(value="" disabled="disabled" selected="selected") Province
+							option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
+							option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
+							option(value="#{bag.setup.USER3}") #{bag.setup.USER3longname}
+							option(value="#{bag.setup.USER4}") #{bag.setup.USER4longname}	
+							option(value="#{bag.setup.USER5}") #{bag.setup.USER5longname}
+							option(value="#{bag.setup.USER6}") #{bag.setup.USER6longname}
+							option(value="#{bag.setup.USER7}") #{bag.setup.USER7longname}
+							option(value="#{bag.setup.USER8}") #{bag.setup.USER8longname}
+							option(value="#{bag.setup.USER9}") #{bag.setup.USER9longname}
+							option(value="#{bag.setup.USER10}") #{bag.setup.USER10longname}
+							option(value="#{bag.setup.USER11}") #{bag.setup.USER11longname}
+							option(value="#{bag.setup.USER12}") #{bag.setup.USER12longname}
+							option(value="#{bag.setup.USER13}") #{bag.setup.USER13longname}
+			div(class="three columns")
+				legend 
+					b Postal Code:
+					br
+					input(type="text" name="postalCode" placeholder="" class="u-full-width")
+
 		div(class="row")
 			div(class="twelve columns" style="text-align:left")
 				p
