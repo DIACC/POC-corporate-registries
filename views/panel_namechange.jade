@@ -1,0 +1,29 @@
+#name_changePanel(hidden).panel
+	div(class="row")
+		div(class="twelve columns")
+			h4 Name Change
+			p Change the name of a corporation.  This form will add an amendment to the blockchain for the corporation name.
+	form(action="/create" method="POST")#createform
+		div(class="row")
+			div(class="twelve columns")
+				legend 
+					b Select Corporation:
+					br
+					select(name="transactionType"  class="u-full-width")
+						option(value="35" disabled="disabled" selected="selected") Corporation
+						option(value="111111") ABC Inc (20160203131214)
+						option(value="222222") DEF Inc (20161201041502)
+						option(value="333333") FED Ltd (20160802090705)
+						option(value="444444") Santa's Workshop (20161111010912)
+			div(class="twelve columns")
+				legend 
+					b New Corporation Name:
+					br
+					input(type="text" name="corporationName" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="twelve columns" style="text-align:left")
+				button(type="button" class="button-primary")#submit
+					span.fa.fa-check &nbsp;&nbsp; 
+					span Change Name
+				
+				

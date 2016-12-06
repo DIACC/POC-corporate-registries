@@ -1,0 +1,23 @@
+#logo 
+	div(class="row" style="margin-top: 10%")
+		div(class="twelve columns")
+			img(src="./imgs/DIACC.png" alt="DIACC" style="width:120px;height:44px;")
+			h1 Corporate Registries Simulator
+			p
+
+#linkWraps
+	// there is JS code that will show the corresponding panel to the clicked navigation div.
+	// ie: clicking <div class="nav">HOME</div> will show panel #homePanel
+	// this code is in layout.jade
+	div(class="row")
+		div(class="three columns")
+			.nav#registerLink REGISTER
+		div(class="three columns")
+			.nav#name_changeLink NAME_CHANGE
+		div(class="three columns")
+			.nav#tradeLink REPORT
+		div(class="three columns")
+			.nav#dissolveLink DISSOLVE
+	div(class="row")
+		div(class="twelve columns")
+			hr

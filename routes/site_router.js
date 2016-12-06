@@ -49,4 +49,35 @@ router.route('/p2/:page?').get(function(req, res){
 	res.render('part2', {title: 'Marbles Part 2', bag: build_bag()});
 });
 
+//============================================================================================================================
+//Corporate Registry Main Entry Point
+//============================================================================================================================
+router.route('/diacc').get(function(req, res){
+	res.render('diacc', {title: 'DIACC Blockchain POC', bag: build_bag()});
+});
+router.route('/diacc/:page?').get(function(req, res){
+	res.render('diacc', {title: 'DIACC Blockchain POC', bag: build_bag()});
+});
+
+
+//============================================================================================================================
+//Corporate Registry Simulator
+//============================================================================================================================
+router.route('/registry_simulator').get(function(req, res){
+	res.render('registry_simulator', {title: 'DIACC Blockchain POC Registry Simulator', bag: build_bag()});
+});
+router.route('/registry_simulator/:page?').get(function(req, res){
+	res.render('registry_simulator', {title: 'DIACC Blockchain POC Registry Simulator', bag: build_bag()});
+});
+
+//============================================================================================================================
+//Corporate Registry Viewer
+//============================================================================================================================
+router.route('/registry_viewer').get(function(req, res){
+	res.render('registry_viewer', {title: 'DIACC Blockchain POC Registry Viewer', bag: build_bag()});
+});
+router.route('/registry_viewer/:page?').get(function(req, res){
+	res.render('registry_viewer', {title: 'DIACC Blockchain POC Registry Viewer', bag: build_bag()});
+});
+
 module.exports = router;

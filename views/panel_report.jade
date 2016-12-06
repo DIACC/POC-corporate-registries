@@ -1,0 +1,37 @@
+#reportPanel(hidden).panel
+	div(class="row")
+		div(class="twelve columns")
+			h4 Report
+			p Perform an annual report for a corporation.  This form will confirm the company's contact information and add to the blockchain.
+	form(action="/create" method="POST")#createform
+		div(class="row")
+			div(class="twelve columns")
+				legend 
+					b Select Corporation:
+					br
+					select(name="transactionType"  class="u-full-width")
+						option(value="35" disabled="disabled" selected="selected") Corporation
+						option(value="111111") ABC Inc (20160203131214)
+						option(value="222222") DEF Inc (20161201041502)
+						option(value="333333") FED Ltd (20160802090705)
+						option(value="444444") Santa's Workshop (20161111010912)
+			div(class="twelve columns")
+				legend 
+					b E-Mail Address:
+					br
+					input(type="text" name="email" placeholder="" class="u-full-width")
+				legend 
+					b Mailing Address:
+					br
+					textarea(rows="5" class="u-full-width")
+				legend 
+					b Reporting Date:
+					br
+					input(type="text" name="email" placeholder="MM-DD-YYYY")
+		div(class="row")
+			div(class="twelve columns" style="text-align:left")
+				button(type="button" class="button-primary")#submit
+					span.fa.fa-check &nbsp;&nbsp;
+					span Report
+				
+				

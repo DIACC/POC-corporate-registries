@@ -1,0 +1,23 @@
+extends ./template/layout_registry_viewer.jade
+	
+	
+// --------------- Header -------------- //
+block custom_header
+	script(src='/js/registries.js?v=#{bag.jshash}')
+	script(src='/js/blockchain.js?v=#{bag.jshash}')
+	script(type='text/javascript').
+		$(document).ready(function(){
+		});
+
+
+block navigation
+	include ./template/nav_registry_viewer.jade
+
+// --------------- Main Stuff  -------------- //
+block content
+	#contentPanel
+		// --------------- Register Panel
+		include ./panel_viewer.jade
+		
+block footer
+	include ./template/diaccfooter.jade

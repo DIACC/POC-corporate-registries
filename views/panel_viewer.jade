@@ -1,0 +1,51 @@
+#viewPanel.panel
+	div(class="row")
+		div(class="twelve columns")
+		p The corporate registries viewer allows you to view the transactions that have occurred for corporations across jurisdictions.  In addition you may filter by jurisdiction or by corporation name.
+	form(action="/filter" method="POST")#filterform
+	div(class="row")
+		div(class="four columns")
+			b Filter by Jurisdiction:
+		div(class="eight columns")
+			b Filter by Corporation Name:
+	div(class="row")
+		div(class="four columns")
+			legend 
+				select(name="jurisdictionFilter" onchange="filterProvinces()" class="u-full-width")
+						option(value="" disabled="disabled") Jurisdiction
+						option(value="ALL" selected="selected") Show All
+						option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
+						option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
+						option(value="#{bag.setup.USER3}") #{bag.setup.USER3longname}
+						option(value="#{bag.setup.USER4}") #{bag.setup.USER4longname}	
+						option(value="#{bag.setup.USER5}") #{bag.setup.USER5longname}
+						option(value="#{bag.setup.USER6}") #{bag.setup.USER6longname}
+						option(value="#{bag.setup.USER7}") #{bag.setup.USER7longname}
+						option(value="#{bag.setup.USER8}") #{bag.setup.USER8longname}
+						option(value="#{bag.setup.USER9}") #{bag.setup.USER9longname}
+						option(value="#{bag.setup.USER10}") #{bag.setup.USER10longname}
+						option(value="#{bag.setup.USER11}") #{bag.setup.USER11longname}
+						option(value="#{bag.setup.USER12}") #{bag.setup.USER12longname}
+						option(value="#{bag.setup.USER13}") #{bag.setup.USER13longname}
+						option(value="#{bag.setup.USER14}") #{bag.setup.USER14longname}
+
+		div(class="eight columns")
+			legend
+				input(type="text" id="corporationNameFilter" onkeyup="filterCorporation()" placeholder="Corporation Name..." class="u-full-width")
+
+		p
+		table#registryTransactionsTable
+				thead
+					tr 
+						th Corporation Name
+						th Type
+						th Date/Time
+						th Jur.
+						th E-Mail
+						th Address
+						th ID
+						th &nbsp;
+				tbody#myTransactionsBody
+	
+		p
+		br

@@ -1,0 +1,34 @@
+extends ./template/layout_registry_simulator.jade
+	
+	
+// --------------- Header -------------- //
+block custom_header
+	script(src='/js/registries.js?v=#{bag.jshash}')
+	script(src='/js/blockchain.js?v=#{bag.jshash}')
+	script(type='text/javascript').
+		$(document).ready(function(){
+		});
+
+
+block navigation
+	include ./template/nav_registry_simulator.jade
+
+// --------------- Main Stuff  -------------- //
+block content
+	#contentPanel
+		// --------------- Register Panel
+		include ./panel_register.jade
+		
+		
+		// --------------- Name Change Panel
+		include ./panel_namechange.jade
+		
+		
+		// --------------- Report Panel
+		include ./panel_report.jade
+		
+		// --------------- Dissolve Panel
+		include ./panel_dissolve.jade
+		
+block footer
+	include ./template/diaccfooter.jade
