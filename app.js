@@ -140,6 +140,7 @@ require('cf-deployment-tracker-client').track();		//reports back to us, this hel
 // ============================================================================================================================
 var part1 = require('./utils/ws_part1');														//websocket message processing for part 1
 var part2 = require('./utils/ws_part2');														//websocket message processing for part 2
+var registries = require('./utils/ws_registries');	
 var ws = require('ws');																			//websocket mod
 var wss = {};
 var Ibc1 = require('ibm-blockchain-js');														//rest based SDK for ibm blockchain
@@ -151,8 +152,8 @@ var ibc = new Ibc1();
 try{
 	//this hard coded list is intentionaly left here, feel free to use it when initially starting out
 	//please create your own network when you are up and running
-	var manual = JSON.parse(fs.readFileSync('mycreds_docker_compose.json', 'utf8'));
-	//var manual = JSON.parse(fs.readFileSync('mycreds_bluemix.json', 'utf8'));
+	//var manual = JSON.parse(fs.readFileSync('mycreds_docker_compose.json', 'utf8'));
+	var manual = JSON.parse(fs.readFileSync('mycreds_bluemix.json', 'utf8'));
 	var peers = manual.credentials.peers;
 	console.log('loading hardcoded peers');
 	var users = null;																			//users are only found if security is on
@@ -248,7 +249,8 @@ ibc.load(options, function (err, cc){														//parse/load chaincode, respo
 		chaincode = cc;
 		part1.setup(ibc, cc);																//pass the cc obj to part 1 node code
 		part2.setup(ibc, cc);																//pass the cc obj to part 2 node code
-
+		registries.setup(ibc,cc);															// pass the cc obj to registries node code
+		
 		// ---- To Deploy or Not to Deploy ---- //
 		if(!cc.details.deployed_name || cc.details.deployed_name === ''){					//yes, go deploy
 			cc.deploy('init', ['99'], {delay_ms: 30000}, function(e){ 						//delay_ms is milliseconds to wait after deploy for conatiner to start, 50sec recommended
@@ -322,7 +324,8 @@ function cb_deployed(e){
 				try{
 					var data = JSON.parse(message);
 					part1.process_msg(ws, data);											//pass the websocket msg to part 1 processing
-					part2.process_msg(ws, data);											//pass the websocket msg to part 2 processing
+					part2.process_msg(ws, data);											//pass the websocket msg to part 2 processing'
+					registries.process_msg(ws,data);										// pass the websocket msg to registries processing
 				}
 				catch(e){
 					console.log('ws message error', e);

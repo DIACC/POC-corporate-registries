@@ -14,39 +14,23 @@ $(document).on('ready', function() {
 	// =================================================================================
 	// jQuery UI Events
 	// =================================================================================
-	$('#submit').click(function(){
+	$('#register').click(function(){
 		// registry code
 		var regTransaction = {
 				type: 'transaction',
-				transactionType: $('select[name="transactionType"]').val(),
-				uniqueID: $('input[name="uniqueID"]').val(),
-				corporationName: $('input[name="corporationName"]').val()
+				transactionType: 'register',
+				timestamp: 'needtogeneratethis!',
+				jurisdiction: $('select[name="jurisdiction"]').val(),
+				date: $('input[name="fillingDate"]').val(),
+				name: $('input[name="corporateName"]').val(),
+				number: $('input[name="corporationNumber"]').val(),
+				directorName: $('input[name="firstName"]').val() + " " + $('input[name="lastName"]').val(),
+				email: $('input[name="email"]').val(),
+				address: $('input[name="streetAddress"]').val() + " " + $('input[name="city"]').val() + " " + $('select[name="province"]').val() + " " + $('input[name="postalCode"]').val()
+				
 		};
-		console.log('Executing transaction', regTransaction);
+		console.log('Executing REGISTRY transaction', regTransaction);
 		ws.send(JSON.stringify(regTransaction));
-		
-		// marble code
-		/*var obj = 	{
-						type: 'create',
-						name: $('input[name="name"]').val().replace(' ', ''),
-						color: $('.colorSelected').attr('color'),
-						size: $('select[name="size"]').val(),
-						user: $('select[name="user"]').val(),
-						v: 2
-					};
-		if(obj.user && obj.name && obj.color){
-			console.log('creating marble, sending', obj);
-			ws.send(JSON.stringify(obj));
-			$('.panel').hide();
-			$('#homePanel').show();
-			var part = window.location.pathname.substring(0,3);
-			window.history.pushState({},'', part + '/home');						//put it in url so we can f5
-			$('.colorValue').html('Color');											//reset
-			for(var i in bgcolors) $('.createball').removeClass(bgcolors[i]);		//reset
-			$('.createball').css('border', '2px dashed #fff');						//reset
-		}*/
-
-		
 		return false;
 	});
 

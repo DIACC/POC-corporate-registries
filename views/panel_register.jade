@@ -32,7 +32,7 @@
 				legend 
 					b Filling Date:
 					br
-					input(type="text" name="email" placeholder="MM-DD-YYYY" class="u-full-width")
+					input(type="text" name="fillingDate" placeholder="MM-DD-YYYY" class="u-full-width")
 		div(class="row")
 			div(class="six columns") 
 				legend 
@@ -49,12 +49,12 @@
 				legend 
 					b Director First Name:
 					br
-					input(type="text" name="firstname" placeholder="" class="u-full-width")
+					input(type="text" name="firstName" placeholder="" class="u-full-width")
 			div(class="six columns")
 				legend 
 					b Director Last Name:
 					br
-					input(type="text" name="lastname" placeholder="" class="u-full-width")
+					input(type="text" name="lastName" placeholder="" class="u-full-width")
 		div(class="row")
 			div(class="twelve columns")
 				legend 
@@ -65,16 +65,11 @@
 			div(class="twelve columns")
 				h5 Registered Office Address
 		div(class="row")
-			div(class="six columns")
+			div(class="twelve columns")
 				legend 
-					b Address Line 1:
+					b Street Address:
 					br
-					input(type="text" name="address1" placeholder="" class="u-full-width")
-			div(class="six columns")
-				legend 
-					b Address Line 2:
-					br
-					input(type="text" name="address2" placeholder="" class="u-full-width")
+					input(type="text" name="streetAddress" placeholder="" class="u-full-width")
 		div(class="row")
 			div(class="six columns")
 				legend 
@@ -109,7 +104,7 @@
 		div(class="row")
 			div(class="twelve columns" style="text-align:left")
 				p
-				button(type="button" class="button-primary")#submit
+				button(type="button" class="button-primary")#register
 					span.fa.fa-check &nbsp;&nbsp;
 					span REGISTER
 				

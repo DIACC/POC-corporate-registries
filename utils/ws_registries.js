@@ -1,3 +1,6 @@
+var fs = require('fs');
+
+
 // ==================================
 // Part 2 - incoming messages, look for type
 // ==================================
@@ -11,7 +14,19 @@ module.exports.setup = function(sdk, cc){
 };
 
 module.exports.process_msg = function(ws, data){
-	if(data.v === 2){																						//only look at messages for part 2
+	// Registry Code
+	if (data.type == 'transaction') {
+		console.log('It is a registry transaction from ws_registries!', data);
+		// TODO Chaincode to invoke transaction here...	
+	}
+	else if (data.type == 'get_transactions') {
+		console.log("Get Transactions from ws_registries");
+		// TODO To be replaced with callback similar to cb_got_trades
+		cb_got_transactions();
+	}
+	
+	// Marbles code
+	/*if(data.v === 2){																						//only look at messages for part 2
 		if(data.type == 'create'){
 			console.log('its a create!');
 			if(data.name && data.color && data.size && data.user){
@@ -67,7 +82,7 @@ module.exports.process_msg = function(ws, data){
 			console.log('remove trade msg');
 			chaincode.invoke.remove_trade([data.id]);
 		}
-	}
+	}*/
 	
 	
 	//got the marble index, lets get each marble
@@ -148,6 +163,32 @@ module.exports.process_msg = function(ws, data){
 			catch(e){
 				console.log('[ws error] could not send msg', e);
 			}
+		}
+	}
+	
+	
+	
+	// Registry Code
+	//call back for getting transactions
+	function cb_got_transactions(e, transactions){
+		if(e != null) console.log('[ws error] did not get transactions:', e);
+		else {
+			console.log("cb_got_transactions");
+			var message = {
+					msg: 'transactions', 
+					transactions: [
+						{"datetime":"2016-12-05 16:04:00","jurisdiction":"NU","transactionType":"Dissolve","uniqueID":"20161111010912","corporationName":"Santa's AWESOME Workshop","emailAddress":"info@north.ca","mailingAddress":"239 Elf Street, North Pole NU, HOH OHO"},	
+						{"datetime":"2016-12-03 15:24:25","jurisdiction":"NU","transactionType":"Report","uniqueID":"20161111010912","corporationName":"Santa's AWESOME Workshop","emailAddress":"info@north.ca","mailingAddress":"239 Elf Street, North Pole NU, HOH OHO"},					               
+						{"datetime":"2016-12-01 10:19:15","jurisdiction":"NU","transactionType":"Name Change","uniqueID":"20161111010912","corporationName":"Santa's AWESOME Workshop","emailAddress":"info@north.ca","mailingAddress":"239 Elf Street, North Pole NU, HOH OHO"},
+					    {"datetime":"2016-11-11 01:09:12","jurisdiction":"NU","transactionType":"Register","uniqueID":"20161111010912","corporationName":"Santa's Workshop","emailAddress":"info@north.ca","mailingAddress":"123 Elf Street, North Pole NU, HOH OHO"},
+					    {"datetime":"2016-12-06 01:09:12","jurisdiction":"AB","transactionType":"Disolve","uniqueID":"20160203131214","corporationName":"ABC INC","emailAddress":"abc@abc.com","mailingAddress":"123 ABC Street, Calgary AB, T3T 3T3"},
+						{"datetime":"2016-12-05 8:00:52","jurisdiction":"BC","transactionType":"Register","uniqueID":"20161201041502","corporationName":"DEF INC","emailAddress":"def@def.com","mailingAddress":"435 DEF Street, Spuzzum BC, V8V 2V2"},
+						{"datetime":"2016-12-04 17:14:42","jurisdiction":"BC","transactionType":"Register","uniqueID":"20160402171623","corporationName":"HIJ INC","emailAddress":"hij@hij.com","mailingAddress":"999 HIJ Street, Vernon BC, V3X 4X2"},
+						{"datetime":"2016-12-03 14:22:28","jurisdiction":"MB","transactionType":"Name Change","uniqueID":"20160802090705","corporationName":"KLM INC","emailAddress":"klm@klm.com","mailingAddress":"333 KLM Street, Winnepeg MB, T3T 3T3"},
+						{"datetime":"2016-12-01 12:54:51","jurisdiction":"AB","transactionType":"Report","uniqueID":"20160809131415","corporationName":"NOP INC","emailAddress":"nop@nop.com","mailingAddress":"555 NOP Street, Calgary AB, T2T 2T2"},
+						{"datetime":"2016-12-02 09:25:34","jurisdiction":"AB","transactionType":"Register","uniqueID":"20160809131415","corporationName":"NOP INC","emailAddress":"nop@nop.com","mailingAddress":"555 NOP Street, Calgary AB, T2T 2T2"}]
+				};
+			sendMsg(message);
 		}
 	}
 };
