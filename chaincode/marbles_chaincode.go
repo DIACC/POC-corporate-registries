@@ -172,6 +172,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return res, err
 	} else if function == "remove_trade" {									//cancel an open trade order
 		return t.remove_trade(stub, args)
+	}  else if function == "register" {									//cancel an open trade order
+		return t.register(stub, args)
 	}
 	fmt.Println("invoke did not find func: " + function)					//error
 
