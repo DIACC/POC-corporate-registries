@@ -122,6 +122,15 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	if err != nil {
 		return nil, err
 	}
+
+	// corporate registries code here
+	// create empty array of corporations and store at corporationIndexStr
+	var emptyArrayCorporations []Corporation
+	corporationJsonAsBytes, _ := json.Marshal(emptyArrayCorporations)						
+	err = stub.PutState(corporationIndexStr, corporationJsonAsBytes)
+	if err != nil {
+		return nil, err
+	}
 	
 	return nil, nil
 }
