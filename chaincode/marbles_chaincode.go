@@ -64,7 +64,7 @@ type AllTrades struct{
 
 type Corporation struct {
     Timestamp string `json:"timestamp"`
-    Jurisdictions []string `json:"jurisdictions"`
+    Jurisdictions string `json:"jurisdictions"`
     Name string `json:"name"`
     Address string `json:"address"`
     Email string `json:"email"`
