@@ -33,250 +33,40 @@ $(document).on('ready', function() {
 		return false;
 	});
 
-	$('#homeLink').click(function(){
-		console.log('marbles:', bag.marbles);
-	});
-	
-	$('#createLink').click(function(){
-		$('input[name="name"]').val('r' + randStr(6));
-	});
-	
-	$('#tradeLink').click(function(){
-		set_my_color_options(user.username);
-		ws.send(JSON.stringify({type: 'get_open_trades', v: 2}));
-		
-		// Registry Code
-		ws.send(JSON.stringify({type: 'get_transactions'}));
-	});
-	
-	
-	//marble color picker
-	$(document).on('click', '.colorInput', function(){
-		$('.colorOptionsWrap').hide();											//hide any others
-		$(this).parent().find('.colorOptionsWrap').show();
-	});
-	$(document).on('click', '.colorOption', function(){
-		var color = $(this).attr('color');
-		var html = '<span class="fa fa-circle colorSelected ' + color + '" color="' + color + '"></span>';
-		
-		$(this).parent().parent().find('.colorValue').html(html);
-		$(this).parent().hide();
+	$('#nameChange').click(function(){
+		var nameChangeTransaction = {
+				type: 'nameChange',
+				jurisdiction: $('select[name="nameChangeJurisdiction"]').val(),
+				name: $('input[name="nameChangeCorporateName"]').val(),
+				newname: $('input[name="nameChangeNewCorporateName"]').val()
+		};
+		console.log('Executing NAME CHANGE transaction', nameChangeTransaction);
+		ws.send(JSON.stringify(nameChangeTransaction));
+		return false;
+	});	
 
-		for(var i in bgcolors) $('.createball').removeClass(bgcolors[i]);		//remove prev color
-		$('.createball').css('border', '0').addClass(color + 'bg');				//set new color
+	$('#report').click(function(){
+		var reportTransaction = {
+				type: 'report',
+				jurisdiction: $('select[name="reportJurisdiction"]').val(),
+				name: $('input[name="reportCorporateName"]').val(),
+				address: $('input[name="reportStreetAddress"]').val() + " " + $('input[name="reportCity"]').val() + " " + $('select[name="reportProvince"]').val() + " " + $('input[name="reportPostalCode"]').val(),
+				date: $('input[name="reportReportingDate"]').val()
+		};
+		console.log('Executing REPORT transaction', reportTransaction);
+		ws.send(JSON.stringify(reportTransaction));
+		return false;
 	});
 	
-	//drag and drop marble
-	$('#user2wrap, #user1wrap, #trashbin').sortable({connectWith: '.sortable'}).disableSelection();
-	$('#user2wrap').droppable({drop:
-		function( event, ui ) {
-			var marble_user = $(ui.draggable).attr('user');
-			if(marble_user.toLowerCase() != bag.setup.USER2){						//marble transfered users
-				if(marble_user.toLowerCase() != user.username.toLowerCase()){		//do not let users steal marbles
-					move_back(ui.draggable);
-				}
-				else{
-					$(ui.draggable).addClass('invalid');
-					transfer($(ui.draggable).attr('id'), bag.setup.USER2);
-				}
-			}
-		}
-	});
-	$('#user1wrap').droppable({drop:
-		function( event, ui ) {
-			var marble_user = $(ui.draggable).attr('user');
-			if(marble_user.toLowerCase() != bag.setup.USER1){						//marble transfered users
-				if(marble_user.toLowerCase() != user.username.toLowerCase()){		//do not let users steal marbles
-					move_back(ui.draggable);
-				}
-				else{
-					$(ui.draggable).addClass('invalid');
-					transfer($(ui.draggable).attr('id'), bag.setup.USER1);
-				}
-			}
-			return false;
-		}
-	});
-	$('#trashbin').droppable({drop:
-		function( event, ui ) {
-			var id = $(ui.draggable).attr('id');
-			var marble_user = $(ui.draggable).attr('user');
-			if(marble_user.toLowerCase() != user.username.toLowerCase()){			//do not let users delete other user's marbles
-				move_back(ui.draggable);
-			}
-			else{
-				if(id){
-					console.log('removing marble', id);
-					var obj = 	{
-									type: 'remove',
-									name: id,
-									v: 2
-								};
-					ws.send(JSON.stringify(obj));
-					$(ui.draggable).fadeOut();
-					setTimeout(function(){
-						$(ui.draggable).remove();
-					}, 300);
-				}
-			}
-		}
-	});
-	function move_back(dragged){
-		console.log('move it back');
-		$(dragged).remove();
-		var name = $(dragged).attr('id');
-		build_ball({name: name, user: bag.marbles[name].user, color:bag.marbles[name].color, size: bag.marbles[name].size});
-		
-		$('#whoAmI').addClass('flash');
-		setTimeout(function(){$('#whoAmI').removeClass('flash');}, 1500);
-	}
-	
-	
-	//login events
-	$('#whoAmI').click(function(){													//drop down for login
-		if($('#userSelect').is(':visible')){
-			$('#userSelect').fadeOut();
-		}
-		else{
-			$('#userSelect').fadeIn();
-		}
-	});
-	
-	$('.userLine').click(function(){												//log in as someone else
-		var name = $(this).attr('name');
-		user.username = name.toLowerCase();
-		$('#userField').html('HI ' + user.username.toUpperCase() + ' ');
-		$('#userSelect').fadeOut(300);
-		$('select option[value="' + user.username + '"]').attr('selected', true);
-		//ws.send(JSON.stringify({type: 'get_open_trades', v: 2}));
-		set_my_color_options(user.username);
-		build_trades(bag.trades);
-	});
-	
-	
-	//trade events
-	$('#setupTradeButton').click(function(){
-		build_trades(bag.trades);
-		$('.inactiveButton').removeClass('inactiveButton');
-		$('#viewTradeButton').addClass('inactiveButton');
-		$('#openTrades').fadeOut();
-		$('#createTrade').fadeIn();
-	});
-	
-	$('#viewTradeButton').click(function(){
-		build_trades(bag.trades);
-		$('.inactiveButton').removeClass('inactiveButton');
-		$('#setupTradeButton').addClass('inactiveButton');
-		$('#openTrades').fadeIn();
-		$('#createTrade').fadeOut();
-	});
-	
-	$('.removeWilling:first').hide();
-	$('#addMarbleButton').click(function(){
-		var count = 0;
-		var marble_count = 0;
-		$('.willingWrap').each(function(){
-			count++;
-		});
-		for(var i in bag.marbles){
-			if(bag.marbles[i].user.toLowerCase() == user.username.toLowerCase()){
-				marble_count++;
-			}
-		}
-		if(count+1 <= marble_count && count <= 3){									//lets limit the total number... might get out of hand
-			var temp = $('.willingWrap:first').html();
-			$('.willingWrap:first').parent().append('<div class="willingWrap">' + temp + '</div>');
-			$('.removeWilling').show();
-			$('.removeWilling:first').hide();
-		}
-		else{
-			$('#cannotAdd').fadeIn();
-			setTimeout(function(){ $('#cannotAdd').fadeOut(); }, 1500);
-		}
-	});
-	
-	$(document).on('click', '.removeWilling', function(){
-		$(this).parent().remove();
-	});
-	
-	$('#tradeSubmit').click(function(){
-		var msg = 	{
-						type: 'open_trade',
-						v: 2,
-						user: user.username,
-						want: {
-							color: $('#wantColorWrap').find('.colorSelected').attr('color'),
-							size: $('select[name="want_size"]').val()
-						},
-						willing: []
-					};
-					
-		$('.willingWrap').each(function(){
-			//var q = $(this).find('select[name='will_quantity']').val();
-			var color = $(this).find('.colorSelected').attr('color');
-			var size = $(this).find('select[name="will_size"]').val();
-			//console.log('!', q, color, size);
-			var temp = 	{
-							color: color,
-							size: size
-						};
-			msg.willing.push(temp);
-		});
-		
-		console.log('sending', msg);
-		ws.send(JSON.stringify(msg));
-		$('.panel').hide();
-		$('#homePanel').show();
-		$('.colorValue').html('Color');
-	});
-	
-	$(document).on('click', '.confirmTrade', function(){
-		console.log('trading...');
-		var i = $(this).attr('trade_pos');
-		var x = $(this).attr('willing_pos');
-		var msg = 	{
-						type: 'perform_trade',
-						v: 2,
-						id: bag.trades[i].timestamp.toString(),
-						opener:{											//marble he is giving up
-							user: bag.trades[i].user,
-							color: bag.trades[i].willing[x].color,
-							size: bag.trades[i].willing[x].size.toString(),
-						},
-						closer:{											//marble hs ig giving up
-							user: user.username,							//guy who is logged in
-							name: $(this).attr('name'),
-							color: '',										//dsh to do, add these and remove above
-							size: ''
-						}
-					};
-		ws.send(JSON.stringify(msg));
-		$('#notificationPanel').animate({width:'toggle'});
-	});
-	
-	$(document).on('click', '.willingWrap .colorOption', function(){
-		set_my_size_options(user.username, this);
-	});
-	
-	$('input[name="showMyTrades"]').change(function(){
-		if($(this).is(':checked')){
-			$('#myTradesTable').fadeIn();
-		}
-		else{
-			$('#myTradesTable').fadeOut();
-		}
-	});
-	
-	$(document).on('click', '.removeTrade', function(){
-		var trade = find_trade($(this).attr('trade_timestamp'));
-		$(this).parent().parent().addClass('invalid');
-		console.log('trade', trade);
-		var msg = 	{
-						type: 'remove_trade',
-						v: 2,
-						id: trade.timestamp.toString(),
-					};
-		ws.send(JSON.stringify(msg));
+	$('#dissolve').click(function(){
+		var dissolveTransaction = {
+				type: 'dissolve',
+				jurisdiction: $('select[name="dissolveJurisdiction"]').val(),
+				name: $('input[name="dissolveCorporateName"]').val()
+		};
+		console.log('Executing DISSOLVE transaction', dissolveTransaction);
+		ws.send(JSON.stringify(dissolveTransaction));
+		return false;
 	});
 
 });
@@ -372,6 +162,10 @@ function connect_to_server(){
 			if(msgObj.msg === 'transactions'){
 				console.log('transactions', msgObj.msg, msgObj);
 				build_transactions(msgObj.transactions);
+			}
+			else if(msgObj.msg === 'register') {
+				console.log('register!!!', msgObj.msg, msgObj);
+				// confirm successful push onto blockchain
 			}
 		}
 		catch(e){

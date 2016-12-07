@@ -16,14 +16,24 @@ module.exports.setup = function(sdk, cc){
 module.exports.process_msg = function(ws, data){
 	// Registry Code
 	if (data.type == 'register') {
-		console.log('It is a registry transaction from ws_registries!', data);
-		chaincode.query.readAll(['_corporationIndex'], cb_ctForTimestamp);
-		//chaincode.invoke.init_marble([data.timestamp, data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date, data.status], cb_invoked);
+		console.log('[ws info] Register', data);
+		chaincode.invoke.register([data.timestamp, data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date, data.status], cb_invoked);
+	}
+	else if (data.type == 'nameChange') {
+		console.log('[ws info] Name Change', data);
+		//chaincode.invoke.nameChange([data.timestamp, data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date, data.status], cb_invoked);
+	}
+	else if (data.type == 'report') {
+		console.log('[ws info] Report', data);
+	}
+	else if (data.type == 'dissolve') {
+		console.log('[ws info] Dissolve', data);
 	}
 	else if (data.type == 'get_transactions') {
 		console.log("Get Transactions from ws_registries");
 		// TODO To be replaced with callback similar to cb_got_trades
-		cb_got_transactions();
+		//cb_got_transactions();
+		chaincode.query.readAll(['_corporationIndex'], cb_got_transactions);
 	}
 	
 	// Marbles code
@@ -116,6 +126,13 @@ module.exports.process_msg = function(ws, data){
 	
 	function cb_invoked(e, a){
 		console.log('response from blockchain: ', e, a);
+		try{
+			sendMsg({msg: 'register', status: 'OK'});
+		}
+		catch(e){
+			console.log('[ws error]', e);
+		}
+		//chaincode.query.readAll(['_corporationIndex'], cb_ctForTimestamp);
 	}
 	
 	function cb_ctForTimestamp(e, ctForTimestamp) {
@@ -189,6 +206,20 @@ module.exports.process_msg = function(ws, data){
 	// Registry Code
 	//call back for getting transactions
 	function cb_got_transactions(e, transactions){
+		if(e != null) console.log('[ws error] did not get corporations', e);
+		else{
+			console.log('[ws info]  data: ',transactions);
+			try{
+				var json = JSON.parse(transactions) 
+				for(var i in json){
+					console.log('!', i, json[i]);
+				}
+			}
+			catch(e){
+				console.log('[ws error] could not parse response', e);
+			}
+		}
+		
 		if(e != null) console.log('[ws error] did not get transactions:', e);
 		else {
 			console.log("cb_got_transactions");

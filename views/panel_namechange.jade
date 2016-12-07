@@ -9,7 +9,7 @@
 				legend
 					b Jurisdiction:
 					br
-					select(name="jurisdiction" class="u-full-width")
+					select(name="nameChangeJurisdiction" class="u-full-width")
 							option(value="" disabled="disabled" selected="selected") Jurisdiction
 							option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
 							option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
@@ -29,16 +29,16 @@
 				legend 
 					b Corporate Name:
 					br
-					input(type="text" name="corporateName" placeholder="" class="u-full-width")
+					input(type="text" name="nameChangeCorporateName" placeholder="" class="u-full-width")
 		div(class="row")		
 			div(class="twelve columns")
 				legend 
 					b New Corporate Name:
 					br
-					input(type="text" name="newCorporateName" placeholder="" class="u-full-width")
+					input(type="text" name="nameChangeNewCorporateName" placeholder="" class="u-full-width")
 		div(class="row")
 			div(class="twelve columns" style="text-align:left")
-				button(type="button" class="button-primary")#submit
+				button(type="button" class="button-primary")#nameChange
 					span.fa.fa-check &nbsp;&nbsp; 
 					span Change Name
 				
