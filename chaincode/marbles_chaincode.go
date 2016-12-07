@@ -407,7 +407,7 @@ func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []stri
 	corporationsAsBytes, err := stub.GetState(corporationIndexStr)
 
 	if err != nil {
-		jsonResp = "{\"Error\":\"Failed to get array of all corporations (to which to add our new register entry).\"}"
+		jsonResp := "{\"Error\":\"Failed to get array of all corporations (to which to add our new register entry).\"}"
 		return nil, errors.New(jsonResp)
 	}
 
