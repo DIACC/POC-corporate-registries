@@ -60,16 +60,18 @@ type AllTrades struct{
 	OpenTrades []AnOpenTrade `json:"open_trades"`
 }
 
-
+var corporationIndexStr = "_corporationIndex"			//name for the key/value that will store a list of all known marbles
 
 type Corporation struct {
-    Timestamp string `json:"timestamp"`
-    Jurisdictions string `json:"jurisdictions"`
-    Name string `json:"name"`
-    Address string `json:"address"`
-    Email string `json:"email"`
-    Date string `json:"date"`
-    Status string `json:"status"`
+    Timestamp string `json:"timestamp"`          // used in all methods 
+    Jurisdiction string `json:"jurisdiction"`         // used only in register. set & forget
+    Name string `json:"name"`                          // register, changeName
+    Number string 'json:"number"'                   // register
+    DirectorName string 'json:"directorName"'         // register
+    Address string `json:"address"`                   // register, reporting
+    Email string `json:"email"`                            // register, reporting
+    Date string `json:"date"`                               // register, reporting (latest filing date)
+    Status string `json:"status"`                         // register, dissolution
 }
 
 
