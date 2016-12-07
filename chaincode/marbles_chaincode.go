@@ -66,8 +66,8 @@ type Corporation struct {
     Timestamp string `json:"timestamp"`          // used in all methods 
     Jurisdiction string `json:"jurisdiction"`         // used only in register. set & forget
     Name string `json:"name"`                          // register, changeName
-    Number string 'json:"number"'                   // register
-    DirectorName string 'json:"directorName"'         // register
+    Number string `json:"number"`                  // register
+    DirectorName string `json:"directorName"`         // register
     Address string `json:"address"`                   // register, reporting
     Email string `json:"email"`                            // register, reporting
     Date string `json:"date"`                               // register, reporting (latest filing date)
