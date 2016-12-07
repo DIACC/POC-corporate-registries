@@ -220,7 +220,7 @@ func (t *SimpleChaincode) readAll(stub shim.ChaincodeStubInterface, args []strin
 
 	valAsbytes, err := stub.GetState(corporationIndexStr)									//get the var from chaincode state
 	if err != nil {
-		jsonResp = "{\"Error\":\"Failed to retrieve entry for corporationIndexStr."\"}"
+		jsonResp = "{\"Error\":\"Failed to get state for corporationIndexStr.\"}"
 		return nil, errors.New(jsonResp)
 	}
 
