@@ -212,6 +212,22 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 }
 
 // ============================================================================================================================
+// readAll
+// ============================================================================================================================
+func (t *SimpleChaincode) readAll(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	var name, jsonResp string
+	var err error
+
+	valAsbytes, err := stub.GetState(corporationIndexStr)									//get the var from chaincode state
+	if err != nil {
+		jsonResp = "{\"Error\":\"Failed to retrieve entry for corporationIndexStr."\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	return valAsbytes, nil													//send it onward
+}
+
+// ============================================================================================================================
 // Delete - remove a key/value pair from state
 // ============================================================================================================================
 func (t *SimpleChaincode) Delete(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
