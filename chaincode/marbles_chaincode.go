@@ -347,6 +347,96 @@ func (t *SimpleChaincode) init_marble(stub shim.ChaincodeStubInterface, args []s
 }
 
 // ============================================================================================================================
+// register
+// ============================================================================================================================
+// args
+// [0]Timestamp
+// [1]Jurisdiction
+// [2]Name
+// [3]Number
+// [4]DirectorName
+// [5]Address
+// [6]Email
+// [7]Date
+// [8]Status
+func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	
+	var err error
+
+	//   0            	1              2            3            	4     
+	// "10M:03s" 	"britishcol"    "Target"	  "+1 220 560-8888"  "Bob Bobberson"
+	// 	5     				6     			7     		8
+	// "55 Rua Tutoia,BC"  "hello@world.com"   "November 10, 2020" "ACTIVE"
+	
+	if len(args) != 9 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 9")
+	}
+
+	//input sanitation
+	fmt.Println("- start register (corporation)")
+	// not necessary as of now
+	// if len(args[0]) <= 0 {
+	// 	return nil, errors.New("1st argument must be a non-empty string")
+	// }
+
+	timestamp := args[0]
+	jurisdiction := strings.ToLower(args[1])
+	name := strings.ToLower(args[2])
+	number := strings.ToLower(args[3])
+	directorName := strings.ToLower(args[4])
+	address := strings.ToLower(args[5])
+	email := strings.ToLower(args[6])
+	date := strings.ToLower(args[7])
+	status := strings.ToLower(args[8])
+
+	// create object to store
+	var corporation = Corporation{
+		Timestamp: timestamp, 
+		Jurisdiction: jurisdiction, 
+		Name: name, 
+		Number: number, 
+		DirectorName: directorName, 
+		Address: address, 
+		Email: email, 
+		Date: date, 
+		Status: status,
+	}
+	
+	// pull array of all corporations
+	var corporations []Corporation
+	corporationsAsBytes, err := stub.GetState(corporationIndexStr)
+
+	if err != nil {
+		jsonResp = "{\"Error\":\"Failed to get array of all corporations (to which to add our new register entry).\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	json.Unmarshal(corporationsAsBytes, &corporations)
+
+	// append new registry entry to array of all corporations
+	corporations = append(corporations, corporation)
+
+	// marshal array into bytes
+	jsonCorporationAsBytes, _ := json.Marshal(corporations)
+
+	// store marshalled byte array into KVS
+	err = stub.PutState(usersIndexStr, jsonUsersAsBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	err = stub.PutState(ctsIndexStr, jsonTradesAsBytes)
+	if err != nil {
+		return nil, err
+	}
+	
+	return nil, nil
+
+
+}
+
+
+// ============================================================================================================================
 // Set User Permission on Marble
 // ============================================================================================================================
 func (t *SimpleChaincode) set_user(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
