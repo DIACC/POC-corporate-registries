@@ -420,18 +420,12 @@ func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []stri
 	jsonCorporationAsBytes, _ := json.Marshal(corporations)
 
 	// store marshalled byte array into KVS
-	err = stub.PutState(usersIndexStr, jsonUsersAsBytes)
-	if err != nil {
-		return nil, err
-	}
-
-	err = stub.PutState(ctsIndexStr, jsonTradesAsBytes)
+	err = stub.PutState(corporationIndexStr, jsonCorporationAsBytes)
 	if err != nil {
 		return nil, err
 	}
 	
 	return nil, nil
-
 
 }
 
