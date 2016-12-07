@@ -215,7 +215,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 // readAll
 // ============================================================================================================================
 func (t *SimpleChaincode) readAll(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var name, jsonResp string
+	var jsonResp string
 	var err error
 
 	valAsbytes, err := stub.GetState(corporationIndexStr)									//get the var from chaincode state
