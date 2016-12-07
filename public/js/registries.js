@@ -17,17 +17,16 @@ $(document).on('ready', function() {
 	$('#register').click(function(){
 		// registry code
 		var regTransaction = {
-				type: 'transaction',
-				transactionType: 'register',
-				timestamp: 'needtogeneratethis!',
+				type: 'register',
+				timestamp: '\'' + jQuery.now() + '\'',
 				jurisdiction: $('select[name="jurisdiction"]').val(),
-				date: $('input[name="fillingDate"]').val(),
 				name: $('input[name="corporateName"]').val(),
 				number: $('input[name="corporationNumber"]').val(),
 				directorName: $('input[name="firstName"]').val() + " " + $('input[name="lastName"]').val(),
+				address: $('input[name="streetAddress"]').val() + " " + $('input[name="city"]').val() + " " + $('select[name="province"]').val() + " " + $('input[name="postalCode"]').val(),
 				email: $('input[name="email"]').val(),
-				address: $('input[name="streetAddress"]').val() + " " + $('input[name="city"]').val() + " " + $('select[name="province"]').val() + " " + $('input[name="postalCode"]').val()
-				
+				date: $('input[name="fillingDate"]').val(),
+				status: 'registered'
 		};
 		console.log('Executing REGISTRY transaction', regTransaction);
 		ws.send(JSON.stringify(regTransaction));

@@ -15,9 +15,10 @@ module.exports.setup = function(sdk, cc){
 
 module.exports.process_msg = function(ws, data){
 	// Registry Code
-	if (data.type == 'transaction') {
+	if (data.type == 'register') {
 		console.log('It is a registry transaction from ws_registries!', data);
-		// TODO Chaincode to invoke transaction here...	
+		chaincode.query.readAll(['_corporationIndex'], cb_ctForTimestamp);
+		//chaincode.invoke.init_marble([data.timestamp, data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date, data.status], cb_invoked);
 	}
 	else if (data.type == 'get_transactions') {
 		console.log("Get Transactions from ws_registries");
@@ -114,7 +115,24 @@ module.exports.process_msg = function(ws, data){
 	}
 	
 	function cb_invoked(e, a){
-		console.log('response: ', e, a);
+		console.log('response from blockchain: ', e, a);
+	}
+	
+	function cb_ctForTimestamp(e, ctForTimestamp) {
+		if(e != null) console.log('[ws error] did not get corporations', e);
+		else{
+			console.log('[ws info]  data: ',ctForTimestamp);
+			try{
+				var json = JSON.parse(ctForTimestamp) 
+				for(var i in json){
+					console.log('!', i, json[i]);
+				}
+			}
+			catch(e){
+				console.log('[ws error] could not parse response', e);
+			}
+		}
+		
 	}
 	
 	//call back for getting the blockchain stats, lets get the block stats now
