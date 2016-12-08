@@ -443,8 +443,8 @@ func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []stri
 // nameChange
 // ============================================================================================================================
 // args
-// [0]Name
-// [1]Jurisdiction
+// [0]Jurisdiction
+// [1]Name
 // [2]newName
 func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
@@ -461,8 +461,8 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 	// 	return nil, errors.New("1st argument must be a non-empty string")
 	// }
 
-	name := args[0]
-	jurisdiction := args[1]
+	jurisdiction := args[0]
+	name := args[1]
 	newName := args[2]
 
 	// // create object to store
@@ -527,8 +527,8 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 // report
 // ============================================================================================================================
 // args
-// [0]Name
-// [1]Jurisdiction
+// [0]Jurisdiction
+// [1]Name
 // [2]Number
 // [3]DirectorName
 // [4]Address
@@ -549,8 +549,8 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 	// 	return nil, errors.New("1st argument must be a non-empty string")
 	// }
 
-	name := args[0]
-	jurisdiction := args[1]
+	jurisdiction := args[0]
+	name := args[1]
 	number := args[2]
 	directorName := args[3]
 	address := args[4]
@@ -624,8 +624,8 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 // dissolve
 // ============================================================================================================================
 // args
-// [0]Name
-// [1]Jurisdiction
+// [0]Jurisdiction
+// [1]Name
 // [2]Status
 func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
@@ -642,8 +642,8 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 	// 	return nil, errors.New("1st argument must be a non-empty string")
 	// }
 
-	name := args[0]
-	jurisdiction := args[1]
+	jurisdiction := args[0]
+	name := args[1]
 	status := args[2]
 
 	// // create object to store
