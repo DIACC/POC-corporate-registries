@@ -16,34 +16,38 @@ module.exports.process_msg = function(ws, data){
 	// Registry Code
 	if (data.type == 'register') {
 		console.log('[ws info] Register', data);
-		chaincode.invoke.register([data.timestamp, data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date, data.status], cb_register);
+		chaincode.invoke.register([data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date, data.status], cb_register);
 	}
 	else if (data.type == 'nameChange') {
 		console.log('[ws info] Name Change', data);
-		//chaincode.invoke.nameChange([data.timestamp, data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date, data.status], cb_invoked);
-		cb_nameChange();
+		chaincode.invoke.nameChange([data.jurisdiction, data.name, data.newName], cb_nameChange());
 	}
 	else if (data.type == 'report') {
 		console.log('[ws info] Report', data);
+		chaincode.invoke.report([data.jurisdiction, data.name, data.directorName, data.address, data.date], cb_nameChange());
 		cb_report();
 	}
 	else if (data.type == 'dissolve') {
 		console.log('[ws info] Dissolve', data);
-		cb_dissolve();
+		chaincode.invoke.nameChange([data.name, data.jurisdiction, data.status], cb_dissolve());
 	}
 	else if (data.type == 'get_transactions') {
 		console.log("Get Transactions from ws_registries");
 		// TODO To be replaced with callback similar to cb_got_trades or blockstat
 		cb_got_transactions();
-		
 	}
 	else if (data.type == 'get_corporations') {
 		console.log("Get corporations from ws_registries");
 		chaincode.query.readAll(['_corporationIndex'], cb_got_corporations);
 	}
+	else if(data.type == 'chainstats'){
+		console.log('chainstats msg');
+		ibc.chain_stats(cb_chainstats);
+	}
 	
 	//call back for getting the blockchain stats, lets get the block stats now
 	function cb_chainstats(e, chain_stats){
+		console.log('cb_chainstats', chain_stats)
 		if(chain_stats && chain_stats.height){
 			chain_stats.height = chain_stats.height - 1;								//its 1 higher than actual height
 			var list = [];

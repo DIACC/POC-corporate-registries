@@ -1,15 +1,12 @@
-/* global new_block,formatDate, randStr, bag, $, clear_blocks, document, WebSocket, escapeHtml, window */
 var ws = {};
-var user = {username: bag.setup.USER1};
-var bgcolors = ['whitebg', 'blackbg', 'redbg', 'greenbg', 'bluebg', 'purplebg', 'pinkbg', 'orangebg', 'yellowbg'];
+
+var corporations = '';
 
 // =================================================================================
 // On Load
 // =================================================================================
 $(document).on('ready', function() {
 	connect_to_server();
-	$('input[name="name"]').val('r' + randStr(6));
-	$('select option[value="' + bag.setup.USER1 + '"]').attr('selected', true);
 	
 	// =================================================================================
 	// jQuery UI Events
@@ -18,7 +15,7 @@ $(document).on('ready', function() {
 		// registry code
 		var regTransaction = {
 				type: 'register',
-				timestamp: '\'' + jQuery.now() + '\'',
+				//timestamp: '\'' + jQuery.now() + '\'',
 				jurisdiction: $('select[name="jurisdiction"]').val(),
 				name: $('input[name="corporateName"]').val(),
 				number: $('input[name="corporationNumber"]').val(),
@@ -26,20 +23,21 @@ $(document).on('ready', function() {
 				address: $('input[name="streetAddress"]').val() + " " + $('input[name="city"]').val() + " " + $('select[name="province"]').val() + " " + $('input[name="postalCode"]').val(),
 				email: $('input[name="email"]').val(),
 				date: $('input[name="fillingDate"]').val(),
-				status: 'registered'
+				status: 'ACTIVE'
 		};
 		console.log('Executing REGISTRY transaction', regTransaction);
 		ws.send(JSON.stringify(regTransaction));
-		
 		return false;
 	});
 
 	$('#nameChange').click(function(){
+		console.log('----------Name change ', corporations);
+		
 		var nameChangeTransaction = {
 				type: 'nameChange',
 				jurisdiction: $('select[name="nameChangeJurisdiction"]').val(),
 				name: $('input[name="nameChangeCorporateName"]').val(),
-				newname: $('input[name="nameChangeNewCorporateName"]').val()
+				newName: $('input[name="nameChangeNewCorporateName"]').val()
 		};
 		console.log('Executing NAME CHANGE transaction', nameChangeTransaction);
 		ws.send(JSON.stringify(nameChangeTransaction));
@@ -102,9 +100,9 @@ function connect_to_server(){
 		connected = true;
 		clear_blocks();
 		$('#errorNotificationPanel').fadeOut();
+		
+		// Get chain stats
 		ws.send(JSON.stringify({type: 'chainstats', v:2}));
-		ws.send(JSON.stringify({type: 'get_open_trades', v: 2}));
-		ws.send(JSON.stringify({type: 'get', v:2}));
 		
 		// Registry Code
 		// Get the transactions on webpage load
@@ -164,6 +162,17 @@ function connect_to_server(){
 			else if(msgObj.msg === 'corporations'){
 				console.log('corporations', msgObj.msg, msgObj);
 				build_corporations(msgObj.corporations);
+				corporations = msgObj.corporations;
+			}
+			else if(msgObj.msg === 'chainstats'){
+				console.log('CHAINSTATS: rec', msgObj.msg, ': ledger blockheight', msgObj.chainstats.height, 'block', msgObj.blockstats.height);
+				var e = formatDate(msgObj.blockstats.transactions[0].timestamp.seconds * 1000, '%M/%d/%Y &nbsp;%I:%m%P');
+				$('#blockdate').html('<span style="color:#fff">TIME</span>&nbsp;&nbsp;' + e + ' UTC');
+				var temp =  {
+								id: msgObj.blockstats.height, 
+								blockstats: msgObj.blockstats
+							};
+				new_block(temp);								//send to blockchain.js
 			}
 		}
 		catch(e){
@@ -198,8 +207,6 @@ function build_transactions(transactions){
 	for(var i in transactions){
 		console.log(transactions[i]);
 		var style = ' ';
-		
-		//if(user.username.toLowerCase() == trades[i].user.toLowerCase()){				//only show trades with myself
 			html += '<tr class="' + style + '">';
 			html +=		'<td>' + transactions[i].corporationName + '</td>';
 			html +=		'<td>' + transactions[i].transactionType + '</td>';
@@ -210,7 +217,6 @@ function build_transactions(transactions){
 			html +=		'<td>' + transactions[i].uniqueID + '</td>';
 			html +=		'<td></td>';
 			html += '</tr>';
-		//}
 	}
 	if(html === '') html = '<tr><td>nothing here...</td><td></td><td></td><td></td><td></td><td></td></tr>';
 	$('#myTransactionsBody').html(html);
@@ -222,8 +228,6 @@ function build_corporations(corporations){
 	for(var i in corporations){
 		console.log(corporations[i].name + " " + corporations[i].number);
 		var style = ' ';
-		
-		//if(user.username.toLowerCase() == trades[i].user.toLowerCase()){				//only show trades with myself
 			html += '<tr class="' + style + '">';
 			html +=		'<td>' + corporations[i].name + '</td>';
 			html +=		'<td>' + corporations[i].number + '</td>';
@@ -235,7 +239,6 @@ function build_corporations(corporations){
 			html +=		'<td>' + corporations[i].status + '</td>';
 			html +=		'<td></td>';
 			html += '</tr>';
-		//}
 	}
 	if(html === '') html = '<tr><td>nothing here...</td><td></td><td></td><td></td><td></td><td></td></tr>';
 	$('#corporationsBody').html(html);
