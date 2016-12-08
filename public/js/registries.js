@@ -131,8 +131,34 @@ function connect_to_server(){
 			else if(msgObj.msg === 'register') {
 				console.log('register!!!', msgObj.msg, msgObj);
 				// confirm successful push onto blockchain
-				//$('#corporationsPanel').fadeIn(300);
-				//$('#registerPanel').hide();
+				$('#statusPanel').fadeIn(300);
+				$('#registerPanel').hide();
+				// TODO Show error message here if there is a problem
+				$('#statusMessage').html('Your registration was successful.  The register transaction was successfully stored in the blockchain.');
+			}
+			else if(msgObj.msg === 'nameChange') {
+				console.log('nameChange', msgObj.msg, msgObj);
+				// confirm successful push onto blockchain
+				$('#statusPanel').fadeIn(300);
+				$('#name_changePanel').hide();
+				// TODO Show error message here if there is a problem
+				$('#statusMessage').html('Your name change was successful.  The name change transaction was successfully stored in the blockchain.'); 
+			}
+			else if(msgObj.msg === 'report') {
+				console.log('report', msgObj.msg, msgObj);
+				// confirm successful push onto blockchain
+				$('#statusPanel').fadeIn(300);
+				$('#reportPanel').hide();
+				// TODO Show error message here if there is a problem
+				$('#statusMessage').html('Your reporting was successful.  The reporting was successfully stored in the blockchain.');
+			}
+			else if(msgObj.msg === 'dissolve') {
+				console.log('dissolve', msgObj.msg, msgObj);
+				// confirm successful push onto blockchain
+				$('#statusPanel').fadeIn(300);
+				$('#dissolvePanel').hide();
+				// TODO Show error message here if there is a problem
+				$('#statusMessage').html('Your dissolution was successful.  The dissolve transaction was successfully stored in the blockchain.');
 				 
 			}
 			else if(msgObj.msg === 'corporations'){
