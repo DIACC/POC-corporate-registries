@@ -32,8 +32,12 @@ module.exports.process_msg = function(ws, data){
 	else if (data.type == 'get_transactions') {
 		console.log("Get Transactions from ws_registries");
 		// TODO To be replaced with callback similar to cb_got_trades
-		//cb_got_transactions();
-		chaincode.query.readAll(['_corporationIndex'], cb_got_transactions);
+		cb_got_transactions();
+		//chaincode.query.readAll(['_corporationIndex'], cb_got_transactions);
+	}
+	else if (data.type == 'get_corporations') {
+		console.log("Get corporations from ws_registries");
+		chaincode.query.readAll(['_corporationIndex'], cb_got_corporations);
 	}
 	
 	// Marbles code
@@ -135,7 +139,7 @@ module.exports.process_msg = function(ws, data){
 		//chaincode.query.readAll(['_corporationIndex'], cb_ctForTimestamp);
 	}
 	
-	function cb_ctForTimestamp(e, ctForTimestamp) {
+	/*function cb_ctForTimestamp(e, ctForTimestamp) {
 		if(e != null) console.log('[ws error] did not get corporations', e);
 		else{
 			console.log('[ws info]  data: ',ctForTimestamp);
@@ -150,7 +154,7 @@ module.exports.process_msg = function(ws, data){
 			}
 		}
 		
-	}
+	}*/
 	
 	//call back for getting the blockchain stats, lets get the block stats now
 	function cb_chainstats(e, chain_stats){
@@ -201,12 +205,33 @@ module.exports.process_msg = function(ws, data){
 		}
 	}
 	
-	
+	function cb_got_corporations(e, corporations){
+		if(e != null) console.log('[ws error] did not get corporations', e);
+		else{
+			console.log('[ws info]  corporation data: ',corporations);
+			try{
+				var json = JSON.parse(corporations) 
+				for(var i in json){
+					console.log('!', i, json[i]);
+					console.log('name', i, json[i].name);
+				}
+				var message = {
+						msg: 'corporations', 
+						corporations: json};
+				sendMsg(message);
+			}
+			catch(e){
+				console.log('[ws error] could not parse response', e);
+			}
+		}
+
+	}
+
 	
 	// Registry Code
 	//call back for getting transactions
 	function cb_got_transactions(e, transactions){
-		if(e != null) console.log('[ws error] did not get corporations', e);
+		/*if(e != null) console.log('[ws error] did not get corporations', e);
 		else{
 			console.log('[ws info]  data: ',transactions);
 			try{
@@ -218,7 +243,7 @@ module.exports.process_msg = function(ws, data){
 			catch(e){
 				console.log('[ws error] could not parse response', e);
 			}
-		}
+		}*/
 		
 		if(e != null) console.log('[ws error] did not get transactions:', e);
 		else {

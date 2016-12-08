@@ -30,6 +30,7 @@ $(document).on('ready', function() {
 		};
 		console.log('Executing REGISTRY transaction', regTransaction);
 		ws.send(JSON.stringify(regTransaction));
+		
 		return false;
 	});
 
@@ -69,6 +70,12 @@ $(document).on('ready', function() {
 		return false;
 	});
 
+	// load the list of corporations
+	$('#corporationsLink').click(function(){
+		// Get the corporations on webpage load
+		ws.send(JSON.stringify({type: 'get_corporations'}));
+	});
+
 });
 
 
@@ -76,7 +83,7 @@ $(document).on('ready', function() {
 // Helper Fun
 // =================================================================================
 //transfer selected ball to user
-function transfer(marbleName, user){
+/*function transfer(marbleName, user){
 	if(marbleName){
 		console.log('transfering', marbleName);
 		var obj = 	{
@@ -114,7 +121,7 @@ function find_valid_marble(user, color, size){				//return true if user owns mar
 		}
 	}
 	return null;
-}
+}*/
 
 
 // =================================================================================
@@ -147,6 +154,9 @@ function connect_to_server(){
 		// Registry Code
 		// Get the transactions on webpage load
 		ws.send(JSON.stringify({type: 'get_transactions'}));
+		
+		// Get the corporations on webpage load
+		ws.send(JSON.stringify({type: 'get_corporations'}));
 	}
 
 	function onClose(evt){
@@ -167,45 +177,17 @@ function connect_to_server(){
 				console.log('register!!!', msgObj.msg, msgObj);
 				// confirm successful push onto blockchain
 			}
+			else if(msgObj.msg === 'corporations'){
+				console.log('corporations', msgObj.msg, msgObj);
+				build_corporations(msgObj.corporations);
+			}
 		}
 		catch(e){
 			console.log('ERROR', e);
 			//ws.close();
 		}	
 	
-		// Marbles Code	
-		try{
-			var msgObj = JSON.parse(msg.data);
-			if(msgObj.marble){
-				console.log('rec', msgObj.msg, msgObj);
-				build_ball(msgObj.marble);
-				set_my_color_options(user.username);
-			}
-			else if(msgObj.msg === 'chainstats'){
-				console.log('rec', msgObj.msg, ': ledger blockheight', msgObj.chainstats.height, 'block', msgObj.blockstats.height);
-				var e = formatDate(msgObj.blockstats.transactions[0].timestamp.seconds * 1000, '%M/%d/%Y &nbsp;%I:%m%P');
-				$('#blockdate').html('<span style="color:#fff">TIME</span>&nbsp;&nbsp;' + e + ' UTC');
-				var temp = { 
-								id: msgObj.blockstats.height, 
-								blockstats: msgObj.blockstats
-							};
-				new_block(temp);									//send to blockchain.js
-			}
-			else if(msgObj.msg === 'reset'){							//clear marble knowledge, prepare of incoming marble states
-				console.log('rec', msgObj.msg, msgObj);
-				$('#user2wrap').html('');
-				$('#user1wrap').html('');
-			}
-			else if(msgObj.msg === 'open_trades'){
-				console.log('rec', msgObj.msg, msgObj);
-				build_trades(msgObj.open_trades);
-			}
-			else console.log('rec', msgObj.msg, msgObj);
-		}
-		catch(e){
-			console.log('ERROR', e);
-			//ws.close();
-		}
+		
 	}
 
 	function onError(evt){
@@ -248,6 +230,31 @@ function build_transactions(transactions){
 	}
 	if(html === '') html = '<tr><td>nothing here...</td><td></td><td></td><td></td><td></td><td></td></tr>';
 	$('#myTransactionsBody').html(html);
+}
+
+function build_corporations(corporations){
+	console.log('Building corporation table');
+	var html = '';
+	for(var i in corporations){
+		console.log(corporations[i].name + " " + corporations[i].number);
+		var style = ' ';
+		
+		//if(user.username.toLowerCase() == trades[i].user.toLowerCase()){				//only show trades with myself
+			html += '<tr class="' + style + '">';
+			html +=		'<td>' + corporations[i].name + '</td>';
+			html +=		'<td>' + corporations[i].number + '</td>';
+			html +=		'<td>' + corporations[i].date + '</td>';
+			html +=		'<td>' + corporations[i].jurisdiction + '</td>';
+			html +=		'<td>' + corporations[i].directorName + '</td>';
+			html +=		'<td>' + corporations[i].email + '</td>';
+			html +=		'<td>' + corporations[i].address + '</td>';
+			html +=		'<td>' + corporations[i].status + '</td>';
+			html +=		'<td></td>';
+			html += '</tr>';
+		//}
+	}
+	if(html === '') html = '<tr><td>nothing here...</td><td></td><td></td><td></td><td></td><td></td></tr>';
+	$('#corporationsBody').html(html);
 }
 
 
@@ -309,8 +316,9 @@ function filterProvinces() {
 	  }
 }
 
+
 // Marbles Code
-function build_ball(data){
+/*function build_ball(data){
 	var html = '';
 	var colorClass = '';
 	var size = 'fa-5x';
@@ -449,7 +457,7 @@ function set_my_size_options(username, colorOption){
 		html += '<option value="' + i + '">' + sizeMe(i) + '</option>';					//build it
 	}
 	$(colorOption).parent().parent().next('select[name="will_size"]').html(html);
-}
+}*/
 
 
 
