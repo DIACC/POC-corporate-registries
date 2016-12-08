@@ -445,12 +445,13 @@ func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []stri
 // args
 // [0]Name
 // [1]Jurisdiction
+// [2]newName
 func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var err error
 	
-	if len(args) != 2 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 1")
+	if len(args) != 3 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 3")
 	}
 
 	//input sanitation
@@ -462,6 +463,7 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 
 	name := args[0]
 	jurisdiction := args[1]
+	newName := args[2]
 
 	// // create object to store
 	// var corporation = Corporation{
@@ -502,7 +504,7 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 
 	// change name to new value
 	var corporation = corporations[index]
-	corporation.Name = name
+	corporation.Name = newName
 
 	// store corporation back into array
 	corporations[index] = corporation
