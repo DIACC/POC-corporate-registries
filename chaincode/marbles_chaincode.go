@@ -448,6 +448,271 @@ func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []stri
 
 }
 
+// ============================================================================================================================
+// nameChange
+// ============================================================================================================================
+// args
+// [0]Timestamp
+// [1]Name
+func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	
+	var err error
+	
+	if len(args) != 1 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 1")
+	}
+
+	//input sanitation
+	fmt.Println("- start nameChange (corporation)")
+	// not necessary as of now
+	// if len(args[0]) <= 0 {
+	// 	return nil, errors.New("1st argument must be a non-empty string")
+	// }
+
+	timestamp := args[0]
+	name := args[1]
+
+	// // create object to store
+	// var corporation = Corporation{
+	// 	Timestamp: timestamp, 
+	// 	Jurisdiction: jurisdiction, 
+	// 	Name: name, 
+	// 	Number: number, 
+	// 	DirectorName: directorName, 
+	// 	Address: address, 
+	// 	Email: email, 
+	// 	Date: date, 
+	// 	Status: status,
+	// }
+	
+	// pull array of all corporations
+	var corporations []Corporation
+	corporationsAsBytes, err := stub.GetState(corporationIndexStr)
+
+	if err != nil {
+		jsonResp := "{\"Error\":\"Failed to get array of all corporations (to which to add our new register entry).\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	json.Unmarshal(corporationsAsBytes, &corporations)
+
+	// get corporation by timestamp
+	index := -1
+	for i := 0; i < len(corporations); i++ {
+		fmt.Println("nameChange is iterating, found corporation " + corporations[i].Timestamp)
+		if corporations[i].Timestamp == timestamp {
+			index = i
+			fmt.Println("nameChange found corporation with given timestamp at index " + strconv.Itoa(i))
+		}
+	}
+
+	if index == -1 {
+		jsonResp = "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	// change name to new value
+	var corporation = corporations[index]
+	corporation.Name = name
+
+	// store corporation back into array
+	corporations[index] = corporation
+
+	// store corporation array back into KVS
+	// marshal array into bytes
+	jsonCorporationAsBytes, _ := json.Marshal(corporations)
+
+	// store marshalled byte array into KVS
+	err = stub.PutState(corporationIndexStr, jsonCorporationAsBytes)
+	if err != nil {
+		return nil, err
+	}
+	
+	return nil, nil
+
+}
+
+// ============================================================================================================================
+// report
+// ============================================================================================================================
+// args
+// [0]Timestamp
+// [1]Name
+// [2]Number
+// [3]DirectorName
+// [4]Address
+// [5]Email
+// [6]Date
+func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	
+	var err error
+	
+	if len(args) != 7 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 7")
+	}
+
+	//input sanitation
+	fmt.Println("- start report (corporation)")
+	// not necessary as of now
+	// if len(args[0]) <= 0 {
+	// 	return nil, errors.New("1st argument must be a non-empty string")
+	// }
+
+	timestamp := args[0]
+	name := args[1]
+	number := args[2]
+	directorName := args[3]
+	address := args[4]
+	email := args[5]
+	date := args[6]
+
+	// // create object to store
+	// var corporation = Corporation{
+	// 	Timestamp: timestamp, 
+	// 	Jurisdiction: jurisdiction, 
+	// 	Name: name, 
+	// 	Number: number, 
+	// 	DirectorName: directorName, 
+	// 	Address: address, 
+	// 	Email: email, 
+	// 	Date: date, 
+	// 	Status: status,
+	// }
+	
+	// pull array of all corporations
+	var corporations []Corporation
+	corporationsAsBytes, err := stub.GetState(corporationIndexStr)
+
+	if err != nil {
+		jsonResp := "{\"Error\":\"Failed to get array of all corporations.\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	json.Unmarshal(corporationsAsBytes, &corporations)
+
+	// get corporation by timestamp
+	index := -1
+	for i := 0; i < len(corporations); i++ {
+		fmt.Println("report is iterating, found corporation " + corporations[i].Timestamp)
+		if corporations[i].Timestamp == timestamp {
+			index = i
+			fmt.Println("report found corporation with given timestamp at index " + strconv.Itoa(i))
+		}
+	}
+
+	if index == -1 {
+		jsonResp = "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	// change all values for report
+	var corporation = corporations[index]
+	corporation.Name = name
+	corporation.Number = number
+	corporation.DirectorName = directorName
+	corporation.Address = address
+	corporation.Email = email
+	corporation.Date = date
+
+	// store corporation back into array
+	corporations[index] = corporation
+
+	// store corporation array back into KVS
+	// marshal array into bytes
+	jsonCorporationAsBytes, _ := json.Marshal(corporations)
+
+	// store marshalled byte array into KVS
+	err = stub.PutState(corporationIndexStr, jsonCorporationAsBytes)
+	if err != nil {
+		return nil, err
+	}
+	
+	return nil, nil
+
+}
+
+// ============================================================================================================================
+// dissolve
+// ============================================================================================================================
+// args
+// [0]Timestamp
+func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	
+	var err error
+	
+	if len(args) != 1 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 1")
+	}
+
+	//input sanitation
+	fmt.Println("- start dissolve (corporation)")
+	// not necessary as of now
+	// if len(args[0]) <= 0 {
+	// 	return nil, errors.New("1st argument must be a non-empty string")
+	// }
+
+	timestamp := args[0]
+
+	// // create object to store
+	// var corporation = Corporation{
+	// 	Timestamp: timestamp, 
+	// 	Jurisdiction: jurisdiction, 
+	// 	Name: name, 
+	// 	Number: number, 
+	// 	DirectorName: directorName, 
+	// 	Address: address, 
+	// 	Email: email, 
+	// 	Date: date, 
+	// 	Status: status,
+	// }
+	
+	// pull array of all corporations
+	var corporations []Corporation
+	corporationsAsBytes, err := stub.GetState(corporationIndexStr)
+
+	if err != nil {
+		jsonResp := "{\"Error\":\"Failed to get array of all corporations (to which to add our new register entry).\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	json.Unmarshal(corporationsAsBytes, &corporations)
+
+	// get corporation by timestamp
+	index := -1
+	for i := 0; i < len(corporations); i++ {
+		fmt.Println("dissolve is iterating, found corporation " + corporations[i].Timestamp)
+		if corporations[i].Timestamp == timestamp {
+			index = i
+			fmt.Println("dissolve found corporation with given timestamp at index " + strconv.Itoa(i))
+		}
+	}
+
+	if index == -1 {
+		jsonResp = "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	// change status to "dissolved"
+	var corporation = corporations[index]
+	corporation.Status = "dissolved"
+
+	// store corporation back into array
+	corporations[index] = corporation
+
+	// store corporation array back into KVS
+	// marshal array into bytes
+	jsonCorporationAsBytes, _ := json.Marshal(corporations)
+
+	// store marshalled byte array into KVS
+	err = stub.PutState(corporationIndexStr, jsonCorporationAsBytes)
+	if err != nil {
+		return nil, err
+	}
+	
+	return nil, nil
+
+}
+
 
 // ============================================================================================================================
 // Set User Permission on Marble
