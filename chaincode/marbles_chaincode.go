@@ -507,7 +507,7 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 	}
 
 	if index == -1 {
-		jsonResp = "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
+		jsonResp := "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
 		return nil, errors.New(jsonResp)
 	}
 
@@ -601,7 +601,7 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 	}
 
 	if index == -1 {
-		jsonResp = "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
+		jsonResp := "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
 		return nil, errors.New(jsonResp)
 	}
 
