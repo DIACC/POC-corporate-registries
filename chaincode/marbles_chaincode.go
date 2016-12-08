@@ -626,11 +626,12 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 // args
 // [0]Name
 // [1]Jurisdiction
+// [2]Status
 func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var err error
 	
-	if len(args) != 2 {
+	if len(args) != 3 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 2")
 	}
 
@@ -643,6 +644,7 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 
 	name := args[0]
 	jurisdiction := args[1]
+	status := args[2]
 
 	// // create object to store
 	// var corporation = Corporation{ 
@@ -683,7 +685,7 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 
 	// change status to "dissolved"
 	var corporation = corporations[index]
-	corporation.Status = "dissolved"
+	corporation.Status = status
 
 	// store corporation back into array
 	corporations[index] = corporation
