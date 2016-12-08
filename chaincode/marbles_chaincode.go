@@ -688,7 +688,7 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 	}
 
 	if index == -1 {
-		jsonResp = "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
+		jsonResp := "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
 		return nil, errors.New(jsonResp)
 	}
 
