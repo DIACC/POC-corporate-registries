@@ -63,7 +63,6 @@ type AllTrades struct{
 var corporationIndexStr = "_corporationIndex"			//name for the key/value that will store a list of all known marbles
 
 type Corporation struct {
-    Timestamp string `json:"timestamp"`          // used in all methods 
     Jurisdiction string `json:"jurisdiction"`         // used only in register. set & forget
     Name string `json:"name"`                          // register, changeName
     Number string `json:"number"`                  // register
@@ -369,26 +368,20 @@ func (t *SimpleChaincode) init_marble(stub shim.ChaincodeStubInterface, args []s
 // register
 // ============================================================================================================================
 // args
-// [0]Timestamp
-// [1]Jurisdiction
-// [2]Name
-// [3]Number
-// [4]DirectorName
-// [5]Address
-// [6]Email
-// [7]Date
-// [8]Status
+// [0]Jurisdiction
+// [1]Name
+// [2]Number
+// [3]DirectorName
+// [4]Address
+// [5]Email
+// [6]Date
+// [7]Status
 func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var err error
-
-	//   0            	1              2            3            	4     
-	// "10M:03s" 	"britishcol"    "Target"	  "+1 220 560-8888"  "Bob Bobberson"
-	// 	5     				6     			7     		8
-	// "55 Rua Tutoia,BC"  "hello@world.com"   "November 10, 2020" "ACTIVE"
 	
-	if len(args) != 9 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 9")
+	if len(args) != 8 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 8")
 	}
 
 	//input sanitation
@@ -398,19 +391,17 @@ func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []stri
 	// 	return nil, errors.New("1st argument must be a non-empty string")
 	// }
 
-	timestamp := args[0]
-	jurisdiction := strings.ToLower(args[1])
-	name := strings.ToLower(args[2])
-	number := strings.ToLower(args[3])
-	directorName := strings.ToLower(args[4])
-	address := strings.ToLower(args[5])
-	email := strings.ToLower(args[6])
-	date := strings.ToLower(args[7])
-	status := strings.ToLower(args[8])
+	jurisdiction := strings.ToLower(args[0])
+	name := strings.ToLower(args[1])
+	number := strings.ToLower(args[2])
+	directorName := strings.ToLower(args[3])
+	address := strings.ToLower(args[4])
+	email := strings.ToLower(args[5])
+	date := strings.ToLower(args[6])
+	status := strings.ToLower(args[7])
 
 	// create object to store
 	var corporation = Corporation{
-		Timestamp: timestamp, 
 		Jurisdiction: jurisdiction, 
 		Name: name, 
 		Number: number, 
@@ -452,13 +443,13 @@ func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []stri
 // nameChange
 // ============================================================================================================================
 // args
-// [0]Timestamp
-// [1]Name
+// [0]Name
+// [1]Jurisdiction
 func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var err error
 	
-	if len(args) != 1 {
+	if len(args) != 2 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
 
@@ -469,12 +460,11 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 	// 	return nil, errors.New("1st argument must be a non-empty string")
 	// }
 
-	timestamp := args[0]
-	name := args[1]
+	name := args[0]
+	jurisdiction := args[1]
 
 	// // create object to store
 	// var corporation = Corporation{
-	// 	Timestamp: timestamp, 
 	// 	Jurisdiction: jurisdiction, 
 	// 	Name: name, 
 	// 	Number: number, 
@@ -499,15 +489,14 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 	// get corporation by timestamp
 	index := -1
 	for i := 0; i < len(corporations); i++ {
-		fmt.Println("nameChange is iterating, found corporation " + corporations[i].Timestamp)
-		if corporations[i].Timestamp == timestamp {
+		if ((corporations[i].Name == name) && (corporations[i].Jurisdiction == jurisdiction)) {
 			index = i
-			fmt.Println("nameChange found corporation with given timestamp at index " + strconv.Itoa(i))
+			fmt.Println("nameChange found corporation with given name and jurisdiction at index " + strconv.Itoa(i))
 		}
 	}
 
 	if index == -1 {
-		jsonResp := "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
+		jsonResp := "{\"Error\":\"Failed to find corporation with given name and jurisdiction.\"}"
 		return nil, errors.New(jsonResp)
 	}
 
@@ -536,8 +525,8 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 // report
 // ============================================================================================================================
 // args
-// [0]Timestamp
-// [1]Name
+// [0]Name
+// [1]Jurisdiction
 // [2]Number
 // [3]DirectorName
 // [4]Address
@@ -558,8 +547,8 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 	// 	return nil, errors.New("1st argument must be a non-empty string")
 	// }
 
-	timestamp := args[0]
-	name := args[1]
+	name := args[0]
+	jurisdiction := args[1]
 	number := args[2]
 	directorName := args[3]
 	address := args[4]
@@ -568,7 +557,6 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 
 	// // create object to store
 	// var corporation = Corporation{
-	// 	Timestamp: timestamp, 
 	// 	Jurisdiction: jurisdiction, 
 	// 	Name: name, 
 	// 	Number: number, 
@@ -593,15 +581,14 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 	// get corporation by timestamp
 	index := -1
 	for i := 0; i < len(corporations); i++ {
-		fmt.Println("report is iterating, found corporation " + corporations[i].Timestamp)
-		if corporations[i].Timestamp == timestamp {
+		if ((corporations[i].Name == name) && (corporations[i].Jurisdiction == jurisdiction)) {
 			index = i
-			fmt.Println("report found corporation with given timestamp at index " + strconv.Itoa(i))
+			fmt.Println("nameChange found corporation with given name and jurisdiction at index " + strconv.Itoa(i))
 		}
 	}
 
 	if index == -1 {
-		jsonResp := "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
+		jsonResp := "{\"Error\":\"Failed to find corporation with given name and jurisdiction.\"}"
 		return nil, errors.New(jsonResp)
 	}
 
@@ -635,13 +622,14 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 // dissolve
 // ============================================================================================================================
 // args
-// [0]Timestamp
+// [0]Name
+// [1]Jurisdiction
 func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var err error
 	
-	if len(args) != 1 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 1")
+	if len(args) != 2 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 2")
 	}
 
 	//input sanitation
@@ -651,11 +639,11 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 	// 	return nil, errors.New("1st argument must be a non-empty string")
 	// }
 
-	timestamp := args[0]
+	name := args[0]
+	jurisdiction := args[1]
 
 	// // create object to store
-	// var corporation = Corporation{
-	// 	Timestamp: timestamp, 
+	// var corporation = Corporation{ 
 	// 	Jurisdiction: jurisdiction, 
 	// 	Name: name, 
 	// 	Number: number, 
@@ -680,15 +668,14 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 	// get corporation by timestamp
 	index := -1
 	for i := 0; i < len(corporations); i++ {
-		fmt.Println("dissolve is iterating, found corporation " + corporations[i].Timestamp)
-		if corporations[i].Timestamp == timestamp {
+		if ((corporations[i].Name == name) && (corporations[i].Jurisdiction == jurisdiction)) {
 			index = i
-			fmt.Println("dissolve found corporation with given timestamp at index " + strconv.Itoa(i))
+			fmt.Println("nameChange found corporation with given name and jurisdiction at index " + strconv.Itoa(i))
 		}
 	}
 
 	if index == -1 {
-		jsonResp := "{\"Error\":\"Failed to find corporation with given timestamp.\"}"
+		jsonResp := "{\"Error\":\"Failed to find corporation with given name and jurisdiction.\"}"
 		return nil, errors.New(jsonResp)
 	}
 
