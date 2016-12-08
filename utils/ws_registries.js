@@ -29,7 +29,7 @@ module.exports.process_msg = function(ws, data){
 	}
 	else if (data.type == 'dissolve') {
 		console.log('[ws info] Dissolve', data);
-		chaincode.invoke.dissolve([data.name, data.jurisdiction, data.status], cb_dissolve);
+		chaincode.invoke.dissolve([data.jurisdiction, data.name, data.status], cb_dissolve);
 	}
 	else if (data.type == 'get_transactions') {
 		console.log("Get Transactions from ws_registries");
