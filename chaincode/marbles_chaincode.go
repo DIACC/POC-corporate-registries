@@ -491,7 +491,7 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 	// get corporation by timestamp
 	index := -1
 	for i := 0; i < len(corporations); i++ {
-		if ((corporations[i].Name == name) && (corporations[i].Jurisdiction == jurisdiction)) {
+		if ((strings.ToLower(corporations[i].Name) == strings.ToLower(name)) && (strings.ToLower(corporations[i].Jurisdiction) == strings.ToLower(jurisdiction))) {
 			index = i
 			fmt.Println("nameChange found corporation with given name and jurisdiction at index " + strconv.Itoa(i))
 		}
@@ -583,7 +583,7 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 	// get corporation by timestamp
 	index := -1
 	for i := 0; i < len(corporations); i++ {
-		if ((corporations[i].Name == name) && (corporations[i].Jurisdiction == jurisdiction)) {
+		if ((strings.ToLower(corporations[i].Name) == strings.ToLower(name)) && (strings.ToLower(corporations[i].Jurisdiction) == strings.ToLower(jurisdiction))) {
 			index = i
 			fmt.Println("nameChange found corporation with given name and jurisdiction at index " + strconv.Itoa(i))
 		}
@@ -672,7 +672,7 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 	// get corporation by timestamp
 	index := -1
 	for i := 0; i < len(corporations); i++ {
-		if ((corporations[i].Name == name) && (corporations[i].Jurisdiction == jurisdiction)) {
+		if ((strings.ToLower(corporations[i].Name) == strings.ToLower(name)) && (strings.ToLower(corporations[i].Jurisdiction) == strings.ToLower(jurisdiction))) {
 			index = i
 			fmt.Println("nameChange found corporation with given name and jurisdiction at index " + strconv.Itoa(i))
 		}
