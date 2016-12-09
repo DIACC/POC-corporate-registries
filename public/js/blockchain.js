@@ -52,6 +52,15 @@ function new_block(newblck){									//rec a new block
 			}
 		}
 		blocks[Number(newblck.id)] = newblck;
+		console.log('New block has this data: ', newblck);
+		var payload = atob(newblck.blockstats.transactions[0].payload);
+		console.log('blockstats:', newblck.blockstats);
+		
+		console.log('transaction:', newblck.blockstats.transactions[0]);
+		console.log('payload:',payload);
+		
+		console.log('data:',data);
+		
 		build_block(newblck.id);								//build block
 	}
 }
