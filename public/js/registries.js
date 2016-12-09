@@ -12,6 +12,13 @@ $(document).on('ready', function() {
 	// jQuery UI Events
 	// =================================================================================
 	$('#register').click(function(){
+        var streetAddress = $('input[name="streetAddress"]').val();
+        var city = $('input[name="city"]').val();
+        var province = $('select[name="province"]').val();
+        var postalCode = $('input[name="postalCode"]').val();
+        var firstName = $('input[name="firstName"]').val();
+        var lastName = $('input[name="lastName"]').val();
+        
 		// registry code
 		var regTransaction = {
 				type: 'register',
@@ -19,14 +26,20 @@ $(document).on('ready', function() {
 				jurisdiction: $('select[name="jurisdiction"]').val(),
 				name: $('input[name="corporateName"]').val(),
 				number: $('input[name="corporationNumber"]').val(),
-				directorName: $('input[name="firstName"]').val() + " " + $('input[name="lastName"]').val(),
-				address: $('input[name="streetAddress"]').val() + " " + $('input[name="city"]').val() + " " + $('select[name="province"]').val() + " " + $('input[name="postalCode"]').val(),
+				directorName: firstName + " " + lastName,
+				address: streetAddress + " " + city + " " + province + " " + postalCode,
 				email: $('input[name="email"]').val(),
 				date: $('input[name="fillingDate"]').val(),
 				status: 'ACTIVE'
 		};
-		console.log('Executing REGISTRY transaction', regTransaction);
-		ws.send(JSON.stringify(regTransaction));
+        if (!regTransaction.name || !regTransaction.jurisdiction || !regTransaction.number 
+            || !firstName || !lastName || !streetAddress || !city || !province || !postalCode || !regTransaction.email || !regTransaction.date) {
+            console.log('Missing some values, please make sure all fields are complete!!');
+        }
+        else {
+		  console.log('Executing REGISTRY transaction', regTransaction);
+		  ws.send(JSON.stringify(regTransaction));
+        }
 		return false;
 	});
 

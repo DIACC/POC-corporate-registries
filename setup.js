@@ -90,5 +90,5 @@ exports.USER12 = 'SK';
 exports.USER12longname = 'Saskatchewan';
 exports.USER13 = 'YT';
 exports.USER13longname = 'Yukon';
-exports.USER14 = 'FED';
-exports.USER14longname = 'Federal Government';
+exports.USER14 = 'CAD';
+exports.USER14longname = 'Canada';
