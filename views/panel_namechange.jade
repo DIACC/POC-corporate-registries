@@ -3,7 +3,7 @@
 		div(class="twelve columns")
 			h3 Name Change
 			p Change the name of a corporation.  This form will add an amendment to the blockchain for the corporate name.
-	form(action="/create" method="POST")#createform
+	form(action="/nameChange" method="POST")#nameChangeform
 		div(class="row")
 			div(class="four columns") 
 				legend
@@ -38,6 +38,7 @@
 					input(type="text" name="nameChangeNewCorporateName" placeholder="" class="u-full-width")
 		div(class="row")
 			div(class="twelve columns" style="text-align:left")
+				p(style="color:red")#nameChangeValidationMessage
 				button(type="button" class="button-primary")#nameChange
 					span.fa.fa-check &nbsp;&nbsp; 
 					span Change Name

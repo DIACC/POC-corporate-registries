@@ -60,8 +60,11 @@ module.exports.process_msg = function(ws, data){
 			async.eachLimit(list, 1, function(block_height, cb) {						//iter through each one, and send it
 				ibc.block_stats(block_height, function(e, stats){
 					if(e == null){
+                        
 						stats.height = block_height;
 						sendMsg({msg: 'chainstats', e: e, chainstats: chain_stats, blockstats: stats});
+                        console.log('blockheight',stats.height);
+                        console.log('stats',stats);
 					}
 					cb(null);
 				});

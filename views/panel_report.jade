@@ -3,7 +3,7 @@
 		div(class="twelve columns")
 			h3 Report
 			p Perform an annual report for a corporation.  This form will confirm the corporations registered office address and add to the blockchain.
-	form(action="/create" method="POST")#createform
+	form(action="/report" method="POST")#reportform
 		div(class="row")
 			div(class="twelve columns")
 				h5 Corporate Information
@@ -80,6 +80,7 @@
 					input(type="text" name="reportPostalCode" placeholder="" class="u-full-width")
 		div(class="row")
 			div(class="twelve columns" style="text-align:left")
+				p(style="color:red")#reportValidationMessage
 				button(type="button" class="button-primary")#report
 					span.fa.fa-check &nbsp;&nbsp;
 					span Report

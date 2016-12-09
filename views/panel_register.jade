@@ -3,7 +3,7 @@
 		div(class="twelve columns")
 			h3 Register
 			p Register a corporation in a jurisdiction.  This form will create a registry entry on the blockchain for a corporation.
-	form(action="/create" method="POST")#createform
+	form(action="/register" method="POST")#registerform
 		div(class="row")
 			div(class="twelve columns")
 				h5 Corporate Information
@@ -103,9 +103,10 @@
 
 		div(class="row")
 			div(class="twelve columns" style="text-align:left")
-				p
-				button(type="button" class="button-primary")#register
+				p(style="color:red")#registerValidationMessage
+				button(type="button" class="button-primary" onclick="register()")
 					span.fa.fa-check &nbsp;&nbsp;
 					span REGISTER
+				
 				
 				
