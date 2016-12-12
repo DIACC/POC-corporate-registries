@@ -47,8 +47,8 @@ function connect_to_server(){
 		
 		// Registry Code
 		// Get the transactions on webpage load
-		//ws.send(JSON.stringify({type: 'get_transactions'}));
-		
+		ws.send(JSON.stringify({type: 'get_transactions'}));
+	
 		// Get the corporations on webpage load
 		ws.send(JSON.stringify({type: 'get_corporations'}));
 	}
@@ -72,24 +72,6 @@ function connect_to_server(){
 				build_corporations(msgObj.corporations);
 				corporations = msgObj.corporations;
 			}
-			/*else if(msgObj.msg === 'chainstats'){
-				console.log('CHAINSTATS from register_viewer: rec', msgObj.msg, ': ledger blockheight', msgObj.chainstats.height, 'block', msgObj.blockstats.height);
-
-				
-				var payload = atob(msgObj.blockstats.transactions[0].payload);
-
-				if (payload) {
-					console.log('transaction:', newblck.blockstats.transactions[0]);
-					console.log('payload:',payload);
-					//var payloadItems = payload.split("\x0A");
-					var payloadItems = payload.split("--");
-					
-					for (i=0;i<payloadItems.length;i++)
-					{
-						console.log(i + " REGISTRY VIEWER " + payloadItems[i].substring(1) + "");
-					}
-				}
-			}*/
 		}
 		catch(e){
 			console.log('ERROR', e);
@@ -118,22 +100,49 @@ function connect_to_server(){
 function build_transactions(transactions){
 	console.log('Building transactions table');
 	var html = '';
+	
+	
 	for(var i in transactions){
 		console.log(transactions[i]);
+		var data = '';
+        
+        if (transactions[i].corporationNumber) {
+            data += 'Corporation Number: ' + transactions[i].corporationNumber + '<br>';
+        }
+        if (transactions[i].directorName) {
+            data += 'Director Name: ' + transactions[i].directorName + '<br>';
+        }
+        if (transactions[i].address) {
+            data += 'Address: ' + transactions[i].address + '<br>';
+        }
+        if (transactions[i].email) {
+            data += 'Email: ' + transactions[i].email + '<br>';
+        }
+        if (transactions[i].date) {
+            data += 'Date: ' + transactions[i].date + '<br>';
+        }
+        if (transactions[i].status) {
+            data += 'Status: ' + transactions[i].status + '<br>';
+        }
+        
 		var style = ' ';
 			html += '<tr class="' + style + '">';
+			html +=		'<td>' + transactions[i].timestamp + '</td>';
 			html +=		'<td>' + transactions[i].corporationName + '</td>';
-			html +=		'<td>' + transactions[i].transactionType + '</td>';
-			html +=		'<td>' + transactions[i].datetime + '</td>';
 			html +=		'<td>' + transactions[i].jurisdiction + '</td>';
-			html +=		'<td>' + transactions[i].emailAddress + '</td>';
-			html +=		'<td>' + transactions[i].mailingAddress + '</td>';
-			html +=		'<td>' + transactions[i].uniqueID + '</td>';
+			html +=		'<td>' + transactions[i].transactionType + '</td>';
+			html +=		'<td>' + data + '</td>';
+			html +=		'<td>' + transactions[i].block + '</td>';
 			html +=		'<td></td>';
 			html += '</tr>';
 	}
 	if(html === '') html = '<tr><td>nothing here...</td><td></td><td></td><td></td><td></td><td></td></tr>';
-	$('#myTransactionsBody').html(html);
+    
+    //var existingHtml = document.getElementById('#myTransactionsBody');
+    //console.log($('#myTransactionsBody').innerHTML);
+    //var existingHtml = 'hello!!';
+	//$('#myTransactionsBody').html(html+existingHtml);
+    $('#myTransactionsBody').append(html);
 }
 
 function build_corporations(corporations){

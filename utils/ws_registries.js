@@ -8,8 +8,8 @@ var ibc = {};
 var chaincode = {};
 var async = require('async');
 
-var delimiter = "--";
-var delimiterlength = 2;
+var delimiter = "";
+var delimiterlength = 0;
 
 module.exports.setup = function(sdk, cc){
 	ibc = sdk;
@@ -52,7 +52,7 @@ module.exports.process_msg = function(ws, data){
 			var list = [];
 			for(var i = chain_stats.height; i >= 1; i--){								//create a list of heights we need
 				list.push(i);
-				if(list.length >= 10) break;
+				if(list.length >= 100) break;
 			}
 			list.reverse();																//flip it so order is correct in UI
 			async.eachLimit(list, 1, function(block_height, cb) {						//iter through each one, and send it
@@ -60,46 +60,70 @@ module.exports.process_msg = function(ws, data){
 					if(e == null){
                         if (stats.transactions) {
                         	var payload = new Buffer(stats.transactions[0].payload, 'base64').toString('ascii'); // Ta-da!
-            				if (payload) {
+            				var timestamp = stats.nonHashData.localLedgerCommitTimestamp.seconds;
+            				var block = block_height;
+	         				console.log("Formatted Timestamp: ", timestamp);
+                        	if (payload) {
             					var payloadItems = payload.split("\x0A");
-            					
+
             					for (i=0;i<payloadItems.length;i++) {
             						console.log(i + " REGISTRY VIEWER " + payloadItems[i].substring(1));
             					}
         						if (payloadItems[2].substring(1)==='register') {
+        							var transactionType = 'Register';
+        							var jurisdiction = payloadItems[3].substring(1);
+        							var corporationName = payloadItems[4].substring(1);
+        							var corporationNumber = payloadItems[5].substring(1);
+        							var directorName = payloadItems[6].substring(1);
+        							var address = payloadItems[7].substring(1);
+        							var email = payloadItems[8].substring(1);
+        							var date = payloadItems[9].substring(1);
+        							var status = payloadItems[10].substring(1);
+
         							console.log(" Register Transaction ");
         							var message = {
         									msg: 'transactions', 
-        									transactions: [{"datetime":payloadItems[9].substring(1),"jurisdiction":payloadItems[3].substring(1),"transactionType":"Register","uniqueID":"20160809131415","corporationName":payloadItems[4].substring(1),"emailAddress":payloadItems[8].substring(1),"mailingAddress":payloadItems[7].substring(1)}]
+        									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"corporationNumber":corporationNumber,"directorName":directorName,"address":address,"email":email,"date":date,"status":status, "block":block}]
         								};
         							sendMsg(message);
                 				}
         						else if (payloadItems[2].substring(1)==='nameChange') {
         							console.log(" Name Change ");
-        							var message = {
+        							var transactionType = 'Name Change';
+        							/*var message = {
         									msg: 'transactions', 
         									transactions: [{"datetime":payloadItems[9].substring(1),"jurisdiction":payloadItems[3].substring(1),"transactionType":"Name Change"}]
         								};
-        							sendMsg(message);
+        							sendMsg(message);*/
         						}
         						else if (payloadItems[2].substring(1)==='report') {
         							console.log(" Report Transaction ");
+        							var transactionType = 'Report';
+        							var jurisdiction = payloadItems[3].substring(1);
+        							var corporationName = payloadItems[4].substring(1);
+        							var address = payloadItems[5].substring(1);
+        							var date = payloadItems[6].substring(1);
         							var message = {
         									msg: 'transactions', 
-        									transactions: [{"datetime":payloadItems[9].substring(1),"jurisdiction":payloadItems[3].substring(1),"transactionType":"Report"}]
-        								};
+        									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"address":address,"date":date,"status":status, "block":block}]
+           								};
         							sendMsg(message);
+
                 				}
         						else if (payloadItems[2].substring(1)==='dissolve') {
         							console.log(" Dissolve Transaction ");
+        							var jurisdiction = payloadItems[3].substring(1);
+        							var corporationName = payloadItems[4].substring(1);
+        							var status = payloadItems[5].substring(1);
+        							var transactionType = 'Dissolve';
+        							var data = '';
+
         							var message = {
         									msg: 'transactions', 
-        									transactions: [{"datetime":payloadItems[9].substring(1),"jurisdiction":payloadItems[3].substring(1),"transactionType":"Dissolve"}]
-        								};
+        									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"corporationNumber":corporationNumber,"status":status, "block":block}]
+    									};
         							sendMsg(message);
                 				}
-            					//console.log('transaction:', stats.transactions[0]);
-            					//console.log('payload:',payload);
             				}
                         }
 						stats.height = block_height;
