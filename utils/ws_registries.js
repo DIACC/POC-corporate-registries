@@ -1,4 +1,5 @@
 var fs = require('fs');
+var Buffer = require('buffer').Buffer;
 
 // ==================================
 // Registries - incoming messages, look for type
@@ -7,6 +8,9 @@ var ibc = {};
 var chaincode = {};
 var async = require('async');
 
+var delimiter = "--";
+var delimiterlength = 2;
+
 module.exports.setup = function(sdk, cc){
 	ibc = sdk;
 	chaincode = cc;
@@ -14,28 +18,22 @@ module.exports.setup = function(sdk, cc){
 
 module.exports.process_msg = function(ws, data){
 	// Registry Code
-	if (data.type == 'register') {
+	if (data.type == 'register' + delimiter) {
 		console.log('[ws info] Register', data);
 		chaincode.invoke.register([data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date, data.status], cb_register);
 	}
-	else if (data.type == 'nameChange') {
+	else if (data.type == 'nameChange'  + delimiter) {
 		console.log('[ws info] Name Change', data);
 		chaincode.invoke.nameChange([data.jurisdiction, data.name, data.newName], cb_nameChange);
 	}
-	else if (data.type == 'report') {
+	else if (data.type == 'report'  + delimiter) {
 		console.log('[ws info] Report', data);
-		chaincode.invoke.report([data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date], cb_report);
-		//chaincode.invoke.report([data.jurisdiction, data.name, data.address, data.date], cb_report);
+		chaincode.invoke.report([data.jurisdiction, data.name, data.address, data.date], cb_report);
 		cb_report();
 	}
-	else if (data.type == 'dissolve') {
+	else if (data.type == 'dissolve'  + delimiter) {
 		console.log('[ws info] Dissolve', data);
 		chaincode.invoke.dissolve([data.jurisdiction, data.name, data.status], cb_dissolve);
-	}
-	else if (data.type == 'get_transactions') {
-		console.log("Get Transactions from ws_registries");
-		// TODO To be replaced with callback similar to cb_got_trades or blockstat
-		cb_got_transactions();
 	}
 	else if (data.type == 'get_corporations') {
 		console.log("Get corporations from ws_registries");
@@ -54,17 +52,61 @@ module.exports.process_msg = function(ws, data){
 			var list = [];
 			for(var i = chain_stats.height; i >= 1; i--){								//create a list of heights we need
 				list.push(i);
-				if(list.length >= 5) break;
+				if(list.length >= 10) break;
 			}
 			list.reverse();																//flip it so order is correct in UI
 			async.eachLimit(list, 1, function(block_height, cb) {						//iter through each one, and send it
 				ibc.block_stats(block_height, function(e, stats){
 					if(e == null){
-                        
+                        if (stats.transactions) {
+                        	var payload = new Buffer(stats.transactions[0].payload, 'base64').toString('ascii'); // Ta-da!
+            				if (payload) {
+            					var payloadItems = payload.split("\x0A");
+            					
+            					for (i=0;i<payloadItems.length;i++) {
+            						console.log(i + " REGISTRY VIEWER " + payloadItems[i].substring(1));
+            					}
+        						if (payloadItems[2].substring(1)==='register') {
+        							console.log(" Register Transaction ");
+        							var message = {
+        									msg: 'transactions', 
+        									transactions: [{"datetime":payloadItems[9].substring(1),"jurisdiction":payloadItems[3].substring(1),"transactionType":"Register","uniqueID":"20160809131415","corporationName":payloadItems[4].substring(1),"emailAddress":payloadItems[8].substring(1),"mailingAddress":payloadItems[7].substring(1)}]
+        								};
+        							sendMsg(message);
+                				}
+        						else if (payloadItems[2].substring(1)==='nameChange') {
+        							console.log(" Name Change ");
+        							var message = {
+        									msg: 'transactions', 
+        									transactions: [{"datetime":payloadItems[9].substring(1),"jurisdiction":payloadItems[3].substring(1),"transactionType":"Name Change"}]
+        								};
+        							sendMsg(message);
+        						}
+        						else if (payloadItems[2].substring(1)==='report') {
+        							console.log(" Report Transaction ");
+        							var message = {
+        									msg: 'transactions', 
+        									transactions: [{"datetime":payloadItems[9].substring(1),"jurisdiction":payloadItems[3].substring(1),"transactionType":"Report"}]
+        								};
+        							sendMsg(message);
+                				}
+        						else if (payloadItems[2].substring(1)==='dissolve') {
+        							console.log(" Dissolve Transaction ");
+        							var message = {
+        									msg: 'transactions', 
+        									transactions: [{"datetime":payloadItems[9].substring(1),"jurisdiction":payloadItems[3].substring(1),"transactionType":"Dissolve"}]
+        								};
+        							sendMsg(message);
+                				}
+            					//console.log('transaction:', stats.transactions[0]);
+            					//console.log('payload:',payload);
+            				}
+                        }
 						stats.height = block_height;
-						sendMsg({msg: 'chainstats', e: e, chainstats: chain_stats, blockstats: stats});
+						//sendMsg({msg: 'chainstats', e: e, chainstats: chain_stats, blockstats: stats});
                         console.log('blockheight',stats.height);
                         console.log('stats',stats);
+                        
 					}
 					cb(null);
 				});

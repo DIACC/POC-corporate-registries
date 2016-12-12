@@ -1,6 +1,8 @@
 var ws = {};
 
 var corporations = '';
+var delimiter = "";
+var delimiterlength = 0;
 
 // =================================================================================
 // On Load
@@ -21,21 +23,21 @@ $(document).on('ready', function() {
         
 		// registry code
 		var regTransaction = {
-				type: 'register',
+				type: 'register' + delimiter,
 				//timestamp: '\'' + jQuery.now() + '\'',
-				jurisdiction: $('select[name="jurisdiction"]').val(),
-				name: $('input[name="corporateName"]').val(),
-				number: $('input[name="corporationNumber"]').val(),
-				directorName: firstName + " " + lastName,
-				address: streetAddress + " " + city + " " + province + " " + postalCode,
-				email: $('input[name="email"]').val(),
-				date: $('input[name="fillingDate"]').val(),
-				status: 'ACTIVE'
+				jurisdiction: $('select[name="jurisdiction"]').val() + delimiter,
+				name: $('input[name="corporateName"]').val() + delimiter,
+				number: $('input[name="corporationNumber"]').val() + delimiter,
+				directorName: firstName + " " + lastName + delimiter,
+				address: streetAddress + " " + city + " " + province + " " + postalCode + delimiter,
+				email: $('input[name="email"]').val() + delimiter,
+				date: $('input[name="fillingDate"]').val() + delimiter,
+				status: 'Active'  + delimiter
 		};
         if (!regTransaction.name || !regTransaction.jurisdiction || !regTransaction.number 
             || !firstName || !lastName || !streetAddress || !city || !province || !postalCode || !regTransaction.email || !regTransaction.date) {
             //console.log('Missing some values, please make sure all fields are complete!!');
-            $('#registerValidationMessage').html('*Missing some fields, please make sure all fields are completed');
+            $('#registerValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
 		  console.log('Executing REGISTRY transaction', regTransaction);
@@ -46,13 +48,13 @@ $(document).on('ready', function() {
 
 	$('#nameChange').click(function(){		
 		var nameChangeTransaction = {
-				type: 'nameChange',
-				jurisdiction: $('select[name="nameChangeJurisdiction"]').val(),
-				name: $('input[name="nameChangeCorporateName"]').val(),
-				newName: $('input[name="nameChangeNewCorporateName"]').val()
+				type: 'nameChange' + delimiter,
+				jurisdiction: $('select[name="nameChangeJurisdiction"]').val() + delimiter,
+				name: $('input[name="nameChangeCorporateName"]').val() + delimiter,
+				newName: $('input[name="nameChangeNewCorporateName"]').val() + delimiter
 		};
         if (!nameChangeTransaction.name || !nameChangeTransaction.jurisdiction || !nameChangeTransaction.newName) {
-             $('#nameChangeValidationMessage').html('*Missing some fields, please make sure all fields are completed');
+             $('#nameChangeValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
 		  console.log('Executing NAME CHANGE transaction', nameChangeTransaction);
@@ -68,15 +70,15 @@ $(document).on('ready', function() {
         var postalCode = $('input[name="reportPostalCode"]').val();
         
 		var reportTransaction = {
-				type: 'report',
-				jurisdiction: $('select[name="reportJurisdiction"]').val(),
-				name: $('input[name="reportCorporateName"]').val(),
-				address: streetAddress + " " + city + " " + province + " " + postalCode,
-				date: $('input[name="reportReportingDate"]').val()
+				type: 'report' + delimiter,
+				jurisdiction: $('select[name="reportJurisdiction"]').val() + delimiter,
+				name: $('input[name="reportCorporateName"]').val() + delimiter,
+				address: streetAddress + " " + city + " " + province + " " + postalCode + delimiter,
+				date: $('input[name="reportReportingDate"]').val() + delimiter
 		};
         if (!reportTransaction.name || !reportTransaction.jurisdiction || !streetAddress || !city || !province || !postalCode || !reportTransaction.date) {
             //console.log('Missing some values, please make sure all fields are complete!!');
-            $('#reportValidationMessage').html('*Missing some fields, please make sure all fields are completed');
+            $('#reportValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
             console.log('Executing REPORT transaction', reportTransaction);
@@ -87,13 +89,13 @@ $(document).on('ready', function() {
 	
 	$('#dissolve').click(function(){
 		var dissolveTransaction = {
-				type: 'dissolve',
-				jurisdiction: $('select[name="dissolveJurisdiction"]').val(),
-				name: $('input[name="dissolveCorporateName"]').val(),
-				status: 'DISSOLVED'
+				type: 'dissolve'  + delimiter,
+				jurisdiction: $('select[name="dissolveJurisdiction"]').val() + delimiter,
+				name: $('input[name="dissolveCorporateName"]').val() + delimiter,
+				status: 'Dissolved'  + delimiter
 		};
         if (!dissolveTransaction.name || !dissolveTransaction.jurisdiction) {
-             $('#dissolveValidationMessage').html('*Missing some fields, please make sure all fields are completed');
+             $('#dissolveValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
             console.log('Executing DISSOLVE transaction', dissolveTransaction);
@@ -278,17 +280,17 @@ function build_corporations(corporations){
 	console.log('Building corporation table');
 	var html = '';
 	for(var i in corporations){
-		console.log(corporations[i].name + " " + corporations[i].number);
+		console.log(corporations[i].name.substring(0,delimiterlength) + " " + corporations[i].number.substring(0,delimiterlength));
 		var style = ' ';
 			html += '<tr class="' + style + '">';
-			html +=		'<td>' + corporations[i].name + '</td>';
-			html +=		'<td>' + corporations[i].number + '</td>';
-			html +=		'<td>' + corporations[i].date + '</td>';
-			html +=		'<td>' + corporations[i].jurisdiction + '</td>';
-			html +=		'<td>' + corporations[i].directorName + '</td>';
-			html +=		'<td>' + corporations[i].email + '</td>';
-			html +=		'<td>' + corporations[i].address + '</td>';
-			html +=		'<td>' + corporations[i].status + '</td>';
+			html +=		'<td>' + corporations[i].name.substring(0,corporations[i].name.length - delimiterlength) + '</td>';
+			html +=		'<td>' + corporations[i].number.substring(0,corporations[i].number.length - delimiterlength) + '</td>';
+			html +=		'<td>' + corporations[i].date.substring(0,corporations[i].date.length - delimiterlength) + '</td>';
+			html +=		'<td>' + corporations[i].jurisdiction.substring(0,corporations[i].jurisdiction.length - delimiterlength) + '</td>';
+			html +=		'<td>' + corporations[i].directorName.substring(0,corporations[i].directorName.length - delimiterlength) + '</td>';
+			html +=		'<td>' + corporations[i].email.substring(0,corporations[i].email.length - delimiterlength) + '</td>';
+			html +=		'<td>' + corporations[i].address.substring(0,corporations[i].address.length - delimiterlength) + '</td>';
+			html +=		'<td>' + corporations[i].status.substring(0,corporations[i].status.length - delimiterlength) + '</td>';
 			html +=		'<td></td>';
 			html += '</tr>';
 	}

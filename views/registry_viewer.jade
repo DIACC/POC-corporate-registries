@@ -3,7 +3,7 @@ extends ./template/layout_registry_viewer.jade
 	
 // --------------- Header -------------- //
 block custom_header
-	script(src='/js/registries.js?v=#{bag.jshash}')
+	script(src='/js/registries_viewer.js?v=#{bag.jshash}')
 	script(src='/js/blockchain.js?v=#{bag.jshash}')
 	script(type='text/javascript').
 		$(document).ready(function(){
@@ -17,7 +17,10 @@ block navigation
 block content
 	#contentPanel
 		// --------------- Register Panel
-		include ./panel_viewer.jade
+		include ./panel_transactions.jade
+	#contentPanel
+		// --------------- Corporations Panel
+		include ./panel_corporations.jade
 		
 block footer
 	include ./template/diaccfooter.jade

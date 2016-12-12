@@ -53,14 +53,21 @@ function new_block(newblck){									//rec a new block
 		}
 		blocks[Number(newblck.id)] = newblck;
 		console.log('New block has this data: ', newblck);
-		var payload = atob(newblck.blockstats.transactions[0].payload);
 		console.log('blockstats:', newblck.blockstats);
 		
-		console.log('transaction:', newblck.blockstats.transactions[0]);
-		console.log('payload:',payload);
-		
-		console.log('data:',data);
-		
+		var payload = atob(newblck.blockstats.transactions[0].payload);
+
+		if (payload) {
+			console.log('transaction:', newblck.blockstats.transactions[0]);
+			console.log('payload:',payload);
+			//var payloadItems = payload.split("\x0A");
+			var payloadItems = payload.split("--");
+			
+			for (i=0;i<payloadItems.length;i++)
+			{
+				console.log(i + " " + payloadItems[i].substring(1) + "");
+			}
+		}
 		build_block(newblck.id);								//build block
 	}
 }
