@@ -1,8 +1,8 @@
 var ws = {};
 
 var corporations = '';
-var delimiter = "--";
-var delimiterlength = 2;
+var delimiter = "";
+var delimiterlength = 0;
 
 // =================================================================================
 // On Load
