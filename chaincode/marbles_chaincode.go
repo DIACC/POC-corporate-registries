@@ -502,7 +502,7 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 
 	if index == -1 {
 		errorBytes := []byte(`{"error": "error"}`)
-		// jsonResp := "{\"Error\":\"Failed to find corporation with given name and jurisdiction.\"}"
+		jsonResp := "{\"Error\":\"Failed to find corporation with given name and jurisdiction.\"}"
 		return errorBytes, nil
 	}
 
