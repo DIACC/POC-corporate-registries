@@ -432,8 +432,7 @@ func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []stri
 	// store marshalled byte array into KVS
 	err = stub.PutState(corporationIndexStr, jsonCorporationAsBytes)
 	if err != nil {
-		errorBytes := []byte(`{"error": "error"}`)
-		return errorBytes, err
+		return nil, err
 	}
 	
 	return nil, nil
@@ -452,8 +451,7 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 	var err error
 	
 	if len(args) != 3 {
-		errorBytes := []byte(`{"error": "error"}`)
-		return errorBytes, errors.New("Incorrect number of arguments. Expecting 3")
+		return nil, errors.New("Incorrect number of arguments. Expecting 3")
 	}
 
 	//input sanitation
@@ -484,9 +482,8 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 	corporationsAsBytes, err := stub.GetState(corporationIndexStr)
 
 	if err != nil {
-		errorBytes := []byte(`{"error": "error"}`)
 		jsonResp := "{\"Error\":\"Failed to get array of all corporations (to which to add our new register entry).\"}"
-		return errorBytes, errors.New(jsonResp)
+		return nil, errors.New(jsonResp)
 	}
 
 	json.Unmarshal(corporationsAsBytes, &corporations)
@@ -501,7 +498,9 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 	}
 
 	if index == -1 {
+
 		errorBytes := []byte(`{"error": "error"}`)
+
 		jsonResp := "{\"Error\":\"Failed to find corporation with given name and jurisdiction.\"}"
 		return errorBytes, errors.New(jsonResp)
 	}
@@ -520,8 +519,7 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 	// store marshalled byte array into KVS
 	err = stub.PutState(corporationIndexStr, jsonCorporationAsBytes)
 	if err != nil {
-		errorBytes := []byte(`{"error": "error"}`)
-		return errorBytes, err
+		return nil, err
 	}
 	
 	return nil, nil
@@ -541,8 +539,7 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 	var err error
 	
 	if len(args) != 4 {
-		errorBytes := []byte(`{"error": "error"}`)
-		return errorBytes, errors.New("Incorrect number of arguments. Expecting 4")
+		return nil, errors.New("Incorrect number of arguments. Expecting 4")
 	}
 
 	//input sanitation
@@ -574,9 +571,8 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 	corporationsAsBytes, err := stub.GetState(corporationIndexStr)
 
 	if err != nil {
-		errorBytes := []byte(`{"error": "error"}`)
 		jsonResp := "{\"Error\":\"Failed to get array of all corporations.\"}"
-		return errorBytes, errors.New(jsonResp)
+		return nil, errors.New(jsonResp)
 	}
 
 	json.Unmarshal(corporationsAsBytes, &corporations)
@@ -591,9 +587,8 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 	}
 
 	if index == -1 {
-		errorBytes := []byte(`{"error": "error"}`)
 		jsonResp := "{\"Error\":\"Failed to find corporation with given name and jurisdiction.\"}"
-		return errorBytes, errors.New(jsonResp)
+		return nil, errors.New(jsonResp)
 	}
 
 	// change all values for report
@@ -613,8 +608,7 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 	// store marshalled byte array into KVS
 	err = stub.PutState(corporationIndexStr, jsonCorporationAsBytes)
 	if err != nil {
-		errorBytes := []byte(`{"error": "error"}`)
-		return errorBytes, err
+		return nil, err
 	}
 	
 	return nil, nil
@@ -633,8 +627,7 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 	var err error
 	
 	if len(args) != 3 {
-		errorBytes := []byte(`{"error": "error"}`)
-		return errorBytes, errors.New("Incorrect number of arguments. Expecting 2")
+		return nil, errors.New("Incorrect number of arguments. Expecting 2")
 	}
 
 	//input sanitation
@@ -665,9 +658,8 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 	corporationsAsBytes, err := stub.GetState(corporationIndexStr)
 
 	if err != nil {
-		errorBytes := []byte(`{"error": "error"}`)
 		jsonResp := "{\"Error\":\"Failed to get array of all corporations (to which to add our new register entry).\"}"
-		return errorBytes, errors.New(jsonResp)
+		return nil, errors.New(jsonResp)
 	}
 
 	json.Unmarshal(corporationsAsBytes, &corporations)
@@ -682,9 +674,8 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 	}
 
 	if index == -1 {
-		errorBytes := []byte(`{"error": "error"}`)
 		jsonResp := "{\"Error\":\"Failed to find corporation with given name and jurisdiction.\"}"
-		return errorBytes, errors.New(jsonResp)
+		return nil, errors.New(jsonResp)
 	}
 
 	// change status to "dissolved"
@@ -701,8 +692,7 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 	// store marshalled byte array into KVS
 	err = stub.PutState(corporationIndexStr, jsonCorporationAsBytes)
 	if err != nil {
-		errorBytes := []byte(`{"error": "error"}`)
-		return errorBytes, err
+		return nil, err
 	}
 	
 	return nil, nil
