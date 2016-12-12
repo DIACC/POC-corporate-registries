@@ -529,17 +529,14 @@ func (t *SimpleChaincode) nameChange(stub shim.ChaincodeStubInterface, args []st
 // args
 // [0]Jurisdiction
 // [1]Name
-// [2]Number
-// [3]DirectorName
-// [4]Address
-// [5]Email
-// [6]Date
+// [2]Address
+// [3]Date
 func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var err error
 	
-	if len(args) != 7 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 7")
+	if len(args) != 4 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 4")
 	}
 
 	//input sanitation
@@ -551,11 +548,8 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 
 	jurisdiction := args[0]
 	name := args[1]
-	number := args[2]
-	directorName := args[3]
-	address := args[4]
-	email := args[5]
-	date := args[6]
+	address := args[2]
+	date := args[3]
 
 	// // create object to store
 	// var corporation = Corporation{
@@ -596,11 +590,9 @@ func (t *SimpleChaincode) report(stub shim.ChaincodeStubInterface, args []string
 
 	// change all values for report
 	var corporation = corporations[index]
+	corporation.Jurisdiction = jurisdiction
 	corporation.Name = name
-	corporation.Number = number
-	corporation.DirectorName = directorName
 	corporation.Address = address
-	corporation.Email = email
 	corporation.Date = date
 
 	// store corporation back into array
