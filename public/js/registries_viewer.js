@@ -107,22 +107,22 @@ function build_transactions(transactions){
 		var data = '';
         
         if (transactions[i].corporationNumber) {
-            data += 'Corporation Number: ' + transactions[i].corporationNumber + '<br>';
+            data += '' + transactions[i].corporationNumber + '<br>';
         }
         if (transactions[i].directorName) {
-            data += 'Director Name: ' + transactions[i].directorName + '<br>';
+            data += '' + transactions[i].directorName + '<br>';
         }
         if (transactions[i].address) {
-            data += 'Address: ' + transactions[i].address + '<br>';
+            data += '' + transactions[i].address + '<br>';
         }
         if (transactions[i].email) {
-            data += 'Email: ' + transactions[i].email + '<br>';
+            data += '' + transactions[i].email + '<br>';
         }
         if (transactions[i].date) {
-            data += 'Date: ' + transactions[i].date + '<br>';
+            data += '' + transactions[i].date + '<br>';
         }
         if (transactions[i].status) {
-            data += 'Status: ' + transactions[i].status + '<br>';
+            data += '' + transactions[i].status + '<br>';
         }
         
 		var style = ' ';
@@ -138,11 +138,8 @@ function build_transactions(transactions){
 	}
 	if(html === '') html = '<tr><td>nothing here...</td><td></td><td></td><td></td><td></td><td></td></tr>';
     
-    //var existingHtml = document.getElementById('#myTransactionsBody');
-    //console.log($('#myTransactionsBody').innerHTML);
-    //var existingHtml = 'hello!!';
-	//$('#myTransactionsBody').html(html+existingHtml);
-    $('#myTransactionsBody').append(html);
+    //$('#myTransactionsBody').append(html);
+    $('#myTransactionsBody').prepend(html);
 }
 
 function build_corporations(corporations){
