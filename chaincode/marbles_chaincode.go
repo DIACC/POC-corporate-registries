@@ -391,14 +391,14 @@ func (t *SimpleChaincode) register(stub shim.ChaincodeStubInterface, args []stri
 	// 	return nil, errors.New("1st argument must be a non-empty string")
 	// }
 
-	jurisdiction := strings.ToLower(args[0])
-	name := strings.ToLower(args[1])
-	number := strings.ToLower(args[2])
-	directorName := strings.ToLower(args[3])
-	address := strings.ToLower(args[4])
-	email := strings.ToLower(args[5])
-	date := strings.ToLower(args[6])
-	status := strings.ToLower(args[7])
+	jurisdiction := args[0]
+	name := args[1]
+	number := args[2]
+	directorName := args[3]
+	address := args[4]
+	email := args[5]
+	date := args[6]
+	status := args[7]
 
 	// create object to store
 	var corporation = Corporation{
