@@ -4,68 +4,61 @@
 		p The corporate registries viewer allows you to view the transactions that have occurred for corporations across jurisdictions.  In addition you may filter by jurisdiction or by corporate name.
 	form(action="/filter" method="POST")#filterform
 	div(class="row")
-		div(class="twelve columns")
+		div(class="four columns")
+			b Filter by Corporate Name:
+			br
+			input(type="text" id="corporateNameTransactionsFilter" onkeyup="filterTransactionsByCorporation()" placeholder="Corporate Name...")
+			br
+			p
 			b Filter by Jurisdiction:
 			br
 			input(type="checkbox" name="selectAll" id="selectAllJurisdictions" onclick="selectAllJurisdictions()" checked)
 			b  Select All
 			br
-	div(class="row")
-			div(class="four columns")
-				input(type="checkbox" name="AB" id="AB" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Alberta
-				br
-				input(type="checkbox" name="BC" id="BC" onclick="filterTransactionsByJurisdiction()" checked)
-				|  British Columbia
-				br
-				input(type="checkbox" name="MB" id="MB" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Manitoba
-				br
-				input(type="checkbox" name="NB" id="NB" onclick="filterTransactionsByJurisdiction()" checked)
-				|  New Brunswick
-				br
-				input(type="checkbox" name="NL" id="NL" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Newfoundland and Labrador
-				br
-
-			div(class="four columns")
-				input(type="checkbox" name="NT" id="NT" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Northwest Territories
-				br
-				input(type="checkbox" name="NS" id="NS" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Nova Scotia
-				br
-				input(type="checkbox" name="NU" id="NU" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Nunavut
-				br
-				input(type="checkbox" name="ON" id="ON" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Ontario
-				br
-				input(type="checkbox" name="PE" id="PE" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Prince Edward Island
-				br
-			div(class="four columns")
-				input(type="checkbox" name="QC" id="QC" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Quebec
-				br
-				input(type="checkbox" name="SK" id="SK" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Saskatchewan
-				br
-				input(type="checkbox" name="YT" id="YT" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Yukon
-				br
-				input(type="checkbox" name="FED" id="FED" onclick="filterTransactionsByJurisdiction()" checked)
-				|  Federal Government
-				br
-		p
-		div(class="row")
-			div(class="twelve columns")
-				b Filter by Corporate Name:
-				br
-				legend
-					input(type="text" id="corporateNameTransactionsFilter" onkeyup="filterTransactionsByCorporation()" placeholder="Corporate Name..." class="u-full-width")
-		p
-		table#registryTransactionsTable
+			input(type="checkbox" name="AB" id="AB" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Alberta
+			br
+			input(type="checkbox" name="BC" id="BC" onclick="filterTransactionsByJurisdiction()" checked)
+			|  British Columbia
+			br
+			input(type="checkbox" name="MB" id="MB" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Manitoba
+			br
+			input(type="checkbox" name="NB" id="NB" onclick="filterTransactionsByJurisdiction()" checked)
+			|  New Brunswick
+			br
+			input(type="checkbox" name="NL" id="NL" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Newfoundland and Labrador
+			br
+			input(type="checkbox" name="NT" id="NT" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Northwest Territories
+			br
+			input(type="checkbox" name="NS" id="NS" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Nova Scotia
+			br
+			input(type="checkbox" name="NU" id="NU" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Nunavut
+			br
+			input(type="checkbox" name="ON" id="ON" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Ontario
+			br
+			input(type="checkbox" name="PE" id="PE" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Prince Edward Island
+			br
+			input(type="checkbox" name="QC" id="QC" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Quebec
+			br
+			input(type="checkbox" name="SK" id="SK" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Saskatchewan
+			br
+			input(type="checkbox" name="YT" id="YT" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Yukon
+			br
+			input(type="checkbox" name="FED" id="FED" onclick="filterTransactionsByJurisdiction()" checked)
+			|  Federal Government
+			br
+		div(class="eight columns")
+			table#registryTransactionsTable
 				thead
 					tr 
 						th Corporate Name
@@ -76,6 +69,5 @@
 						th Timestamp 
 						th &nbsp;
 				tbody#myTransactionsBody
-	
-		p
-		br
+
+			
