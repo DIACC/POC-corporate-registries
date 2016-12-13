@@ -12,7 +12,7 @@
 			br
 	div(class="row")
 			div(class="four columns")
-				input(type="checkbox" name="#{bag.setup.USER1}")
+				input(type="checkbox" name="#{bag.setup.USER1}" onclick="filterTransactionsByProvince()")
 				|  #{bag.setup.USER1longname}
 				br
 				input(type="checkbox" name="BC")
@@ -63,7 +63,7 @@
 				b Filter by Corporate Name:
 				br
 				legend
-					input(type="text" id="corporateNameFilter" onkeyup="filterCorporation()" placeholder="Corporate Name..." class="u-full-width")
+					input(type="text" id="corporateNameTransactionsFilter" onkeyup="filterTransactionsByCorporation()" placeholder="Corporate Name..." class="u-full-width")
 		p
 		table#registryTransactionsTable
 				thead

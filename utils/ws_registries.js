@@ -1,6 +1,5 @@
 var fs = require('fs');
 var Buffer = require('buffer').Buffer;
-var dateFormat = require('dateformat');
 
 // ==================================
 // Registries - incoming messages, look for type
@@ -62,10 +61,7 @@ module.exports.process_msg = function(ws, data){
                         if (stats.transactions) {
                         	var payload = new Buffer(stats.transactions[0].payload, 'base64').toString('ascii'); // Ta-da!
                             var unixtimestamp = stats.nonHashData.localLedgerCommitTimestamp.seconds;
-                            var datetime = new Date(unixtimestamp);
-                            //datetime.setSeconds( unixtimestamp );
-                            //var timestamp = dateFormat(datetime, "dd-mm-yyyy hh:MM:ss");
-                            var timestamp = unixtimestamp;
+                            var timestamp = timeConverter(unixtimestamp);
             				var block = block_height;
 	         				console.log("Formatted Timestamp: ", timestamp);
                         	if (payload) {
@@ -251,3 +247,16 @@ module.exports.process_msg = function(ws, data){
 		}
 	}
 };
+
+function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp * 1000);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return time;
+}

@@ -15,6 +15,12 @@ $(document).on('ready', function() {
 		// Get the corporations on webpage load
 		ws.send(JSON.stringify({type: 'get_corporations'}));
 	});
+    
+    	// load the list of transactions
+	$('#transactionsLink').click(function(){
+		// Get the corporations on webpage load
+		ws.send(JSON.stringify({type: 'get_transactions'}));
+	});
 
 });
 
@@ -168,11 +174,11 @@ function build_corporations(corporations){
 }
 
 
-function filterCorporation() {
+function filterTransactionsByCorporation() {
 	  console.log("Filter the results!!");
 	  // Declare variables
 	  var input, filter, table, tr, td, i;
-	  input = document.getElementById("corporationNameFilter");
+	  input = document.getElementById("corporateNameTransactionsFilter");
 	  filter = input.value.toUpperCase();
 	  table = document.getElementById("registryTransactionsTable");
 	  tr = table.getElementsByTagName("tr");
@@ -190,7 +196,29 @@ function filterCorporation() {
 	  }
 	}
 
-function filterProvinces() {
+function filterCorporationsByName() {
+	  console.log("Filter by corporationName");
+	  // Declare variables
+	  var input, filter, table, tr, td, i;
+	  input = document.getElementById("corporateNameFilter");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("corporationsTable");
+	  tr = table.getElementsByTagName("tr");
+
+	  // Loop through all table rows, and hide those who don't match the search query
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("td")[0];
+	    if (td) {
+	      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	        tr[i].style.display = "";
+	      } else {
+	        tr[i].style.display = "none";
+	      }
+	    }
+	  }
+	}
+
+function filterTransactionsByProvince() {
 	console.log('Filter by jurisdiction!');
 	var input, filter, table, tr, td, i;
 	  //input = document.getElementById("myInput");
