@@ -62,9 +62,10 @@ module.exports.process_msg = function(ws, data){
                         if (stats.transactions) {
                         	var payload = new Buffer(stats.transactions[0].payload, 'base64').toString('ascii'); // Ta-da!
                             var unixtimestamp = stats.nonHashData.localLedgerCommitTimestamp.seconds;
-                            var datetime = new Date();
-                            datetime.setSeconds( unixtimestamp );
-                            var timestamp = dateFormat(datetime, "dd-mm-yyyy hh:MM:ss");
+                            var datetime = new Date(unixtimestamp);
+                            //datetime.setSeconds( unixtimestamp );
+                            //var timestamp = dateFormat(datetime, "dd-mm-yyyy hh:MM:ss");
+                            var timestamp = unixtimestamp;
             				var block = block_height;
 	         				console.log("Formatted Timestamp: ", timestamp);
                         	if (payload) {
