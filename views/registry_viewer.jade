@@ -4,6 +4,7 @@ extends ./template/layout_registry_viewer.jade
 // --------------- Header -------------- //
 block custom_header
 	script(src='/js/registries_viewer.js?v=#{bag.jshash}')
+	script(src='/js/filters.js')
 	script(type='text/javascript').
 		$(document).ready(function(){
 		});
