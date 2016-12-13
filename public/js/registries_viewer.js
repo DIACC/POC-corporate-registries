@@ -107,39 +107,42 @@ function build_transactions(transactions){
 		var data = '';
         
         if (transactions[i].corporationNumber) {
-            data += '' + transactions[i].corporationNumber + '<br>';
+            data += '' + transactions[i].corporationNumber + ' ';
         }
         if (transactions[i].directorName) {
-            data += '' + transactions[i].directorName + '<br>';
+            data += '' + transactions[i].directorName + ' ';
         }
         if (transactions[i].address) {
-            data += '' + transactions[i].address + '<br>';
+            data += '' + transactions[i].address + ' ';
         }
         if (transactions[i].email) {
-            data += '' + transactions[i].email + '<br>';
+            data += '' + transactions[i].email + ' ';
         }
         if (transactions[i].date) {
-            data += '' + transactions[i].date + '<br>';
+            data += '' + transactions[i].date + ' ';
         }
         if (transactions[i].status) {
-            data += '' + transactions[i].status + '<br>';
+            data += '' + transactions[i].status + ' ';
+        }
+        if (transactions[i].type == 'Name Change') {
+            //data +='' + transactions
         }
         
 		var style = ' ';
 			html += '<tr class="' + style + '">';
-			html +=		'<td>' + transactions[i].timestamp + '</td>';
 			html +=		'<td>' + transactions[i].corporationName + '</td>';
 			html +=		'<td>' + transactions[i].jurisdiction + '</td>';
 			html +=		'<td>' + transactions[i].transactionType + '</td>';
 			html +=		'<td>' + data + '</td>';
 			html +=		'<td>' + transactions[i].block + '</td>';
+            html +=		'<td>' + transactions[i].timestamp + '</td>';
 			html +=		'<td></td>';
 			html += '</tr>';
 	}
 	if(html === '') html = '<tr><td>nothing here...</td><td></td><td></td><td></td><td></td><td></td></tr>';
     
-    //$('#myTransactionsBody').append(html);
-    $('#myTransactionsBody').prepend(html);
+    $('#myTransactionsBody').append(html);
+    //$('#myTransactionsBody').prepend(html);
 }
 
 function build_corporations(corporations){

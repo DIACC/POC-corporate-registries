@@ -1,5 +1,6 @@
 var fs = require('fs');
 var Buffer = require('buffer').Buffer;
+var dateFormat = require('dateformat');
 
 // ==================================
 // Registries - incoming messages, look for type
@@ -54,55 +55,74 @@ module.exports.process_msg = function(ws, data){
 				list.push(i);
 				if(list.length >= 100) break;
 			}
-			list.reverse();																//flip it so order is correct in UI
+			//list.reverse();																//flip it so order is correct in UI
 			async.eachLimit(list, 1, function(block_height, cb) {						//iter through each one, and send it
 				ibc.block_stats(block_height, function(e, stats){
 					if(e == null){
                         if (stats.transactions) {
                         	var payload = new Buffer(stats.transactions[0].payload, 'base64').toString('ascii'); // Ta-da!
-            				var timestamp = stats.nonHashData.localLedgerCommitTimestamp.seconds;
+                            var unixtimestamp = stats.nonHashData.localLedgerCommitTimestamp.seconds;
+                            var datetime = new Date();
+                            datetime.setSeconds( unixtimestamp );
+                            var timestamp = dateFormat(datetime, "dd-mm-yyyy hh:MM:ss");
             				var block = block_height;
 	         				console.log("Formatted Timestamp: ", timestamp);
                         	if (payload) {
-            					var payloadItems = payload.split("\x0A");
-
-            					for (i=0;i<payloadItems.length;i++) {
-            						console.log(i + " REGISTRY VIEWER " + payloadItems[i].substring(1));
+            					console.log('REGISTRY Payload: ' + payload);
+                                var payloadArray = payload.split("\x0A");
+                                var payloadItems = [];
+                                
+                                // remove empty lines
+            					for (i=0;i<payloadArray.length;i++) {
+                                    if (payloadArray[i]) {
+                                        payloadItems.push(payloadArray[i]);
+                                    }
             					}
-        						if (payloadItems[2].substring(1)==='register') {
+                                // Print out the array
+                                /*for (i=0;i<payloadItems.length;i++) {
+            						console.log(i + " REGISTRY VIEWER " + payloadItems[i]);
+            					}*/
+                                console.log("contains register?" + payloadItems[1].indexOf('register'));
+                                console.log("contains report?" + payloadItems[1].indexOf('report'));
+                                console.log("contains nameChange?" + payloadItems[1].indexOf('nameChange'));
+                                console.log("contains dissolve?" + payloadItems[1].indexOf('dissolve'));
+                                
+        						if (payloadItems[1].indexOf('register') !== -1) {
         							var transactionType = 'Register';
-        							var jurisdiction = payloadItems[3].substring(1);
-        							var corporationName = payloadItems[4].substring(1);
-        							var corporationNumber = payloadItems[5].substring(1);
-        							var directorName = payloadItems[6].substring(1);
-        							var address = payloadItems[7].substring(1);
-        							var email = payloadItems[8].substring(1);
-        							var date = payloadItems[9].substring(1);
-        							var status = payloadItems[10].substring(1);
+        							var jurisdiction = payloadItems[2];
+        							var corporationName = payloadItems[3];
+        							var corporationNumber = payloadItems[4];
+        							var directorName = payloadItems[5];
+        							var address = payloadItems[6];
+        							var email = payloadItems[7];
+        							var date = payloadItems[8];
+        							var status = payloadItems[9];
 
-        							console.log(" Register Transaction ");
+        							console.log(" Register Transaction " );
         							var message = {
         									msg: 'transactions', 
         									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"corporationNumber":corporationNumber,"directorName":directorName,"address":address,"email":email,"date":date,"status":status, "block":block}]
         								};
         							sendMsg(message);
                 				}
-        						else if (payloadItems[2].substring(1)==='nameChange') {
+        						else if (payloadItems[1].indexOf('nameChange') !== -1) {
         							console.log(" Name Change ");
         							var transactionType = 'Name Change';
-        							/*var message = {
+        							var jurisdiction = payloadItems[2];
+        							var corporationName = payloadItems[4];
+        							var message = {
         									msg: 'transactions', 
-        									transactions: [{"datetime":payloadItems[9].substring(1),"jurisdiction":payloadItems[3].substring(1),"transactionType":"Name Change"}]
-        								};
-        							sendMsg(message);*/
+        									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName, "block":block}]
+           								};
+        							sendMsg(message);
         						}
-        						else if (payloadItems[2].substring(1)==='report') {
+        						else if (payloadItems[1].indexOf('report') !== -1) {
         							console.log(" Report Transaction ");
         							var transactionType = 'Report';
-        							var jurisdiction = payloadItems[3].substring(1);
-        							var corporationName = payloadItems[4].substring(1);
-        							var address = payloadItems[5].substring(1);
-        							var date = payloadItems[6].substring(1);
+        							var jurisdiction = payloadItems[2];
+        							var corporationName = payloadItems[3];
+        							var address = payloadItems[4];
+        							var date = payloadItems[5];
         							var message = {
         									msg: 'transactions', 
         									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"address":address,"date":date,"status":status, "block":block}]
@@ -110,11 +130,11 @@ module.exports.process_msg = function(ws, data){
         							sendMsg(message);
 
                 				}
-        						else if (payloadItems[2].substring(1)==='dissolve') {
+        						else if (payloadItems[1].indexOf('dissolve') !== -1) {
         							console.log(" Dissolve Transaction ");
-        							var jurisdiction = payloadItems[3].substring(1);
-        							var corporationName = payloadItems[4].substring(1);
-        							var status = payloadItems[5].substring(1);
+        							var jurisdiction = payloadItems[2];
+        							var corporationName = payloadItems[3];
+        							var status = payloadItems[4];
         							var transactionType = 'Dissolve';
         							var data = '';
 
@@ -126,9 +146,6 @@ module.exports.process_msg = function(ws, data){
                 				}
             				}
                         }
-						stats.height = block_height;
-						//sendMsg({msg: 'chainstats', e: e, chainstats: chain_stats, blockstats: stats});
-                        console.log('blockheight',stats.height);
                         console.log('stats',stats);
                         
 					}
