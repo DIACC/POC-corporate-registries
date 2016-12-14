@@ -39,6 +39,10 @@ module.exports.process_msg = function(ws, data){
 		console.log("Get corporations from ws_registries");
 		chaincode.query.readAll(['_corporationIndex'], cb_got_corporations);
 	}
+    else if(data.type == 'get_transactions'){
+		console.log('Get Transactions');
+		ibc.chain_stats(cb_chainstats);
+	}
 	else if(data.type == 'chainstats'){
 		console.log('chainstats msg');
 		ibc.chain_stats(cb_chainstats);
@@ -54,7 +58,7 @@ module.exports.process_msg = function(ws, data){
 				list.push(i);
 				if(list.length >= 100) break;
 			}
-			//list.reverse();																//flip it so order is correct in UI
+			list.reverse();																//flip it so order is correct in UI
 			async.eachLimit(list, 1, function(block_height, cb) {						//iter through each one, and send it
 				ibc.block_stats(block_height, function(e, stats){
 					if(e == null){
@@ -107,9 +111,10 @@ module.exports.process_msg = function(ws, data){
         							var transactionType = 'Name Change';
         							var jurisdiction = payloadItems[2];
         							var corporationName = payloadItems[4];
+                                    var oldName = payloadItems[3];
         							var message = {
         									msg: 'transactions', 
-        									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName, "block":block}]
+        									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName, "oldName":oldName, "block":block}]
            								};
         							sendMsg(message);
         						}

@@ -19,7 +19,7 @@ $(document).on('ready', function() {
     // load the list of transactions
     $('#transactionsLink').click(function(){
         // Get the corporations on webpage load
-        ws.send(JSON.stringify({type: 'get_transactions'}));
+        //ws.send(JSON.stringify({type: 'get_transactions'}));
     });
 
 });
@@ -47,11 +47,8 @@ function connect_to_server(){
         connected = true;
         clear_blocks();
         $('#errorNotificationPanel').fadeOut();
+        $('#statusMessage').html('Connected!');
 
-        // Get chain stats
-        ws.send(JSON.stringify({type: 'chainstats', v:2}));
-
-        // Registry Code
         // Get the transactions on webpage load
         ws.send(JSON.stringify({type: 'get_transactions'}));
 
@@ -87,12 +84,13 @@ function connect_to_server(){
 
     function onError(evt){
         console.log('ERROR ', evt);
-        if(!connected && bag.e == null){											//don't overwrite an error message
+        if(!connected == null){											//don't overwrite an error message
             $('#errorName').html('Warning');
             $('#errorNoticeText').html('Waiting on the node server to open up so we can talk to the blockchain. ');
             $('#errorNoticeText').append('This app is likely still starting up. ');
             $('#errorNoticeText').append('Check the server logs if this message does not go away in 1 minute. ');
             $('#errorNotificationPanel').fadeIn();
+            $('#statusMessage').html('Warning: Not connected.');
         }
     }
 }
@@ -130,9 +128,12 @@ function build_transactions(transactions){
         if (transactions[i].status) {
             data += '' + transactions[i].status + ' ';
         }
-        if (transactions[i].type == 'Name Change') {
-            //data +='' + transactions
+        
+        if (transactions[i].oldName) {
+            data += 'Old Name: ' + transactions[i].oldName;
         }
+        
+
 
         var style = ' ';
         html += '<tr class="' + style + '">';
@@ -147,8 +148,8 @@ function build_transactions(transactions){
     }
     if(html === '') html = '<tr><td>nothing here...</td><td></td><td></td><td></td><td></td><td></td></tr>';
 
-    $('#myTransactionsBody').append(html);
-    //$('#myTransactionsBody').prepend(html);
+    //$('#myTransactionsBody').append(html);
+    $('#myTransactionsBody').prepend(html);
 }
 
 function build_corporations(corporations){

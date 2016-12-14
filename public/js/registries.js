@@ -152,14 +152,14 @@ function connect_to_server(){
 		$('#errorNotificationPanel').fadeOut();
 		
 		// Get chain stats
-		ws.send(JSON.stringify({type: 'chainstats', v:2}));
+		//ws.send(JSON.stringify({type: 'chainstats', v:2}));
 		
 		// Registry Code
 		// Get the transactions on webpage load
-		ws.send(JSON.stringify({type: 'get_transactions'}));
+		//ws.send(JSON.stringify({type: 'get_transactions'}));
 		
 		// Get the corporations on webpage load
-		ws.send(JSON.stringify({type: 'get_corporations'}));
+		//ws.send(JSON.stringify({type: 'get_corporations'}));
 	}
 
 	function onClose(evt){
