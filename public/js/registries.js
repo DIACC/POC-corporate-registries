@@ -173,7 +173,6 @@ function connect_to_server(){
         connected = true;
 
         $('#connectionStatusMessage').fadeOut();
-        $('#connectionStatusMessage').html('');
 
         // Get the corporations on webpage load
         ws.send(JSON.stringify({type: 'get_corporations'}));
@@ -252,13 +251,13 @@ function connect_to_server(){
 
     function onError(evt){
         console.log('ERROR ', evt);
-        if(!connected == null){											//don't overwrite an error message
+        if(!connected){											//don't overwrite an error message
             /*$('#errorName').html('Warning');
 			$('#errorNoticeText').html('Waiting on the node server to open up so we can talk to the blockchain. ');
 			$('#errorNoticeText').append('This app is likely still starting up. ');
 			$('#errorNoticeText').append('Check the server logs if this message does not go away in 1 minute. ');
 			$('#errorNotificationPanel').fadeIn();*/
-            $('#connectionStatusMessage').html('Warning: Waiting on the node server to open up so we can talk to the blockchain. The app is likely still starting up. Check the server logs if this message does not go away in 1 minute.');
+            $('#connectionStatusMessage').html('<b>Warning:</b> Waiting on the node server to open up so we can talk to the blockchain. The app is likely still starting up. Check the server logs if this message does not go away in 1 minute.');
 
         }
     }
