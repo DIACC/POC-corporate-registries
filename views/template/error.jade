@@ -1,4 +1,4 @@
-extends ./layout.jade
+extends ./layout_diacc.jade
 	
 	
 // --------------- Header -------------- //
@@ -7,19 +7,18 @@ block custom_header
 		$(document).ready(function(){
 			
 		});
-		
-		
-// --------------- Navigation Bar  -------------- //
-block navpanel
-	#logo Marbles P?
-	
-	
+
+block navigation
+	include ./nav_diacc.jade
+
+
 // --------------- Main Stuff  -------------- //
 block content
 	#contentPanel
-		
-		h1 Error: #{bag.error.status}
-		center
-			h2 #{bag.error.msg}
-			
 		hr
+		// --------------- Home Panel
+		p Error: page does not exist
+		
+		
+block footer
+	include ./diaccfooter.jade
