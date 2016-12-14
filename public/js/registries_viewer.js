@@ -59,6 +59,7 @@ function connect_to_server(){
     function onClose(evt){
         console.log('WS DISCONNECTED', evt);
         connected = false;
+        $('#connectionStatusMessage').fadeIn();
         setTimeout(function(){ connect(); }, 5000);					//try again one more time, server restarts are quick
     }
 
