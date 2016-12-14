@@ -117,7 +117,11 @@ $(document).on('ready', function() {
         return false;
     });
 
-
+    $('#loadDemoData').click(function(){
+        // Load Sample Demo Data
+        ws.send(JSON.stringify({type: 'load_demo_data'}));
+    });
+    
 });
 
 // ===========================
@@ -189,11 +193,11 @@ function connect_to_server(){
         // Registry Code
         try {
             var msgObj = JSON.parse(msg.data);
-            if(msgObj.msg === 'transactions'){
+            /*if(msgObj.msg === 'transactions'){
                 console.log('transactions', msgObj.msg, msgObj);
-                build_transactions(msgObj.transactions);
+                //build_transactions(msgObj.transactions);
             }
-            else if(msgObj.msg === 'register') {
+            else */if(msgObj.msg === 'register') {
                 console.log('register!!!', msgObj.msg, msgObj);
                 //document.getElementById("register").reset();
                 //$('#registerValidationMessage').html('');
@@ -237,9 +241,6 @@ function connect_to_server(){
                 console.log('corporations', msgObj.msg, msgObj);
                 //build_corporations(msgObj.corporations);
                 corporations = msgObj.corporations;
-                for(var i in corporations) {
-                    console.log('Corporations: ', corporations[i].name);
-                }
             }
         }
         catch(e){

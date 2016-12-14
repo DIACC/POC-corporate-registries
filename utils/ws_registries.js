@@ -12,73 +12,133 @@ var delimiter = "";
 var delimiterlength = 0;
 
 module.exports.setup = function(sdk, cc){
-	ibc = sdk;
-	chaincode = cc;
+    ibc = sdk;
+    chaincode = cc;
 };
 
 module.exports.process_msg = function(ws, data){
-	// Registry Code
-	if (data.type == 'register' + delimiter) {
-		console.log('[ws info] Register', data);
-		chaincode.invoke.register([data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date, data.status], cb_register);
-	}
-	else if (data.type == 'nameChange'  + delimiter) {
-		console.log('[ws info] Name Change', data);
-		chaincode.invoke.nameChange([data.jurisdiction, data.name, data.newName], cb_nameChange);
-	}
-	else if (data.type == 'report'  + delimiter) {
-		console.log('[ws info] Report', data);
-		chaincode.invoke.report([data.jurisdiction, data.name, data.address, data.date], cb_report);
-		cb_report();
-	}
-	else if (data.type == 'dissolve'  + delimiter) {
-		console.log('[ws info] Dissolve', data);
-		chaincode.invoke.dissolve([data.jurisdiction, data.name, data.status], cb_dissolve);
-	}
-	else if (data.type == 'get_corporations') {
-		console.log("Get corporations from ws_registries");
-		chaincode.query.readAll(['_corporationIndex'], cb_got_corporations);
-	}
+    // Registry Code
+    if (data.type == 'register' + delimiter) {
+        console.log('[ws info] Register', data);
+        chaincode.invoke.register([data.jurisdiction, data.name, data.number, data.directorName, data.address, data.email, data.date, data.status], cb_register);
+    }
+    else if (data.type == 'nameChange'  + delimiter) {
+        console.log('[ws info] Name Change', data);
+        chaincode.invoke.nameChange([data.jurisdiction, data.name, data.newName], cb_nameChange);
+    }
+    else if (data.type == 'report'  + delimiter) {
+        console.log('[ws info] Report', data);
+        chaincode.invoke.report([data.jurisdiction, data.name, data.address, data.date], cb_report);
+        cb_report();
+    }
+    else if (data.type == 'dissolve'  + delimiter) {
+        console.log('[ws info] Dissolve', data);
+        chaincode.invoke.dissolve([data.jurisdiction, data.name, data.status], cb_dissolve);
+    }
+    else if (data.type == 'get_corporations') {
+        console.log("Get corporations from ws_registries");
+        chaincode.query.readAll(['_corporationIndex'], cb_got_corporations);
+    }
     else if(data.type == 'get_transactions'){
-		console.log('Get Transactions');
-		ibc.chain_stats(cb_chainstats);
-	}
-	else if(data.type == 'chainstats'){
-		console.log('chainstats msg');
-		ibc.chain_stats(cb_chainstats);
-	}
-	
-	//call back for getting the blockchain stats, lets get the block stats now
-	function cb_chainstats(e, chain_stats){
-		console.log('cb_chainstats', chain_stats)
-		if(chain_stats && chain_stats.height){
-			chain_stats.height = chain_stats.height - 1;								//its 1 higher than actual height
-			var list = [];
-			for(var i = chain_stats.height; i >= 1; i--){								//create a list of heights we need
-				list.push(i);
-				if(list.length >= 100) break;
-			}
-			list.reverse();																//flip it so order is correct in UI
-			async.eachLimit(list, 1, function(block_height, cb) {						//iter through each one, and send it
-				ibc.block_stats(block_height, function(e, stats){
-					if(e == null){
+        console.log('Get Transactions');
+        ibc.chain_stats(cb_chainstats);
+    }
+    else if(data.type == 'chainstats'){
+        console.log('chainstats msg');
+        ibc.chain_stats(cb_chainstats);
+    }
+    else if (data.type == 'load_demo_data') {
+        fs.readFile('./utils/sampledemodata.json', 'utf8', function (err, data) {
+            if (err) throw err;
+            var obj = JSON.parse(data);
+            console.log("data: " + obj.transactions);
+            var transactions = obj.transactions;
+
+            for (var i in transactions) {
+                console.log('Transaction type: ' + transactions[i].type);
+                // Allow time between transactions to be written to blockchain
+                loadTransaction(transactions[i]);
+                sleep(3000);
+
+                /*if (transactions[i].type == 'register') {
+                    console.log('Adding Register Transaction...');
+                    var jurisdiction = transactions[i].jurisdiction;
+                    var name = transactions[i].name;
+                    var number = transactions[i].number;
+                    var directorName = transactions[i].directorName;
+                    var address = transactions[i].address;
+                    var email = transactions[i].email;
+                    var date = transactions[i].date;
+                    var status = transactions[i].status;
+                    // Register!
+                    chaincode.invoke.register([jurisdiction, name, number, directorName, address, email, date, status], cb_register);
+
+                }
+                else if (transactions[i].type == 'nameChange') {
+                    console.log('Adding Name Change Transaction...');
+                    var jurisdiction = transactions[i].jurisdiction;
+                    var name = transactions[i].name;
+                    var newName = transactions[i].newName;
+
+                    // Name Change!
+                    chaincode.invoke.nameChange([jurisdiction, name, newName], cb_nameChange);
+
+                }
+                else if (transactions[i].type == 'report') {
+                    console.log('Adding Report Transaction...');
+                    var jurisdiction = transactions[i].jurisdiction;
+                    var name = transactions[i].name;
+                    var address = transactions[i].address;
+                    var date = transactions[i].date;
+
+                    // Report!
+		          chaincode.invoke.report([jurisdiction, name, address, date], cb_report);
+
+                }
+                else if (transactions[i].type == 'dissolve') {
+                    console.log('Adding Dissolve Transaction...');
+                    var jurisdiction = transactions[i].jurisdiction;
+                    var name = transactions[i].name;
+                    var status = transactions[i].status;
+
+                    // Dissolve!
+                    chaincode.invoke.dissolve([jurisdiction, name, status], cb_dissolve);
+                }*/
+            }
+        });
+    }
+
+    //call back for getting the blockchain stats, lets get the block stats now
+    function cb_chainstats(e, chain_stats){
+        console.log('cb_chainstats', chain_stats)
+        if(chain_stats && chain_stats.height){
+            chain_stats.height = chain_stats.height - 1;								//its 1 higher than actual height
+            var list = [];
+            for(var i = chain_stats.height; i >= 1; i--){								//create a list of heights we need
+                list.push(i);
+                if(list.length >= 100) break;
+            }
+            list.reverse();																//flip it so order is correct in UI
+            async.eachLimit(list, 1, function(block_height, cb) {						//iter through each one, and send it
+                ibc.block_stats(block_height, function(e, stats){
+                    if(e == null){
                         if (stats.transactions) {
-                        	var payload = new Buffer(stats.transactions[0].payload, 'base64').toString('ascii'); // Ta-da!
+                            var payload = new Buffer(stats.transactions[0].payload, 'base64').toString('ascii'); // Ta-da!
                             var unixtimestamp = stats.nonHashData.localLedgerCommitTimestamp.seconds;
                             var timestamp = timeConverter(unixtimestamp);
-            				var block = block_height;
-	         				console.log("Formatted Timestamp: ", timestamp);
-                        	if (payload) {
-            					console.log('REGISTRY Payload: ' + payload);
+                            var block = block_height;
+                            console.log("Formatted Timestamp: ", timestamp);
+                            if (payload) {
+                                console.log('REGISTRY Payload: ' + payload);
                                 var payloadArray = payload.split("\x0A");
                                 var payloadItems = [];
-                                
+
                                 // remove empty lines
-            					for (i=0;i<payloadArray.length;i++) {
+                                for (i=0;i<payloadArray.length;i++) {
                                     if (payloadArray[i]) {
                                         payloadItems.push(payloadArray[i]);
                                     }
-            					}
+                                }
                                 // Print out the array
                                 /*for (i=0;i<payloadItems.length;i++) {
             						console.log(i + " REGISTRY VIEWER " + payloadItems[i]);
@@ -87,150 +147,150 @@ module.exports.process_msg = function(ws, data){
                                 console.log("contains report?" + payloadItems[1].indexOf('report'));
                                 console.log("contains nameChange?" + payloadItems[1].indexOf('nameChange'));
                                 console.log("contains dissolve?" + payloadItems[1].indexOf('dissolve'));
-                                
-        						if (payloadItems[1].indexOf('register') !== -1) {
-        							var transactionType = 'Register';
-        							var jurisdiction = payloadItems[2];
-        							var corporationName = payloadItems[3];
-        							var corporationNumber = payloadItems[4];
-        							var directorName = payloadItems[5];
-        							var address = payloadItems[6];
-        							var email = payloadItems[7];
-        							var date = payloadItems[8];
-        							var status = payloadItems[9];
 
-        							console.log(" Register Transaction " );
-        							var message = {
-        									msg: 'transactions', 
-        									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"corporationNumber":corporationNumber,"directorName":directorName,"address":address,"email":email,"date":date,"status":status, "block":block}]
-        								};
-        							sendMsg(message);
-                				}
-        						else if (payloadItems[1].indexOf('nameChange') !== -1) {
-        							console.log(" Name Change ");
-        							var transactionType = 'Name Change';
-        							var jurisdiction = payloadItems[2];
-        							var corporationName = payloadItems[4];
+                                if (payloadItems[1].indexOf('register') !== -1) {
+                                    var transactionType = 'Register';
+                                    var jurisdiction = payloadItems[2];
+                                    var corporationName = payloadItems[3];
+                                    var corporationNumber = payloadItems[4];
+                                    var directorName = payloadItems[5];
+                                    var address = payloadItems[6];
+                                    var email = payloadItems[7];
+                                    var date = payloadItems[8];
+                                    var status = payloadItems[9];
+
+                                    console.log(" Register Transaction " );
+                                    var message = {
+                                        msg: 'transactions', 
+                                        transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"corporationNumber":corporationNumber,"directorName":directorName,"address":address,"email":email,"date":date,"status":status, "block":block}]
+                                    };
+                                    sendMsg(message);
+                                }
+                                else if (payloadItems[1].indexOf('nameChange') !== -1) {
+                                    console.log(" Name Change ");
+                                    var transactionType = 'Name Change';
+                                    var jurisdiction = payloadItems[2];
+                                    var corporationName = payloadItems[4];
                                     var oldName = payloadItems[3];
-        							var message = {
-        									msg: 'transactions', 
-        									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName, "oldName":oldName, "block":block}]
-           								};
-        							sendMsg(message);
-        						}
-        						else if (payloadItems[1].indexOf('report') !== -1) {
-        							console.log(" Report Transaction ");
-        							var transactionType = 'Report';
-        							var jurisdiction = payloadItems[2];
-        							var corporationName = payloadItems[3];
-        							var address = payloadItems[4];
-        							var date = payloadItems[5];
-        							var message = {
-        									msg: 'transactions', 
-        									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"address":address,"date":date,"status":status, "block":block}]
-           								};
-        							sendMsg(message);
+                                    var message = {
+                                        msg: 'transactions', 
+                                        transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName, "oldName":oldName, "block":block}]
+                                    };
+                                    sendMsg(message);
+                                }
+                                else if (payloadItems[1].indexOf('report') !== -1) {
+                                    console.log(" Report Transaction ");
+                                    var transactionType = 'Report';
+                                    var jurisdiction = payloadItems[2];
+                                    var corporationName = payloadItems[3];
+                                    var address = payloadItems[4];
+                                    var date = payloadItems[5];
+                                    var message = {
+                                        msg: 'transactions', 
+                                        transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"address":address,"date":date,"status":status, "block":block}]
+                                    };
+                                    sendMsg(message);
 
-                				}
-        						else if (payloadItems[1].indexOf('dissolve') !== -1) {
-        							console.log(" Dissolve Transaction ");
-        							var jurisdiction = payloadItems[2];
-        							var corporationName = payloadItems[3];
-        							var status = payloadItems[4];
-        							var transactionType = 'Dissolve';
-        							var data = '';
+                                }
+                                else if (payloadItems[1].indexOf('dissolve') !== -1) {
+                                    console.log(" Dissolve Transaction ");
+                                    var jurisdiction = payloadItems[2];
+                                    var corporationName = payloadItems[3];
+                                    var status = payloadItems[4];
+                                    var transactionType = 'Dissolve';
+                                    var data = '';
 
-        							var message = {
-        									msg: 'transactions', 
-        									transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"corporationNumber":corporationNumber,"status":status, "block":block}]
-    									};
-        							sendMsg(message);
-                				}
-            				}
+                                    var message = {
+                                        msg: 'transactions', 
+                                        transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"corporationNumber":corporationNumber,"status":status, "block":block}]
+                                    };
+                                    sendMsg(message);
+                                }
+                            }
                         }
                         console.log('stats',stats);
-                        
-					}
-					cb(null);
-				});
-			}, function() {
-			});
-		}
-	}
-	
-	
-	function cb_register(e, a){
-		console.log('response from blockchain: ', e, a);
-		try{
-			sendMsg({msg: 'register', status: 'OK'});
-		}
-		catch(e){
-			console.log('[ws error]', e);
-		}
-	}
-	
-	function cb_nameChange(e, a){
-		console.log('response from blockchain: ', e, a);
-		try{
-			sendMsg({msg: 'nameChange', status: 'OK'});
-		}
-		catch(e){
-			console.log('[ws error]', e);
-		}
-	}
-	
-	function cb_report(e, a){
-		console.log('response from blockchain: ', e, a);
-		try{
-			sendMsg({msg: 'report', status: 'OK'});
-		}
-		catch(e){
-			console.log('[ws error]', e);
-		}
-	}
-	
-	function cb_dissolve(e, a){
-		console.log('response from blockchain: ', e, a);
-		try{
-			sendMsg({msg: 'dissolve', status: 'OK'});
-		}
-		catch(e){
-			console.log('[ws error]', e);
-		}
-	}
 
-	//send a message, socket might be closed...
-	function sendMsg(json){
-		if(ws){
-			try{
-				ws.send(JSON.stringify(json));
-			}
-			catch(e){
-				console.log('[ws error] could not send msg', e);
-			}
-		}
-	}
-	
-	function cb_got_corporations(e, corporations){
-		if(e != null) console.log('[ws error] did not get corporations', e);
-		else{
-			console.log('[ws info]  corporation data: ',corporations);
-			try{
-				var json = JSON.parse(corporations) 
-				var message = {
-						msg: 'corporations', 
-						corporations: json};
-				sendMsg(message);
-			}
-			catch(e){
-				console.log('[ws error] could not parse response', e);
-			}
-		}
-	}
-	
-	// Registry Code
-	//call back for getting transactions
-	function cb_got_transactions(e, transactions){		
+                    }
+                    cb(null);
+                });
+            }, function() {
+            });
+        }
+    }
+
+
+    function cb_register(e, a){
+        console.log('response from blockchain: ', e, a);
+        try{
+            sendMsg({msg: 'register', status: 'OK'});
+        }
+        catch(e){
+            console.log('[ws error]', e);
+        }
+    }
+
+    function cb_nameChange(e, a){
+        console.log('response from blockchain: ', e, a);
+        try{
+            sendMsg({msg: 'nameChange', status: 'OK'});
+        }
+        catch(e){
+            console.log('[ws error]', e);
+        }
+    }
+
+    function cb_report(e, a){
+        console.log('response from blockchain: ', e, a);
+        try{
+            sendMsg({msg: 'report', status: 'OK'});
+        }
+        catch(e){
+            console.log('[ws error]', e);
+        }
+    }
+
+    function cb_dissolve(e, a){
+        console.log('response from blockchain: ', e, a);
+        try{
+            sendMsg({msg: 'dissolve', status: 'OK'});
+        }
+        catch(e){
+            console.log('[ws error]', e);
+        }
+    }
+
+    //send a message, socket might be closed...
+    function sendMsg(json){
+        if(ws){
+            try{
+                ws.send(JSON.stringify(json));
+            }
+            catch(e){
+                console.log('[ws error] could not send msg', e);
+            }
+        }
+    }
+
+    function cb_got_corporations(e, corporations){
+        if(e != null) console.log('[ws error] did not get corporations', e);
+        else{
+            console.log('[ws info]  corporation data: ',corporations);
+            try{
+                var json = JSON.parse(corporations) 
+                var message = {
+                    msg: 'corporations', 
+                    corporations: json};
+                sendMsg(message);
+            }
+            catch(e){
+                console.log('[ws error] could not parse response', e);
+            }
+        }
+    }
+
+    // Registry Code
+    //call back for getting transactions
+    /*function cb_got_transactions(e, transactions){		
 		if(e != null) console.log('[ws error] did not get transactions:', e);
 		else {
 			console.log("cb_got_transactions");
@@ -250,18 +310,71 @@ module.exports.process_msg = function(ws, data){
 				};
 			sendMsg(message);
 		}
-	}
+	}*/
+
+    function loadTransaction(transaction) {
+        if (transaction.type == 'register') {
+            console.log('Adding Register Transaction...');
+            var jurisdiction = transaction.jurisdiction;
+            var name = transaction.name;
+            var number = transaction.number;
+            var directorName = transaction.directorName;
+            var address = transaction.address;
+            var email = transaction.email;
+            var date = transaction.date;
+            var status = transaction.status;
+            // Register!
+            chaincode.invoke.register([jurisdiction, name, number, directorName, address, email, date, status], cb_register);
+
+        }
+        else if (transaction.type == 'nameChange') {
+            console.log('Adding Name Change Transaction...');
+            var jurisdiction = transaction.jurisdiction;
+            var name = transaction.name;
+            var newName = transaction.newName;
+
+            // Name Change!
+            chaincode.invoke.nameChange([jurisdiction, name, newName], cb_nameChange);
+
+        }
+        else if (transaction.type == 'report') {
+            console.log('Adding Report Transaction...');
+            var jurisdiction = transaction.jurisdiction;
+            var name = transaction.name;
+            var address = transaction.address;
+            var date = transaction.date;
+
+            // Report!
+            chaincode.invoke.report([jurisdiction, name, address, date], cb_report);
+
+        }
+        else if (transaction.type == 'dissolve') {
+            console.log('Adding Dissolve Transaction...');
+            var jurisdiction = transaction.jurisdiction;
+            var name = transaction.name;
+            var status = transaction.status;
+
+            // Dissolve!
+            chaincode.invoke.dissolve([jurisdiction, name, status], cb_dissolve);
+        }
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 };
 
 function timeConverter(UNIX_timestamp){
-  var a = new Date(UNIX_timestamp * 1000);
-  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var year = a.getFullYear();
-  var month = months[a.getMonth()];
-  var date = a.getDate();
-  var hour = a.getHours();
-  var min = a.getMinutes();
-  var sec = a.getSeconds();
-  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
-  return time;
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+    return time;
 }
+
+
