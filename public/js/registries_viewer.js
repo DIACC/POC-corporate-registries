@@ -136,6 +136,12 @@ function build_transactions(transactions){
             data += 'Old Name: ' + transactions[i].oldName;
         }
         
+        if (transactions[i].corporation1Name && transactions[i].corporation1Jurisdiction &&
+            transactions[i].corporation2Name && transactions[i].corporation2Jurisdiction) {
+            data += 'Corporations Amalgamated: '
+            data += 'Corporation 1: ' + transactions[i].corporation1Name + ' ' + transactions[i].corporation1Jurisdiction + ' ';
+            data += 'Corporation 2: ' + transactions[i].corporation2Name + ' ' + transactions[i].corporation2Jurisdiction + ' ';
+        }
 
 
         var style = ' ';

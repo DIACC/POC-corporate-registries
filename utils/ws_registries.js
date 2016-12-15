@@ -111,6 +111,10 @@ module.exports.process_msg = function(ws, data){
                                         }
                                     }
 
+                                    for (var j=0; j<payloadItems.length; j++){
+                                        console.log(j + ": " + payloadItems[j]);
+                                    }
+
                                     if (payloadItems[1].indexOf('register') !== -1) {
                                         var transactionType = 'Register';
                                         var jurisdiction = payloadItems[2];
@@ -138,6 +142,31 @@ module.exports.process_msg = function(ws, data){
                                         var message = {
                                             msg: 'transactions', 
                                             transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName, "oldName":oldName, "block":block}]
+                                        };
+                                        sendMsg(message);
+                                    }
+                                    else if (payloadItems[1].indexOf('amalgamation') !== -1) {
+                                        console.log(" Amalgamation Change ");
+
+                                        var transactionType = 'Amalgamation';
+                                        var corporation1Name = payloadItems[3];
+                                        var corporation1Jurisdiction = payloadItems[2];
+                                        var corporation1Status = payloadItems[4];
+                                        var corporation2Name = payloadItems[6];
+                                        var corporation2Jurisdiction = payloadItems[5];
+                                        var corporation2Status = payloadItems[7];
+                                        var newCorporationJurisdiction = payloadItems[8];
+                                        var newCorporationName = payloadItems[9];
+                                        var newCorporationNumber = payloadItems[10];
+                                        var newCorporationDirectorName = payloadItems[11];
+                                        var newCorporationAddress = payloadItems[12];
+                                        var newCorporationEmail = payloadItems[13];
+                                        var newCorporationDate = payloadItems[14];
+                                        var newCorporationStatus = payloadItems[15];
+
+                                        var message = {
+                                            msg: 'transactions', 
+                                            transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":newCorporationJurisdiction,"corporationName":newCorporationName, "corporation1Name":corporation1Name, "corporation1Jurisdiction":corporation1Jurisdiction, "corporation2Name":corporation2Name, "corporation2Jurisdiction":corporation2Jurisdiction,"block":block}]
                                         };
                                         sendMsg(message);
                                     }
@@ -201,7 +230,7 @@ module.exports.process_msg = function(ws, data){
             console.log('[ws error]', e);
         }
     }
-    
+
     function cb_amalgamate(e, a){
         console.log('response from blockchain: ', e, a);
         try{

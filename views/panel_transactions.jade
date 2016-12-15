@@ -5,14 +5,14 @@
 			p The corporate registries viewer allows you to view the transactions that have occurred for corporations across jurisdictions.  In addition you may filter by jurisdiction or by corporate name.
 	form(action="/filter" method="POST")#filterform
 	div(class="row")
-		div(class="four columns")
+		div(class="twelve columns")
 			b Filter by Corporate Name:
 			br
-			input(type="text" id="corporateNameTransactionsFilter" onkeyup="filterTransactionsByCorporation()" placeholder="Corporate Name...")
-			br
+			input(type="text" id="corporateNameTransactionsFilter" onkeyup="filterTransactionsByCorporation()" placeholder="Corporate Name..." class="u-full-width")
 			p
 			b Filter by Jurisdiction:
-			br
+	div(class="row")
+		div(class="four columns")
 			input(type="checkbox" name="selectAll" id="selectAllJurisdictions" onclick="selectAllJurisdictions()" checked)
 			b  Select All
 			br
@@ -27,7 +27,7 @@
 			br
 			input(type="checkbox" name="NB" id="NB" onclick="filterTransactionsByJurisdiction()" checked)
 			|  New Brunswick
-			br
+		div(class="four columns")
 			input(type="checkbox" name="NL" id="NL" onclick="filterTransactionsByJurisdiction()" checked)
 			|  Newfoundland and Labrador
 			br
@@ -42,7 +42,7 @@
 			br
 			input(type="checkbox" name="ON" id="ON" onclick="filterTransactionsByJurisdiction()" checked)
 			|  Ontario
-			br
+		div(class="four columns")
 			input(type="checkbox" name="PE" id="PE" onclick="filterTransactionsByJurisdiction()" checked)
 			|  Prince Edward Island
 			br
@@ -58,7 +58,8 @@
 			input(type="checkbox" name="FED" id="FED" onclick="filterTransactionsByJurisdiction()" checked)
 			|  Federal Government
 			br
-		div(class="eight columns")
+	div(class="row")
+		div(class="twelve columns")
 			table#registryTransactionsTable
 				thead
 					tr 
