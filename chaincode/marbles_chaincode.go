@@ -548,7 +548,7 @@ func (t *SimpleChaincode) amalgamation(stub shim.ChaincodeStubInterface, args []
 
 	// method calls
 	dissolve0, err0 = t.dissolve(stub, dissolve0args)
-	dissolve1, err1 = t.dissolve(stub, dissolve0args)
+	dissolve1, err1 = t.dissolve(stub, dissolve1args)
 	register, errregister = t.register(stub, registerargs)
 
 	// on success dissolve0, dissolve1, and register will return nil
