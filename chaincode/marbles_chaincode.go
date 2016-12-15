@@ -120,6 +120,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return t.report(stub, args)
 	} else if function == "dissolve" {									//cancel an open trade order
 		return t.dissolve(stub, args)
+	} else if function == "amalgamation" {									//cancel an open trade order
+		return t.amalgamation(stub, args)
 	}
 	fmt.Println("invoke did not find func: " + function)					//error
 
