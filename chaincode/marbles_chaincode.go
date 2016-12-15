@@ -551,14 +551,16 @@ func (t *SimpleChaincode) amalgamation(stub shim.ChaincodeStubInterface, args []
 	dissolve1, err1 = t.dissolve(stub, dissolve0args)
 	register, errregister = t.register(stub, registerargs)
 
-	// maybe add using returned values from dissolves and register - should be nil on success
+	// on success dissolve0, dissolve1, and register will return nil
+	// on failure, irrelevant
+	// returning below to avoid unused variable warnings
 	// check for errors, otherwise return nil (success)
 	if err0 != nil {
-		return nil, err0
+		return dissolve0, err0
 	} else if err1 != nil {
-		return nil, err1
+		return dissolve1, err1
 	} else if errregister != nil {
-		return nil, errregister
+		return register, errregister
 	}
 
 	return nil, nil
