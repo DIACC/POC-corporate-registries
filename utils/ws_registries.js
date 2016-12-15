@@ -10,6 +10,9 @@ var async = require('async');
 
 var delimiter = "";
 var delimiterlength = 0;
+var numTransactions = 0;
+var transactionCount = 0;
+var transactionsArray = [];
 
 module.exports.setup = function(sdk, cc){
     ibc = sdk;
@@ -53,58 +56,19 @@ module.exports.process_msg = function(ws, data){
             var obj = JSON.parse(data);
             console.log("data: " + obj.transactions);
             var transactions = obj.transactions;
-
-            for (var i in transactions) {
-                console.log('Transaction type: ' + transactions[i].type);
-                // Allow time between transactions to be written to blockchain
-                loadTransaction(transactions[i]);
-                sleep(3000);
-
-                /*if (transactions[i].type == 'register') {
-                    console.log('Adding Register Transaction...');
-                    var jurisdiction = transactions[i].jurisdiction;
-                    var name = transactions[i].name;
-                    var number = transactions[i].number;
-                    var directorName = transactions[i].directorName;
-                    var address = transactions[i].address;
-                    var email = transactions[i].email;
-                    var date = transactions[i].date;
-                    var status = transactions[i].status;
-                    // Register!
-                    chaincode.invoke.register([jurisdiction, name, number, directorName, address, email, date, status], cb_register);
-
-                }
-                else if (transactions[i].type == 'nameChange') {
-                    console.log('Adding Name Change Transaction...');
-                    var jurisdiction = transactions[i].jurisdiction;
-                    var name = transactions[i].name;
-                    var newName = transactions[i].newName;
-
-                    // Name Change!
-                    chaincode.invoke.nameChange([jurisdiction, name, newName], cb_nameChange);
-
-                }
-                else if (transactions[i].type == 'report') {
-                    console.log('Adding Report Transaction...');
-                    var jurisdiction = transactions[i].jurisdiction;
-                    var name = transactions[i].name;
-                    var address = transactions[i].address;
-                    var date = transactions[i].date;
-
-                    // Report!
-		          chaincode.invoke.report([jurisdiction, name, address, date], cb_report);
-
-                }
-                else if (transactions[i].type == 'dissolve') {
-                    console.log('Adding Dissolve Transaction...');
-                    var jurisdiction = transactions[i].jurisdiction;
-                    var name = transactions[i].name;
-                    var status = transactions[i].status;
-
-                    // Dissolve!
-                    chaincode.invoke.dissolve([jurisdiction, name, status], cb_dissolve);
-                }*/
+            
+            numTransactions = transactions.length;
+            transactionCount = 0;
+            transactionsArray = transactions;
+            if (transactions.length > 0) {
+                loadTransaction(transactions[0]);
             }
+
+            /*for (var i in transactions) {
+                console.log('Transaction type: ' + transactions[i].type);
+
+                loadTransaction(transactions[i]);
+            }*/
         });
     }
 
@@ -208,7 +172,7 @@ module.exports.process_msg = function(ws, data){
                                 }
                             }
                         }
-                        console.log('stats',stats);
+                        //console.log('stats',stats);
 
                     }
                     cb(null);
@@ -287,30 +251,14 @@ module.exports.process_msg = function(ws, data){
             }
         }
     }
-
-    // Registry Code
-    //call back for getting transactions
-    /*function cb_got_transactions(e, transactions){		
-		if(e != null) console.log('[ws error] did not get transactions:', e);
-		else {
-			console.log("cb_got_transactions");
-			var message = {
-					msg: 'transactions', 
-					transactions: [
-						{"datetime":"2016-12-05 16:04:00","jurisdiction":"NU","transactionType":"Dissolve","uniqueID":"20161111010912","corporationName":"Santa's AWESOME Workshop","emailAddress":"info@north.ca","mailingAddress":"239 Elf Street, North Pole NU, HOH OHO"},	
-						{"datetime":"2016-12-03 15:24:25","jurisdiction":"NU","transactionType":"Report","uniqueID":"20161111010912","corporationName":"Santa's AWESOME Workshop","emailAddress":"info@north.ca","mailingAddress":"239 Elf Street, North Pole NU, HOH OHO"},					               
-						{"datetime":"2016-12-01 10:19:15","jurisdiction":"NU","transactionType":"Name Change","uniqueID":"20161111010912","corporationName":"Santa's AWESOME Workshop","emailAddress":"info@north.ca","mailingAddress":"239 Elf Street, North Pole NU, HOH OHO"},
-					    {"datetime":"2016-11-11 01:09:12","jurisdiction":"NU","transactionType":"Register","uniqueID":"20161111010912","corporationName":"Santa's Workshop","emailAddress":"info@north.ca","mailingAddress":"123 Elf Street, North Pole NU, HOH OHO"},
-					    {"datetime":"2016-12-06 01:09:12","jurisdiction":"AB","transactionType":"Disolve","uniqueID":"20160203131214","corporationName":"ABC INC","emailAddress":"abc@abc.com","mailingAddress":"123 ABC Street, Calgary AB, T3T 3T3"},
-						{"datetime":"2016-12-05 8:00:52","jurisdiction":"BC","transactionType":"Register","uniqueID":"20161201041502","corporationName":"DEF INC","emailAddress":"def@def.com","mailingAddress":"435 DEF Street, Spuzzum BC, V8V 2V2"},
-						{"datetime":"2016-12-04 17:14:42","jurisdiction":"BC","transactionType":"Register","uniqueID":"20160402171623","corporationName":"HIJ INC","emailAddress":"hij@hij.com","mailingAddress":"999 HIJ Street, Vernon BC, V3X 4X2"},
-						{"datetime":"2016-12-03 14:22:28","jurisdiction":"MB","transactionType":"Name Change","uniqueID":"20160802090705","corporationName":"KLM INC","emailAddress":"klm@klm.com","mailingAddress":"333 KLM Street, Winnepeg MB, T3T 3T3"},
-						{"datetime":"2016-12-01 12:54:51","jurisdiction":"AB","transactionType":"Report","uniqueID":"20160809131415","corporationName":"NOP INC","emailAddress":"nop@nop.com","mailingAddress":"555 NOP Street, Calgary AB, T2T 2T2"},
-						{"datetime":"2016-12-02 09:25:34","jurisdiction":"AB","transactionType":"Register","uniqueID":"20160809131415","corporationName":"NOP INC","emailAddress":"nop@nop.com","mailingAddress":"555 NOP Street, Calgary AB, T2T 2T2"}]
-				};
-			sendMsg(message);
-		}
-	}*/
+    
+    function cb_load_next_demo_transaction() {
+        transactionCount ++;
+        
+        if (transactionCount<transactionsArray.length) {
+            loadTransaction(transactionsArray[transactionCount]);
+        }
+    }
 
     function loadTransaction(transaction) {
         if (transaction.type == 'register') {
@@ -324,7 +272,7 @@ module.exports.process_msg = function(ws, data){
             var date = transaction.date;
             var status = transaction.status;
             // Register!
-            chaincode.invoke.register([jurisdiction, name, number, directorName, address, email, date, status], cb_register);
+            chaincode.invoke.register([jurisdiction, name, number, directorName, address, email, date, status], cb_load_next_demo_transaction);
 
         }
         else if (transaction.type == 'nameChange') {
@@ -334,7 +282,7 @@ module.exports.process_msg = function(ws, data){
             var newName = transaction.newName;
 
             // Name Change!
-            chaincode.invoke.nameChange([jurisdiction, name, newName], cb_nameChange);
+            chaincode.invoke.nameChange([jurisdiction, name, newName], cb_load_next_demo_transaction);
 
         }
         else if (transaction.type == 'report') {
@@ -345,7 +293,7 @@ module.exports.process_msg = function(ws, data){
             var date = transaction.date;
 
             // Report!
-            chaincode.invoke.report([jurisdiction, name, address, date], cb_report);
+            chaincode.invoke.report([jurisdiction, name, address, date], cb_load_next_demo_transaction);
 
         }
         else if (transaction.type == 'dissolve') {
@@ -355,13 +303,10 @@ module.exports.process_msg = function(ws, data){
             var status = transaction.status;
 
             // Dissolve!
-            chaincode.invoke.dissolve([jurisdiction, name, status], cb_dissolve);
+            chaincode.invoke.dissolve([jurisdiction, name, status], cb_load_next_demo_transaction);
         }
     }
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 };
 
 function timeConverter(UNIX_timestamp){
