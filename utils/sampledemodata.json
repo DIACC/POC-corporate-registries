@@ -12,6 +12,39 @@
             "status": "Active"
         },
         {
+            "type":"register",
+            "jurisdiction": "SK",
+            "name": "Freezer Inc",
+            "number": "654",
+            "directorName": "Farmer Sue",
+            "address": "234 Farmer Lane Regina SK T5T 5T5",
+            "email": "Sue@Freezer.ca",
+            "date": "12-12-2016",
+            "status": "Active"
+        },
+        {
+            "type":"register",
+            "jurisdiction": "ON",
+            "name": "Awesome Toys",
+            "number": "54665476",
+            "directorName": "Krusty the Clown",
+            "address": "1546 Markham Ave ON M4M 4M4",
+            "email": "Krusty@clowntown.ca",
+            "date": "12-12-2016",
+            "status": "Active"
+        },
+        {
+            "type":"register",
+            "jurisdiction": "NT",
+            "name": "Awesome Toys",
+            "number": "676576567",
+            "directorName": "Krusty the Clown",
+            "address": "1546 Markham Ave ON M4M 4M4",
+            "email": "Krusty@clowntown.ca",
+            "date": "12-12-2016",
+            "status": "Active"
+        },
+        {
             "type":"nameChange",
             "jurisdiction": "AB",
             "name": "Cow Patty Inc",

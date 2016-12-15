@@ -1,9 +1,9 @@
-#amalgamatePanel.panel
+#amalgamatePanel(hidden).panel
 	div(class="row")
 		div(class="twelve columns")
 			h3 Amalgamate
 			p Amalgamate two corporations into a new corporation. This form will create an amalgamation entry on the blockchain by dissolving the two corporations and registering a new corporation.
-	form(action="/amalgamate" method="POST")#amalgamationform
+	form(action="/amalgamate" method="POST")#amalgamateform
 		div(class="row")
 			div(class="six columns")
 				h5 Corporation 1 
@@ -63,7 +63,7 @@
 				legend
 					b Jurisdiction:
 					br
-					select(name="amalgamationJurisdiction" class="u-full-width")
+					select(name="newCorporationJurisdiction" class="u-full-width")
 							option(value="" disabled="disabled" selected="selected") Jurisdiction
 							option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
 							option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
@@ -83,35 +83,35 @@
 				legend 
 					b Filling Date:
 					br
-					input(type="text" name="amalgamationFillingDate" placeholder="DD-MM-YYYY" class="u-full-width")
+					input(type="text" name="newCorporationFillingDate" placeholder="DD-MM-YYYY" class="u-full-width")
 		div(class="row")
 			div(class="six columns") 
 				legend 
 					b Corporate Name:
 					br
-					input(type="text" name="amalgamationCorporateName" placeholder="" class="u-full-width")
+					input(type="text" name="newCorporationCorporateName" placeholder="" class="u-full-width")
 			div(class="six columns")
 				legend 
 					b Corporation Number:
 					br
-					input(type="text" name="amalgamationCorporationNumber" placeholder="" class="u-full-width")
+					input(type="text" name="newCorporationCorporationNumber" placeholder="" class="u-full-width")
 		div(class="row")
 			div(class="six columns")
 				legend 
 					b Director First Name:
 					br
-					input(type="text" name="amalgamationFirstName" placeholder="" class="u-full-width")
+					input(type="text" name="newCorporationFirstName" placeholder="" class="u-full-width")
 			div(class="six columns")
 				legend 
 					b Director Last Name:
 					br
-					input(type="text" name="amalgamationLastName" placeholder="" class="u-full-width")
+					input(type="text" name="newCorporationLastName" placeholder="" class="u-full-width")
 		div(class="row")
 			div(class="twelve columns")
 				legend 
 					b E-Mail Address:
 					br
-					input(type="text" name="amalgamationEmail" placeholder="" class="u-full-width")
+					input(type="text" name="newCorporationEmail" placeholder="" class="u-full-width")
 		div(class="row")
 			div(class="twelve columns")
 				h5 Registered Office Address
@@ -120,18 +120,18 @@
 				legend 
 					b Street Address:
 					br
-					input(type="text" name="amalgamationStreetAddress" placeholder="" class="u-full-width")
+					input(type="text" name="newCorporationStreetAddress" placeholder="" class="u-full-width")
 		div(class="row")
 			div(class="six columns")
 				legend 
 					b City:
 					br
-					input(type="text" name="city" placeholder="" class="u-full-width")
+					input(type="text" name="newCorporationCity" placeholder="" class="u-full-width")
 			div(class="three columns")
 				legend
 					b Province:
 					br
-					select(name="amalgamationProvince" class="u-full-width")
+					select(name="newCorporationProvince" class="u-full-width")
 							option(value="" disabled="disabled" selected="selected") Province
 							option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
 							option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
@@ -150,11 +150,11 @@
 				legend 
 					b Postal Code:
 					br
-					input(type="text" name="amalgamationPostalCode" placeholder="" class="u-full-width")
+					input(type="text" name="newCorporationPostalCode" placeholder="" class="u-full-width")
 
 		div(class="row")
 			div(class="twelve columns" style="text-align:left")
-				p(style="color:red")#amalgamationValidationMessage
+				p(style="color:red")#amalgamateValidationMessage
 				button(type="button" class="button-primary")#amalgamate
 					span.fa.fa-check &nbsp;&nbsp;
 					span AMALGAMATE

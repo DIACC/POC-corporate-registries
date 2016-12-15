@@ -29,10 +29,13 @@ module.exports.process_msg = function(ws, data){
         console.log('[ws info] Name Change', data);
         chaincode.invoke.nameChange([data.jurisdiction, data.name, data.newName], cb_nameChange);
     }
+    else if (data.type == 'amalgamate') {
+        console.log('[ws info] Amalgamate', data);
+        chaincode.invoke.amalgamation([data.corporation1Jurisdiction, data.corporation1Name, data.corporation1Status, data.corporation2Jurisdiction, data.corporation2Name, data.corporation1Status, data.newCorporationJurisdiction, data.newCorporationName, data.newCorporationNumber, data.newCorporationDirectorName, data.newCorporationAddress, data.newCorporationEmail, data.newCorporationDate, data.newCorporationStatus], cb_amalgamate);
+    }
     else if (data.type == 'report'  + delimiter) {
         console.log('[ws info] Report', data);
         chaincode.invoke.report([data.jurisdiction, data.name, data.address, data.date], cb_report);
-        cb_report();
     }
     else if (data.type == 'dissolve'  + delimiter) {
         console.log('[ws info] Dissolve', data);
@@ -193,6 +196,16 @@ module.exports.process_msg = function(ws, data){
         console.log('response from blockchain: ', e, a);
         try{
             sendMsg({msg: 'nameChange', status: 'OK'});
+        }
+        catch(e){
+            console.log('[ws error]', e);
+        }
+    }
+    
+    function cb_amalgamate(e, a){
+        console.log('response from blockchain: ', e, a);
+        try{
+            sendMsg({msg: 'amalgamate', status: 'OK'});
         }
         catch(e){
             console.log('[ws error]', e);

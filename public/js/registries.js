@@ -46,6 +46,46 @@ $(document).on('ready', function() {
         }
         return false;
     });
+    
+    $('#amalgamate').click(function(){
+        var streetAddress = $('input[name="newCorporationStreetAddress"]').val();
+        var city = $('input[name="newCorporationCity"]').val();
+        var province = $('select[name="newCorporationProvince"]').val();
+        var postalCode = $('input[name="newCorporationPostalCode"]').val();
+        var firstName = $('input[name="newCorporationFirstName"]').val();
+        var lastName = $('input[name="newCorporationLastName"]').val();
+
+        // registry code
+        var amalgamateTransaction = {
+            type: 'amalgamate',
+            //timestamp: '\'' + jQuery.now() + '\'',
+            corporation1Name: $('input[name="corporation1Name"]').val(),
+            corporation1Jurisdiction: $('select[name="corporation1Jurisdiction"]').val(),
+            corporation1Status: 'Dissolved',
+            corporation2Name: $('input[name="corporation2Name"]').val(),
+            corporation2Jurisdiction: $('select[name="corporation2Jurisdiction"]').val(),
+            corporation2Status: 'Dissolved',
+            newCorporationJurisdiction: $('select[name="newCorporationJurisdiction"]').val(),
+            newCorporationName: $('input[name="newCorporationCorporateName"]').val(),
+            newCorporationNumber: $('input[name="newCorporationCorporationNumber"]').val(),
+            newCorporationDirectorName: firstName + " " + lastName,
+            newCorporationAddress: streetAddress + " " + city + " " + province + " " + postalCode,
+            newCorporationEmail: $('input[name="newCorporationEmail"]').val(),
+            newCorporationDate: $('input[name="newCorporationFillingDate"]').val(),
+            newCorporationStatus: 'Active'
+        };
+        
+        /*if (!amalgamateTransaction.name || !amalgamateTransaction.jurisdiction || !amalgamateTransaction.number 
+            || !firstName || !lastName || !streetAddress || !city || !province || !postalCode || !amalgamateTransaction.email || !amalgamateTransaction.date) {
+            //console.log('Missing some values, please make sure all fields are complete!!');
+            $('#amalgamateValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
+        }
+        else {*/
+            console.log('Executing AMALGAMATE transaction', amalgamateTransaction);
+            ws.send(JSON.stringify(amalgamateTransaction));
+        //}
+        return false;
+    });
 
     $('#nameChange').click(function(){		
         var nameChangeTransaction = {
@@ -219,6 +259,14 @@ function connect_to_server(){
                 $('#name_changePanel').hide();
                 // TODO Show error message here if there is a problem
                 $('#statusMessage').html('Your name change was successful.  The name change transaction was successfully stored in the blockchain.'); 
+            }
+            else if(msgObj.msg === 'amalgamate') {
+                console.log('amalgamate', msgObj.msg, msgObj);
+                // confirm successful push onto blockchain
+                $('#statusPanel').fadeIn(300);
+                $('#amalgamatePanel').hide();
+                // TODO Show error message here if there is a problem
+                $('#statusMessage').html('Your amalgamation was successful.  The amalgamation transaction was successfully stored in the blockchain.'); 
             }
             else if(msgObj.msg === 'report') {
                 console.log('report', msgObj.msg, msgObj);
