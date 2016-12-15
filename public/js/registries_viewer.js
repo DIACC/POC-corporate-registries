@@ -138,9 +138,9 @@ function build_transactions(transactions){
         
         if (transactions[i].corporation1Name && transactions[i].corporation1Jurisdiction &&
             transactions[i].corporation2Name && transactions[i].corporation2Jurisdiction) {
-            data += 'Corporations Amalgamated: '
-            data += 'Corporation 1: ' + transactions[i].corporation1Name + ' ' + transactions[i].corporation1Jurisdiction + ' ';
-            data += 'Corporation 2: ' + transactions[i].corporation2Name + ' ' + transactions[i].corporation2Jurisdiction + ' ';
+            data += '<div>Corporations Amalgamated:</div><br>'
+            data += '<p>1: ' + transactions[i].corporation1Name + ' ' + transactions[i].corporation1Jurisdiction + '</p>';
+            data += '<p>2: ' + transactions[i].corporation2Name + ' ' + transactions[i].corporation2Jurisdiction + '</p>';
         }
 
 
