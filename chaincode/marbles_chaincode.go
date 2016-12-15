@@ -513,6 +513,52 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 
 }
 
+
+// ============================================================================================================================
+// amalgamation
+// ============================================================================================================================
+// args
+// [0] Jurisdiction1
+// [1] Name1
+// [2] Status1
+// [3] Jurisdiction2
+// [4] Name2
+// [5] Status2
+// [6]alagamationJurisdiction
+// [7]amalgamationName
+// [8]Number
+// [9]DirectorName
+// [10]Address
+// [11]Email
+// [12]Date
+// [13]Status
+func (t *SimpleChaincode) amalgamation(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+
+	var err0, err1, errregister
+
+	// [0]Jurisdiction
+	// [1]Name
+	// [2]Status
+	var dissolve0args = []string{args[0], args[1], args[2]} 
+	var dissolve1args = []string{args[3], args[4], args[5]} 
+	var registerargs = []string{args[6], args[7], args[8], args[9], args[10], args[11], args[12], args[13]}
+
+	var dissolve0, err0 = t.dissolve(stub, dissolve0args)
+	var dissolve1, err1 = t.dissolve(stub, dissolve0args)
+	var register, errregister = t.register(stub, registerargs)
+
+	if err0 != nil {
+		return nil, err0
+	} else if err1 != nil {
+		return nil, err1
+	} else if errregister != nil {
+		return nil, errregister
+	}
+
+	return nil, nil
+
+}
+
 // ============================================================================================================================
 // Make Timestamp - create a timestamp in ms
 // ============================================================================================================================
