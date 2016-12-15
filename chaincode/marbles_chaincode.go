@@ -536,8 +536,8 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 // [13]Status
 func (t *SimpleChaincode) amalgamation(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
-	var dissolve0, dissolve1, register
-	var err0, err1, errregister
+	var dissolve0, dissolve1, register []byte
+	var err0, err1, errregister error
 
 	// [0]Jurisdiction
 	// [1]Name
