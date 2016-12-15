@@ -536,6 +536,7 @@ func (t *SimpleChaincode) dissolve(stub shim.ChaincodeStubInterface, args []stri
 // [13]Status
 func (t *SimpleChaincode) amalgamation(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
+	var dissolve0, dissolve1, register
 	var err0, err1, errregister
 
 	// [0]Jurisdiction
@@ -545,10 +546,13 @@ func (t *SimpleChaincode) amalgamation(stub shim.ChaincodeStubInterface, args []
 	var dissolve1args = []string{args[3], args[4], args[5]} 
 	var registerargs = []string{args[6], args[7], args[8], args[9], args[10], args[11], args[12], args[13]}
 
-	var dissolve0, err0 = t.dissolve(stub, dissolve0args)
-	var dissolve1, err1 = t.dissolve(stub, dissolve0args)
-	var register, errregister = t.register(stub, registerargs)
+	// method calls
+	dissolve0, err0 = t.dissolve(stub, dissolve0args)
+	dissolve1, err1 = t.dissolve(stub, dissolve0args)
+	register, errregister = t.register(stub, registerargs)
 
+	// maybe add using returned values from dissolves and register - should be nil on success
+	// check for errors, otherwise return nil (success)
 	if err0 != nil {
 		return nil, err0
 	} else if err1 != nil {
