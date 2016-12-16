@@ -323,6 +323,26 @@ module.exports.process_msg = function(ws, data){
             chaincode.invoke.nameChange([jurisdiction, name, newName], cb_load_next_demo_transaction);
 
         }
+        else if (transaction.type == 'amalgamation') {
+            console.log('Adding Amalgamation Transaction...');
+            var corporation1Name = transaction.corporation1Name;
+            var corporation1Jurisdiction = transaction.corporation1Jurisdiction;
+            var corporation1Status = transaction.corporation1Status;
+            var corporation2Name = transaction.corporation2Name;
+            var corporation2Jurisdiction = transaction.corporation2Jurisdiction;
+            var corporation2Status = transaction.corporation2Status;
+            var newCorporationJurisdiction = transaction.newCorporationJurisdiction;
+            var newCorporationName = transaction.newCorporationName;
+            var newCorporationNumber = transaction.newCorporationNumber;
+            var newCorporationDirectorName = transaction.newCorporationDirectorName;
+            var newCorporationAddress = transaction.newCorporationAddress;
+            var newCorporationEmail = transaction.newCorporationEmail;
+            var newCorporationDate = transaction.newCorporationDate;
+            var newCorporationStatus = transaction.newCorporationStatus;
+            // Register!
+            chaincode.invoke.amalgamation([corporation1Jurisdiction, corporation1Name, corporation1Status, corporation2Jurisdiction, corporation2Name, corporation1Status, newCorporationJurisdiction, newCorporationName, newCorporationNumber, newCorporationDirectorName, newCorporationAddress, newCorporationEmail, newCorporationDate, newCorporationStatus], cb_amalgamate);
+
+        }
         else if (transaction.type == 'report') {
             console.log('Adding Report Transaction...');
             var jurisdiction = transaction.jurisdiction;

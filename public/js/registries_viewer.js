@@ -131,16 +131,14 @@ function build_transactions(transactions){
         if (transactions[i].status) {
             data += '' + transactions[i].status + ' ';
         }
-        
         if (transactions[i].oldName) {
             data += 'Old Name: ' + transactions[i].oldName;
         }
-        
         if (transactions[i].corporation1Name && transactions[i].corporation1Jurisdiction &&
             transactions[i].corporation2Name && transactions[i].corporation2Jurisdiction) {
-            data += '<div>Corporations Amalgamated:</div><br>'
-            data += '<p>1: ' + transactions[i].corporation1Name + ' ' + transactions[i].corporation1Jurisdiction + '</p>';
-            data += '<p>2: ' + transactions[i].corporation2Name + ' ' + transactions[i].corporation2Jurisdiction + '</p>';
+            data += '<div>Corporations Amalgamated:</div>'
+            data += '<div>1: ' + transactions[i].corporation1Name + ' ' + transactions[i].corporation1Jurisdiction + '</div>';
+            data += '<div>2: ' + transactions[i].corporation2Name + ' ' + transactions[i].corporation2Jurisdiction + '</div>';
         }
 
 

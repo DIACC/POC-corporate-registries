@@ -36,13 +36,30 @@
         {
             "type":"register",
             "jurisdiction": "NT",
-            "name": "Awesome Toys",
+            "name": "Broken Toys",
             "number": "676576567",
             "directorName": "Krusty the Clown",
             "address": "1546 Markham Ave ON M4M 4M4",
             "email": "Krusty@clowntown.ca",
             "date": "12-12-2016",
             "status": "Active"
+        },
+        {
+            "type":"amalgamation",
+            "corporation1Name": "Awesome Toys",
+            "corporation1Jurisdiction": "ON",
+            "corporation1Status": "Dissolved",
+            "corporation2Name": "Broken Toys",
+            "corporation2Jurisdiction": "NT",
+            "corporation2Status": "Dissolved",
+            "newCorporationJurisdiction": "ON",
+            "newCorporationName": "Broken and Awesome Toys",
+            "newCorporationNumber": "76576576",
+            "newCorporationDirectorName": "Krusty the Super Clown",
+            "newCorporationAddress": "1546 Clown Street ON M4M 4M4",
+            "newCorporationEmail": "Krusty@clowntown.ca",
+            "newCorporationDate": "12-12-2016",
+            "newCorporationStatus": "Active"
         },
         {
             "type":"nameChange",
@@ -60,41 +77,6 @@
             "type":"dissolve",
             "jurisdiction": "AB",
             "name": "Cow Patty Inc",
-            "status": "Dissolved"
-        },
-        {
-            "type":"register",
-            "jurisdiction": "BC",
-            "name": "Weed High",
-            "number": "23465",
-            "directorName": "Billy Bob",
-            "address": "234 Cow Patty Lane Calgary AB T5T 5T5",
-            "email": "billy@abcin.ca",
-            "date": "12-12-2016",
-            "status": "Active"
-        },
-        {
-            "type":"nameChange",
-            "jurisdiction": "BC",
-            "name": "Weed High",
-            "newName": "Weedy Weed"
-        },
-        {
-            "type":"report",
-            "jurisdiction": "BC",
-            "name": "Weedy Weed",
-            "address": "new address!!!"
-        },
-        {
-            "type":"report",
-            "jurisdiction": "BC",
-            "name": "Weedy Weed",
-            "address": "Moved again 6"
-        },
-        {
-            "type":"dissolve",
-            "jurisdiction": "BC",
-            "name": "Weedy Weed",
             "status": "Dissolved"
         }
     ]
