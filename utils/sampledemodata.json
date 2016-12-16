@@ -3,10 +3,10 @@
         {
             "type":"register",
             "jurisdiction": "AB",
-            "name": "Cow Patty Inc",
+            "name": "ABC Inc",
             "number": "23465",
             "directorName": "Billy Bob",
-            "address": "234 Cow Patty Lane Calgary AB T5T 5T5",
+            "address": "234 ABC Inc Lane Calgary AB T5T 5T5",
             "email": "billy@abcin.ca",
             "date": "12-12-2016",
             "status": "Active"
@@ -14,7 +14,7 @@
         {
             "type":"register",
             "jurisdiction": "SK",
-            "name": "Freezer Inc",
+            "name": "Barbs Hair Salon Inc",
             "number": "654",
             "directorName": "Farmer Sue",
             "address": "234 Farmer Lane Regina SK T5T 5T5",
@@ -45,6 +45,24 @@
             "status": "Active"
         },
         {
+            "type":"nameChange",
+            "jurisdiction": "AB",
+            "name": "ABC Inc",
+            "newName": "DEF Inc"
+        },
+        {
+            "type":"report",
+            "jurisdiction": "AB",
+            "name": "DEF Inc",
+            "address": "234 New Address Street Calgary AB T6T 6T6"
+        },
+        {
+            "type":"dissolve",
+            "jurisdiction": "AB",
+            "name": "DEF Inc",
+            "status": "Dissolved"
+        },
+        {
             "type":"amalgamation",
             "corporation1Name": "Awesome Toys",
             "corporation1Jurisdiction": "ON",
@@ -60,24 +78,6 @@
             "newCorporationEmail": "Krusty@clowntown.ca",
             "newCorporationDate": "12-12-2016",
             "newCorporationStatus": "Active"
-        },
-        {
-            "type":"nameChange",
-            "jurisdiction": "AB",
-            "name": "Cow Patty Inc",
-            "newName": "Cow Patty Ltd"
-        },
-        {
-            "type":"report",
-            "jurisdiction": "AB",
-            "name": "Cow Patty Inc",
-            "address": "234 Big Cos Lane Calgary AB T6T 6T6"
-        },
-        {
-            "type":"dissolve",
-            "jurisdiction": "AB",
-            "name": "Cow Patty Inc",
-            "status": "Dissolved"
         }
     ]
 
