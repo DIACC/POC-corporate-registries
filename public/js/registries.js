@@ -75,15 +75,19 @@ $(document).on('ready', function() {
             newCorporationStatus: 'Active'
         };
         
-        /*if (!amalgamateTransaction.name || !amalgamateTransaction.jurisdiction || !amalgamateTransaction.number 
-            || !firstName || !lastName || !streetAddress || !city || !province || !postalCode || !amalgamateTransaction.email || !amalgamateTransaction.date) {
+        if (!amalgamateTransaction.corporation1Name || !amalgamateTransaction.corporation1Jurisdiction || !amalgamateTransaction.corporation1Status
+            || !amalgamateTransaction.corporation2Name || !amalgamateTransaction.corporation2Jurisdiction || !amalgamateTransaction.corporation2Status
+            || !amalgamateTransaction.newCorporationJurisdiction || !amalgamateTransaction.newCorporationName || !amalgamateTransaction.newCorporationNumber
+            || !firstName || !lastName || !streetAddress || !city || !province  || !postalCode  
+            || !amalgamateTransaction.newCorporationEmail
+            || !amalgamateTransaction.newCorporationDate || !amalgamateTransaction.newCorporationStatus) {
             //console.log('Missing some values, please make sure all fields are complete!!');
             $('#amalgamateValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
-        else {*/
+        else {
             console.log('Executing AMALGAMATE transaction', amalgamateTransaction);
             ws.send(JSON.stringify(amalgamateTransaction));
-        //}
+        }
         return false;
     });
 
