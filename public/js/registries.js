@@ -162,6 +162,7 @@ $(document).on('ready', function() {
     });
 
     $('#loadDemoData').click(function(){
+        $('#loadDataMessage').html('Demo loading initialized. Check the Corporate Registry Viewer to view demo data.')
         // Load Sample Demo Data
         ws.send(JSON.stringify({type: 'load_demo_data'}));
     });

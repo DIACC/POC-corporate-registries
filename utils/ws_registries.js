@@ -77,7 +77,7 @@ module.exports.process_msg = function(ws, data){
             var list = [];
             for(var i = chain_stats.height; i >= 1; i--){								//create a list of heights we need
                 list.push(i);
-                if(list.length >= 100) break;
+                //if(list.length >= 100) break;
             }
             //list.reverse();																//flip it so order is correct in UI
             async.eachLimit(list, 1, function(block_height, cb) {						//iter through each one, and send it
