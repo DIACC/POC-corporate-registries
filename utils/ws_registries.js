@@ -66,12 +66,6 @@ module.exports.process_msg = function(ws, data){
             if (transactions.length > 0) {
                 loadTransaction(transactions[0]);
             }
-
-            /*for (var i in transactions) {
-                console.log('Transaction type: ' + transactions[i].type);
-
-                loadTransaction(transactions[i]);
-            }*/
         });
     }
 
@@ -85,7 +79,7 @@ module.exports.process_msg = function(ws, data){
                 list.push(i);
                 if(list.length >= 100) break;
             }
-            list.reverse();																//flip it so order is correct in UI
+            //list.reverse();																//flip it so order is correct in UI
             async.eachLimit(list, 1, function(block_height, cb) {						//iter through each one, and send it
                 ibc.block_stats(block_height, function(e, stats){
                     if(e == null){
@@ -340,7 +334,7 @@ module.exports.process_msg = function(ws, data){
             var newCorporationDate = transaction.newCorporationDate;
             var newCorporationStatus = transaction.newCorporationStatus;
             // Register!
-            chaincode.invoke.amalgamation([corporation1Jurisdiction, corporation1Name, corporation1Status, corporation2Jurisdiction, corporation2Name, corporation1Status, newCorporationJurisdiction, newCorporationName, newCorporationNumber, newCorporationDirectorName, newCorporationAddress, newCorporationEmail, newCorporationDate, newCorporationStatus], cb_amalgamate);
+            chaincode.invoke.amalgamation([corporation1Jurisdiction, corporation1Name, corporation1Status, corporation2Jurisdiction, corporation2Name, corporation1Status, newCorporationJurisdiction, newCorporationName, newCorporationNumber, newCorporationDirectorName, newCorporationAddress, newCorporationEmail, newCorporationDate, newCorporationStatus], cb_load_next_demo_transaction);
 
         }
         else if (transaction.type == 'report') {

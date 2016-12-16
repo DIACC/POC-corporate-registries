@@ -86,14 +86,7 @@ function connect_to_server(){
     function onError(evt){
         console.log('ERROR ', evt);
         if(!connected){											//don't overwrite an error message
-            /*$('#errorName').html('Warning');
-            $('#errorNoticeText').html('Waiting on the node server to open up so we can talk to the blockchain. ');
-            $('#errorNoticeText').append('This app is likely still starting up. ');
-            $('#errorNoticeText').append('Check the server logs if this message does not go away in 1 minute. ');
-            $('#errorNotificationPanel').fadeIn();*/
             $('#connectionStatusMessage').html('<b>Warning:</b> Waiting on the node server to open up so we can talk to the blockchain. The app is likely still starting up. Check the server logs if this message does not go away in 1 minute.');
-            //$('#connectionStatusMessage').html('Connecting...');
-
         }
     }
 }
@@ -155,14 +148,20 @@ function build_transactions(transactions){
     }
     if(html === '') html = '<tr><td>nothing here...</td><td></td><td></td><td></td><td></td><td></td></tr>';
 
-    //$('#myTransactionsBody').append(html);
-    $('#myTransactionsBody').prepend(html);
+    if (transactions[i].newBlock) {
+        $('#myTransactionsBody').prepend(html);
+    }
+    else {
+        $('#myTransactionsBody').append(html);
+    }
+   
 }
 
 function build_corporations(corporations){
     console.log('Building corporation table');
     var html = '';
-    for(var i in corporations){
+    //for(var i in corporations){
+    for (var i= corporations.length-1; i>=0; i--) {
         console.log(corporations[i].name.substring(0,delimiterlength) + " " + corporations[i].number.substring(0,delimiterlength));
         var style = ' ';
         html += '<tr class="' + style + '">';
