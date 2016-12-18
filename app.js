@@ -395,9 +395,9 @@ function cb_deployed(e){
                                         }
                                     }
 
-                                    for (var j=0; j<payloadItems.length; j++){
+                                    /*for (var j=0; j<payloadItems.length; j++){
                                         console.log(j + ": " + payloadItems[j]);
-                                    }
+                                    }*/
 
                                     if (payloadItems[1].indexOf('register') !== -1) {
                                         var transactionType = 'Register';
@@ -416,6 +416,7 @@ function cb_deployed(e){
                                             transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":jurisdiction,"corporationName":corporationName,"corporationNumber":corporationNumber,"directorName":directorName,"address":address,"email":email,"date":date,"status":status, "block":block, "newBlock": newBlock}]
                                         };
                                         wss.broadcast(message);
+                                        
                                     }
                                     else if (payloadItems[1].indexOf('nameChange') !== -1) {
                                         console.log(" Name Change ");
@@ -453,7 +454,8 @@ function cb_deployed(e){
                                             transactions: [{timestamp:timestamp,"transactionType":transactionType,"jurisdiction":newCorporationJurisdiction,"corporationName":newCorporationName, "corporation1Name":corporation1Name, "corporation1Jurisdiction":corporation1Jurisdiction, "corporation2Name":corporation2Name, "corporation2Jurisdiction":corporation2Jurisdiction,"block":block, "newBlock": newBlock}]
                                         };
                                         wss.broadcast(message);
-                                    }
+                                        
+                                                                           }
                                     else if (payloadItems[1].indexOf('report') !== -1) {
                                         console.log(" Report Transaction ");
                                         var transactionType = 'Report';
@@ -482,6 +484,9 @@ function cb_deployed(e){
                                         };
                                         wss.broadcast(message);
                                     }
+                                    // if was a register/amalgamation/name change transaction, send a message to web  app to update
+                                     chaincode.query.readAll(['_corporationIndex'], cb_got_corporations);
+
                                 }
                             }
                         }
@@ -491,6 +496,22 @@ function cb_deployed(e){
     }
 }
 
+    function cb_got_corporations(e, corporations){
+        if(e != null) console.log('[ws error] did not get corporations', e);
+        else{
+            console.log('[ws info]  corporation data: ',corporations);
+            try{
+                var json = JSON.parse(corporations) 
+                var message = {
+                    msg: 'corporations', 
+                    corporations: json};
+                wss.broadcast(message);
+            }
+            catch(e){
+                console.log('[ws error] could not parse response', e);
+            }
+        }
+    }
 
 function timeConverter(UNIX_timestamp){
     var a = new Date(UNIX_timestamp * 1000);

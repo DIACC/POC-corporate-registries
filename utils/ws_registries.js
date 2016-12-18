@@ -99,9 +99,9 @@ module.exports.process_msg = function(ws, data){
                                 var unixtimestamp = stats.nonHashData.localLedgerCommitTimestamp.seconds;
                                 var timestamp = timeConverter(unixtimestamp);
                                 var block = block_height;
-                                console.log("Formatted Timestamp: ", timestamp);
+                                //console.log("Formatted Timestamp: ", timestamp);
                                 if (payload) {
-                                    console.log('REGISTRY Payload: ' + payload);
+                                    //console.log('REGISTRY Payload: ' + payload);
                                     var payloadArray = payload.split("\x0A");
                                     var payloadItems = [];
 
@@ -112,9 +112,9 @@ module.exports.process_msg = function(ws, data){
                                         }
                                     }
 
-                                    for (var j=0; j<payloadItems.length; j++){
+                                    /*for (var j=0; j<payloadItems.length; j++){
                                         console.log(j + ": " + payloadItems[j]);
-                                    }
+                                    }*/
 
                                     if (payloadItems[1].indexOf('register') !== -1) {
                                         var transactionType = 'Register';

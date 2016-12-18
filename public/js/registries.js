@@ -41,6 +41,7 @@ $(document).on('ready', function() {
             $('#registerValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
+            $('#registerValidationMessage').html('');
             console.log('Executing REGISTRY transaction', regTransaction);
             ws.send(JSON.stringify(regTransaction));
         }
@@ -75,7 +76,13 @@ $(document).on('ready', function() {
             newCorporationStatus: 'Active'
         };
         
-        if (!amalgamateTransaction.corporation1Name || !amalgamateTransaction.corporation1Jurisdiction || !amalgamateTransaction.corporation1Status
+        if (!corporationExists(amalgamateTransaction.corporation1Name, amalgamateTransaction.corporation1Jurisdiction)){
+            $('#amalgamateValidationMessage').html('Corporation and jurisdicition for corporation #1 cannot be found. Please make sure name and jurisdiction are entered correctly.');
+        } 
+        else if (!corporationExists(amalgamateTransaction.corporation2Name, amalgamateTransaction.corporation2Jurisdiction)){
+            $('#amalgamateValidationMessage').html('Corporation and jurisdicition for corporation #2 cannot be found. Please make sure name and jurisdiction are entered correctly.');
+        } 
+        else if (!amalgamateTransaction.corporation1Name || !amalgamateTransaction.corporation1Jurisdiction || !amalgamateTransaction.corporation1Status
             || !amalgamateTransaction.corporation2Name || !amalgamateTransaction.corporation2Jurisdiction || !amalgamateTransaction.corporation2Status
             || !amalgamateTransaction.newCorporationJurisdiction || !amalgamateTransaction.newCorporationName || !amalgamateTransaction.newCorporationNumber
             || !firstName || !lastName || !streetAddress || !city || !province  || !postalCode  
@@ -85,6 +92,7 @@ $(document).on('ready', function() {
             $('#amalgamateValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
+            $('#amalgamateValidationMessage').html('');
             console.log('Executing AMALGAMATE transaction', amalgamateTransaction);
             ws.send(JSON.stringify(amalgamateTransaction));
         }
@@ -99,13 +107,14 @@ $(document).on('ready', function() {
             newName: $('input[name="nameChangeNewCorporateName"]').val() + delimiter
         };
         
-        /*if (!corporationExists(nameChangeTransaction.name, nameChangeTransaction.jurisdiction)){
+        if (!corporationExists(nameChangeTransaction.name, nameChangeTransaction.jurisdiction)){
             $('#nameChangeValidationMessage').html('Corporation and jurisdicition cannot be found. Please make sure name and jurisdiction are entered correctly.');
         } 
-        else */if (!nameChangeTransaction.name || !nameChangeTransaction.jurisdiction || !nameChangeTransaction.newName) {
+        else if (!nameChangeTransaction.name || !nameChangeTransaction.jurisdiction || !nameChangeTransaction.newName) {
             $('#nameChangeValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
+            $('#nameChangeValidationMessage').html('');
             console.log('Executing NAME CHANGE transaction', nameChangeTransaction);
             ws.send(JSON.stringify(nameChangeTransaction));
         }
@@ -126,14 +135,15 @@ $(document).on('ready', function() {
             date: $('input[name="reportReportingDate"]').val() + delimiter
         };
         
-        /*if (!corporationExists(reportTransaction.name, reportTransaction.jurisdiction)){
+        if (!corporationExists(reportTransaction.name, reportTransaction.jurisdiction)){
             $('#reportValidationMessage').html('Corporation and jurisdicition cannot be found. Please make sure name and jurisdiction are entered correctly.');
         } 
-        else */if (!reportTransaction.name || !reportTransaction.jurisdiction || !streetAddress || !city || !province || !postalCode || !reportTransaction.date) {
+        else if (!reportTransaction.name || !reportTransaction.jurisdiction || !streetAddress || !city || !province || !postalCode || !reportTransaction.date) {
             //console.log('Missing some values, please make sure all fields are complete!!');
             $('#reportValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
+            $('#reportValidationMessage').html('');
             console.log('Executing REPORT transaction', reportTransaction);
             ws.send(JSON.stringify(reportTransaction));
         }
@@ -148,13 +158,14 @@ $(document).on('ready', function() {
             status: 'Dissolved'  + delimiter
         };
         
-        /*if (!corporationExists(dissolveTransaction.name, dissolveTransaction.jurisdiction)){
+        if (!corporationExists(dissolveTransaction.name, dissolveTransaction.jurisdiction)){
             $('#dissolveValidationMessage').html('Corporation and jurisdicition cannot be found. Please make sure name and jurisdiction are entered correctly.');
         } 
-        else */if (!dissolveTransaction.name || !dissolveTransaction.jurisdiction) {
+        else if (!dissolveTransaction.name || !dissolveTransaction.jurisdiction) {
             $('#dissolveValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
+            $('#dissolveValidationMessage').html('');
             console.log('Executing DISSOLVE transaction', dissolveTransaction);
             ws.send(JSON.stringify(dissolveTransaction));
         }
@@ -172,24 +183,16 @@ $(document).on('ready', function() {
 // ===========================
 // Field Validation
 // ===========================
-function validateDate(date)
-{
-    var pattern =/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
-    if (!pattern.test(date)) {
-        return false;
-    }
-    else {
-        return true
-    }
-}
 
-function corporationExists(jurisdiction, name) {
+function corporationExists(name, jurisdiction) {
     console.log('Jurisdiction: ' + jurisdiction + ' Name: ' + name);
     for(var i in corporations) {
         console.log('Corporations: |' + corporations[i].name + ' Jurisdiction: |' + corporations[i].jurisdiction);
         var corpname = corporations[i].name + '';
         var corpjur = corporations[i].jurisdiction + '';
-        console.log("Corpname: " + corpname + ' CorpJur: ' + corpjur);
+        var name = name + '';
+        var jurisdiction = jurisdiction + '';
+        console.log(name + '==' + corpname + '   '+jurisdiction + '==' + corpjur);
         if (corpname === name && corpjur === jurisdiction ) {
             console.log ('Found a match');
             return true;
@@ -254,7 +257,7 @@ function connect_to_server(){
                 // clear the fields in the register
                 
                 // Get an updated list of the corporations
-                ws.send(JSON.stringify({type: 'get_corporations'}));
+                //ws.send(JSON.stringify({type: 'get_corporations'}));
 
             }
             else if(msgObj.msg === 'nameChange') {
@@ -291,8 +294,7 @@ function connect_to_server(){
 
             }
             else if(msgObj.msg === 'corporations'){
-                console.log('corporations', msgObj.msg, msgObj);
-                //build_corporations(msgObj.corporations);
+                console.log('List of corporations', msgObj.msg, msgObj);
                 corporations = msgObj.corporations;
             }
         }
@@ -307,7 +309,7 @@ function connect_to_server(){
     function onError(evt){
         console.log('ERROR ', evt);
         if(!connected){											//don't overwrite an error message
-            $('#connectionStatusMessage').html('<img src="./imgs/warning.png"><b>Warning:</b> Waiting on the node server to open up so we can talk to the blockchain. The app is likely still starting up. Check the server logs if this message does not go away in 1 minute.');
+            $('#connectionStatusMessage').html('<img src="/imgs/warning.png"><b>Warning:</b> Waiting on the node server to open up so we can talk to the blockchain. The app is likely still starting up. Check the server logs if this message does not go away in 1 minute.');
         }
     }
 }
