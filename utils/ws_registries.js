@@ -79,9 +79,16 @@ module.exports.process_msg = function(ws, data){
                 list.push(i);
                 //if(list.length >= 100) break;
             }
+
             //list.reverse();																//flip it so order is correct in UI
             async.eachLimit(list, 1, function(block_height, cb) {						//iter through each one, and send it
                 ibc.block_stats(block_height, function(e, stats){
+
+                    var message = {
+                        msg: 'loadStats', 
+                        loadingBlock: block_height
+                    };
+                    sendMsg(message);
                     if(e == null){
                         if (stats.transactions) {
                             console.log('Number of transactions in block: ' + stats.transactions.length);

@@ -54,6 +54,8 @@ function connect_to_server(){
 
         // Get the corporations on webpage load
         ws.send(JSON.stringify({type: 'get_corporations'}));
+        
+        $('#loadingStatusMessage').html('Loading transactions...');
     }
 
     function onClose(evt){
@@ -75,6 +77,13 @@ function connect_to_server(){
                 console.log('corporations', msgObj.msg, msgObj);
                 build_corporations(msgObj.corporations);
                 corporations = msgObj.corporations;
+            }
+            else if(msgObj.msg === 'loadStats'){
+                console.log('loadStats', msgObj.msg, msgObj);
+                 $('#loadingStatusMessage').html('Reading transactions from blockchain: ' + msgObj.loadingBlock + ' remaining blocks');
+                if (msgObj.loadingBlock === 1) {
+                     $('#loadingStatusMessage').html('');
+                }
             }
         }
         catch(e){
@@ -100,7 +109,6 @@ function connect_to_server(){
 function build_transactions(transactions){
     console.log('Building transactions table');
     var html = '';
-
 
     for(var i in transactions){
         console.log(transactions[i]);
