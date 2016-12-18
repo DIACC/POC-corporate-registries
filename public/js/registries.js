@@ -41,6 +41,7 @@ $(document).on('ready', function() {
             $('#registerValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
+            $('#registeringMessage').html('Registering...');
             $('#registerValidationMessage').html('');
             console.log('Executing REGISTRY transaction', regTransaction);
             ws.send(JSON.stringify(regTransaction));
@@ -92,6 +93,7 @@ $(document).on('ready', function() {
             $('#amalgamateValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
+            $('#amalgamatingMessage').html('Amalgamating...');
             $('#amalgamateValidationMessage').html('');
             console.log('Executing AMALGAMATE transaction', amalgamateTransaction);
             ws.send(JSON.stringify(amalgamateTransaction));
@@ -115,6 +117,7 @@ $(document).on('ready', function() {
         }
         else {
             $('#nameChangeValidationMessage').html('');
+            $('#nameChangingMessage').html('Changing Name...');
             console.log('Executing NAME CHANGE transaction', nameChangeTransaction);
             ws.send(JSON.stringify(nameChangeTransaction));
         }
@@ -143,6 +146,7 @@ $(document).on('ready', function() {
             $('#reportValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
+            $('#reportingMessage').html('Reporting...');
             $('#reportValidationMessage').html('');
             console.log('Executing REPORT transaction', reportTransaction);
             ws.send(JSON.stringify(reportTransaction));
@@ -165,6 +169,7 @@ $(document).on('ready', function() {
             $('#dissolveValidationMessage').html('*Missing one or more fields, please make sure all fields are completed');
         }
         else {
+            $('#dissolvingMessage').html('Dissolving...');
             $('#dissolveValidationMessage').html('');
             console.log('Executing DISSOLVE transaction', dissolveTransaction);
             ws.send(JSON.stringify(dissolveTransaction));
@@ -241,11 +246,7 @@ function connect_to_server(){
         // Registry Code
         try {
             var msgObj = JSON.parse(msg.data);
-            /*if(msgObj.msg === 'transactions'){
-                console.log('transactions', msgObj.msg, msgObj);
-                //build_transactions(msgObj.transactions);
-            }
-            else */if(msgObj.msg === 'register') {
+            if(msgObj.msg === 'register') {
                 console.log('register!!!', msgObj.msg, msgObj);
                 //document.getElementById("register").reset();
                 //$('#registerValidationMessage').html('');
@@ -254,10 +255,8 @@ function connect_to_server(){
                 $('#registerPanel').hide();
                 // TODO Show error message here if there is a problem
                 $('#statusMessage').html('Your registration was successful.  The register transaction was successfully stored in the blockchain.');
+                $('#registeringMessage').html('');
                 // clear the fields in the register
-                
-                // Get an updated list of the corporations
-                //ws.send(JSON.stringify({type: 'get_corporations'}));
 
             }
             else if(msgObj.msg === 'nameChange') {
@@ -267,6 +266,7 @@ function connect_to_server(){
                 $('#name_changePanel').hide();
                 // TODO Show error message here if there is a problem
                 $('#statusMessage').html('Your name change was successful.  The name change transaction was successfully stored in the blockchain.'); 
+                $('#nameChangingMessage').html('');
             }
             else if(msgObj.msg === 'amalgamate') {
                 console.log('amalgamate', msgObj.msg, msgObj);
@@ -275,6 +275,7 @@ function connect_to_server(){
                 $('#amalgamatePanel').hide();
                 // TODO Show error message here if there is a problem
                 $('#statusMessage').html('Your amalgamation was successful.  The amalgamation transaction was successfully stored in the blockchain.'); 
+                $('#amalgamatingMessage').html('');
             }
             else if(msgObj.msg === 'report') {
                 console.log('report', msgObj.msg, msgObj);
@@ -283,6 +284,7 @@ function connect_to_server(){
                 $('#reportPanel').hide();
                 // TODO Show error message here if there is a problem
                 $('#statusMessage').html('Your reporting was successful.  The reporting was successfully stored in the blockchain.');
+                $('#reportingMessage').html('');
             }
             else if(msgObj.msg === 'dissolve') {
                 console.log('dissolve', msgObj.msg, msgObj);
@@ -291,7 +293,7 @@ function connect_to_server(){
                 $('#dissolvePanel').hide();
                 // TODO Show error message here if there is a problem
                 $('#statusMessage').html('Your dissolution was successful.  The dissolve transaction was successfully stored in the blockchain.');
-
+                $('#dissolvingMessage').html('');
             }
             else if(msgObj.msg === 'corporations'){
                 console.log('List of corporations', msgObj.msg, msgObj);
