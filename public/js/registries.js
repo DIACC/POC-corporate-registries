@@ -307,7 +307,7 @@ function connect_to_server(){
     function onError(evt){
         console.log('ERROR ', evt);
         if(!connected){											//don't overwrite an error message
-            $('#connectionStatusMessage').html('<b>Warning:</b> Waiting on the node server to open up so we can talk to the blockchain. The app is likely still starting up. Check the server logs if this message does not go away in 1 minute.');
+            $('#connectionStatusMessage').html('<img src="./imgs/warning.png"><b>Warning:</b> Waiting on the node server to open up so we can talk to the blockchain. The app is likely still starting up. Check the server logs if this message does not go away in 1 minute.');
         }
     }
 }
