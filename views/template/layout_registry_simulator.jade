@@ -42,6 +42,9 @@ html
 					var part = window.location.pathname.substring(0,3);
 					window.history.pushState({},'', part + '/' + show);					//put it in url so we can f5
 
+					// quick fix to add '_' to name change
+					if (show == 'name change') show = 'name_change';
+					
 					$(".panel").hide();
 					if($("#" + show + "Panel").length == 0){
 						$("#error404").fadeIn();
