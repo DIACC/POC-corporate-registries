@@ -25,7 +25,7 @@ Follow the documentation located [here](/docs/host_marbles_locally.md) to run yo
 
 ### Bluemix
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/ruslan120101/blockchain-diacc.git)
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/cbaghdassarian/blockchain-diacc-corporate-registries.git)
 
 Select the button above to deploy the web app and blockchain component on Bluemix. Note - reauthentication will be required. 
 
