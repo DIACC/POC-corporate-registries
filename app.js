@@ -226,7 +226,7 @@ var options = 	{
     },
     chaincode:{
         zip_url: 'https://github.com/cbaghdassarian/blockchain-diacc-corporate-registries/archive/master.zip',
-        unzip_dir: 'blockchain-diacc-master-corporate-registries/chaincode',							//subdirectroy name of chaincode after unzipped
+        unzip_dir: 'blockchain-diacc-corporate-registries-master/chaincode',							//subdirectroy name of chaincode after unzipped
         git_url: 'https://github.com/cbaghdassarian/blockchain-diacc-corporate-registries/chaincode',	//GO get http url
 
         //hashed cc name from prev deployment, comment me out to always deploy, uncomment me when its already deployed to skip deploying again
