@@ -7,4 +7,4 @@ applications:
   instances: 1
   memory: 512M
   services:
-   - blockchain-diacc
+   - myblockchain
