@@ -367,7 +367,7 @@ function cb_deployed(e){
                     stats.height = chain_stats.height;										//copy
                     wss.broadcast({msg: 'chainstats', e: e, chainstats: chain_stats, blockstats: stats});
                     console.log('cb_blockstats from app.js', stats);
-                    var block = chain_stats.height-1;
+                    var block = chain_stats.height;
 
                     // TODO Move block of out of here into a common file - also exists in ws_regtries.js
                     if (stats.transactions) {
