@@ -6,7 +6,6 @@
 	form(action="/create" method="POST")#createform
 		div(class="row")
 			div(class="four columns") 
-				legend
 					b Jurisdiction:
 					br
 					select(name="dissolveJurisdiction" class="u-full-width")
@@ -26,7 +25,6 @@
 							option(value="#{bag.setup.USER13}") #{bag.setup.USER13longname}
 							option(value="#{bag.setup.USER14}") #{bag.setup.USER14longname}
 			div(class="eight columns") 
-				legend 
 					b Corporate Name:
 					br
 					input(type="text" name="dissolveCorporateName" placeholder="" class="u-full-width")
