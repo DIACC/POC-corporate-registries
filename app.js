@@ -373,8 +373,8 @@ function cb_deployed(e){
                     if (stats.transactions) {
                             console.log('Number of transactions in block: ' + stats.transactions.length);
 
-                            //for (var i=0; i<stats.transactions.length; i++) {
-                            for (var i=stats.transactions.length-1; i>=0; i--) {
+                            for (var i=0; i<stats.transactions.length; i++) {
+                            //for (var i=stats.transactions.length-1; i>=0; i--) {
                                 console.log('Transaction number: ' + i);
                                 var payload = new Buffer(stats.transactions[i].payload, 'base64').toString('ascii'); // Ta-da!
                                 var unixtimestamp = stats.nonHashData.localLedgerCommitTimestamp.seconds;
