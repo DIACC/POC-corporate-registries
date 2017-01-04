@@ -3,7 +3,7 @@
         {
             "type":"register",
             "jurisdiction": "AB",
-            "name": "ABC Inc",
+            "name": "Bug Exterminator Inc",
             "number": "23465",
             "directorName": "Billy Bob",
             "address": "234 ABC Inc Lane Calgary AB T5T 5T5",
@@ -18,7 +18,7 @@
             "number": "654",
             "directorName": "Farmer Sue",
             "address": "234 Farmer Lane Regina SK T5T 5T5",
-            "email": "Sue@Freezer.ca",
+            "email": "Sue@barbssalon.ca",
             "date": "12-12-2016",
             "status": "Active"
         },
@@ -47,19 +47,19 @@
         {
             "type":"nameChange",
             "jurisdiction": "AB",
-            "name": "ABC Inc",
-            "newName": "DEF Inc"
+            "name": "Bug Exterminator Inc",
+            "newName": "Super Bug Exterminator Inc"
         },
         {
             "type":"report",
             "jurisdiction": "AB",
-            "name": "DEF Inc",
+            "name": "Super Bug Exterminator Inc",
             "address": "234 New Address Street Calgary AB T6T 6T6"
         },
         {
             "type":"dissolve",
             "jurisdiction": "AB",
-            "name": "DEF Inc",
+            "name": "Super Bug Exterminator Inc",
             "status": "Dissolved"
         },
         {
