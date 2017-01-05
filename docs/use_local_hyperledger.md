@@ -25,8 +25,8 @@ There is a convenient docker-compose image that will get you a network very quic
 ### Finished
 The network is all setup. 
 
-Next we need to **copy the peer data and pass it to our demo node.js application**.
-This is done by editing the `mycreds_docker_compose.json` file which lives in the root of the marbles app.
+Next we need to **copy the peer data and pass it to the node.js application**.
+This is done by editing the `mycreds_docker_compose.json` file which lives in the root of the app.
 
 We have added two mycreds files. 
 One as a docker-compose example and one as a bluemix network example. 
@@ -69,9 +69,9 @@ Remove any comments in your json file
 
 **Do you see the "credentials" field in your json file?** 
 It should be the outter most field like in the sample above. 
-If its not there you need to add it such that `peers` and `users` are inside `credentials`.
+If it's not there you need to add it such that `peers` and `users` are inside `credentials`.
 
-Marbles only talks to 1 peer. 
+The app only talks to 1 peer. 
 Therefore, you should have 1 entry in the `peers` array and 1 entry in the `users` array. 
 You can omit the `users` array entirely if the network does not use Membership Services. 
 The default docker-compose example does use Membership Services. 
@@ -94,6 +94,4 @@ Maps to:
 
 You can omit the field `api_port_tls` if the network does not support TLS. 
 The default docker-compose example does not support TLS. 
-Once you have edited `mycreds_docker_compose.json` you are ready to run Marbles. 
-
-1. Continue where you left off in [tutorial 1](./tutorial_part1.md#hostmarbles).
+Once you have edited `mycreds_docker_compose.json` you are ready to run the app. 

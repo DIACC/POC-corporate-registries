@@ -1,82 +1,16 @@
-#Marbles Part 1 - Demo
-
-##About Marbles
-- The underlying network for this application is the [Hyperledger Fabric](https://github.com/hyperledger/fabric/tree/master/docs), a Linux Foundation project.  You may want to review these instructions to understand a bit about the Hyperledger Fabric.
-- **This demo is to aid a developer learn the basics of chaincode and app development with a Hyperledger network.**
-- This is a `very simple` asset transfer demonstration. Two users can create and exchange marbles with each other.
-- There will be multiple parts. Part 1 and 2 are complete [2/15/2016]
-
-***
-
-##Part 1 Goals
-- User can create a marble and store it in the chaincode state
-- User can read and display all marbles in the chaincode state
-- User can transfer a marble to another user
-- User can delete a marble
-- Server pushes block/marble updates to client when a new block event has occurred
-- Deployable on Bluemix
-
-***
 
 #Prereq:
-1. I highly recommend you complete [learn chaincode](https://github.com/IBM-Blockchain/learn-chaincode) first
-1. If you want to run Marbles on a local blockchain network (ie. not using Bluemix) you will need to have completed the Hyperledger Fabric [development setup](https://github.com/hyperledger/fabric/blob/master/docs/Setup/Network-setup.md).
-1. [Node.js](https://nodejs.org/en/download/) 0.12.0+ and npm v2+ (only needed if you want to run the app locally, npm comes with node.js)
-1. Node.js experience. Marbles is a very simple blockchain app but it’s still a fairly involved node app. **You should be comfortable with node** and the express module.
-1. GoLang Environment (only needed to build your own chaincode, not needed if you just run the marbles app as is)
 
-###Application Background
-Hold on to your hats everyone, this application is going to demonstrate transferring marbles between two users leveraging IBM Blockchain.
-We are going to do this in Node.js and a bit of GoLang. 
-The backend of this application will be the GoLang code running in our blockchain network. 
-From here on out the GoLang code will be referred to as 'chaincode' or 'cc'. 
-The chaincode itself will create a marble by storing it to the chaincode state. 
-The chaincode itself is able to store data as a string in a key/value pair setup. 
-Thus, we will stringify JSON objects to store more complex structures. 
-
-Attributes of a marble:
-
-  1. name (unique string, will be used as key)
-  1. color (string, css color names)
-  1. size (int, size in mm)
-  1. user (string)
-	
-We are going to create a Web UI that can set these values and pass them to the chaincode. 
-Interacting with the cc is done with a HTTP REST call to a peer on the network. 
-The ibc-js SDK will abstract the details of the REST calls away.
-This allows us to use dot notation to call our GoLang functions (such as `chaincode.invoke.init_marble(args)`).
-
-###Application Communication Flow
-
-![](/doc_images/comm_flow.png)
-
-1. The user will interact with our Node.js application in their browser.
-1. This client side JS code will open a websocket to the backend Node.js application. The client JS will send messages to the backend when the user interacts with the site.
-1. The backend Node.js will send HTTP requests (via the SDK) to a blockchain peer to carry out the user's actions.
-1. The peer will communicate to its chaincode container at its leisure. Note that the previous HTTP request was really a 'submission' of chaincode to be run.  It will actually run at a later date (usually milliseconds).
-1. The cc container will carry out the desired operation and record it to the ledger. ie create/transfer a marble.
-
-###Context Clues
-There are 3 distinct parts/worlds that you need to keep straight. 
-They should be thought of as isolated environments that communicate over HTTP. 
-This walk through will jump from one to another as we setup and explain each part. 
-It's important to identify which part is which. 
-There are certain keywords and context clues to help you identify one from another.
-
-1. The Chaincode Part - This is GoLang code that runs on/with a peer on your blockchain network. Also, called `cc`. Anything blockchain happens here.
-1. The Client Side JS Part - This is JavaScript code running in the user's browser. User interaction code happens here.
-1. The Server Side JS Part - This is JavaScript code running our application's backend. ie `Node.js` code which is the heart of Marbles! Sometimes referred to as our `node` or `server` code. Functions as the glue between the user and our blockchain.
-
-**It is recommended that you first run through the [Learn Chaincode](https://github.com/IBM-Blockchain/learn-chaincode) demo
-to understand what chaincode is and how it's written, and set up your environment to run Marbles.**
+1. If you want to run the app on a local blockchain network (ie. not using Bluemix) you will need to have completed the Hyperledger Fabric [development setup](https://github.com/hyperledger/fabric/blob/master/docs/Setup/Network-setup.md).
+1. [Node.js](https://nodejs.org/en/download/) 0.12.0+ and npm v2+ is required if you want to run the app locally (npm comes with node.js)
 
 
-# Marbles Setup Options:
+# Corporate Registries Setup Options:
 Decide if you want to use the deploy to Bluemix button. 
 Using the button will bypass all the setup below, but you will not have much control over the application. 
-This is great for just seeing what marbles is, but you cannot easily play with the code. 
+This is great for just seeing what the app does, but you cannot easily play with the code. 
 
-**Choose 1 option below:**
+**Choose an option below:**
 
 - **Option 1:**  [Button Instructions](./host_marbles_bluemix_button.md)
 - **Option 2:** Follow these machine setup [instructions](https://github.com/IBM-Blockchain/learn-chaincode/blob/v2.0/docs/setup.md) to install **Git, Go** and **Node.js**.
