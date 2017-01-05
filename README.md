@@ -2,7 +2,7 @@
 ## Blockchain Proof of Concept
 
 ### Foreword
-Much of this app is based off IBM's open source offerings found [here](www.github.com/ibm-blockchain). Each of these demos contains documentation on getting up and running. Below we offer a combination of the necessary documents needed to quickly and easily deploy the application and its required blockchain component. 
+Much of this app is based off IBM's open source offerings found [here](https://www.github.com/ibm-blockchain). Each of these demos contains documentation on getting up and running. Below we offer a combination of the necessary documents needed to quickly and easily deploy the application and its required blockchain component. 
 
 The underlying network for this application is the [Hyperledger Fabric](https://github.com/hyperledger/fabric/tree/master/docs), a Linux Foundation project.  You may want to review these instructions to understand a bit about the Hyperledger Fabric.
 
