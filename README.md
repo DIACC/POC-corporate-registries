@@ -47,7 +47,7 @@ Let’s do this with Git by cloning this repository.
 	This will clone the app code to your local system.
 
 #### Local Blockchain Network Configuration
-To set up a local blockchain network, please follow the instructions [here](/docs/use_local_hyperledger.md).
+To set up a local blockchain network, please follow the instructions [here](https://hub.docker.com/r/ibmblockchain/fabric-peer/).
 
 ###Run the App
 
