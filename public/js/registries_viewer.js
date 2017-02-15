@@ -47,6 +47,12 @@ $(document).on('ready', function() {
 // =================================================================================
 function connect_to_server(){
     var connected = false;
+    
+    // Redirect https requests to http so the server can handle them
+    if(this.location.href.indexOf("https://") > -1) {
+        this.location.href = this.location.href.replace("https://", "http://");
+    }
+    
     connect();
 
     function connect(){
