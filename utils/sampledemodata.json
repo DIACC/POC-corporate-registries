@@ -13,13 +13,13 @@
         },
         {
             "type":"register",
-            "jurisdiction": "SK",
-            "name": "Barbs Hair Salon Inc",
-            "number": "654",
-            "directorName": "Farmer Sue",
-            "address": "234 Farmer Lane Regina SK T5T 5T5",
-            "email": "Sue@barbssalon.ca",
-            "date": "12-12-2016",
+            "jurisdiction": "BC",
+            "name": "Stone Boat BC River Outfitters Inc.",
+            "number": "9240403",
+            "directorName": "Stacy Gowda",
+            "address": "23411 Victoria Drive Coquitlam BC V3B 2V5",
+            "email": "stacey@stoneboat.ca",
+            "date": "31-03-2015",
             "status": "Active"
         },
         {
