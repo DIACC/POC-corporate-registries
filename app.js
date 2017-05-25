@@ -163,8 +163,8 @@ var ibc = new Ibc1();
 try{
     //this hard coded list is intentionaly left here, feel free to use it when initially starting out
     //please create your own network when you are up and running
-    var manual = JSON.parse(fs.readFileSync('mycreds_docker_compose.json', 'utf8'));
-    //var manual = JSON.parse(fs.readFileSync('mycreds_bluemix.json', 'utf8'));
+    //var manual = JSON.parse(fs.readFileSync('mycreds_docker_compose.json', 'utf8'));
+    var manual = JSON.parse(fs.readFileSync('mycreds_bluemix.json', 'utf8'));
     var peers = manual.credentials.peers;
     console.log('loading hardcoded peers');
     var users = null;																			//users are only found if security is on
