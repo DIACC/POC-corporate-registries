@@ -1,0 +1,24 @@
+extends ./layout_diacc.jade
+	
+	
+// --------------- Header -------------- //
+block custom_header
+	script(type='text/javascript').
+		$(document).ready(function(){
+			
+		});
+
+block navigation
+	include ./nav_diacc.jade
+
+
+// --------------- Main Stuff  -------------- //
+block content
+	#contentPanel
+		hr
+		// --------------- Home Panel
+		p Error: page does not exist
+		
+		
+block footer
+	include ./diaccfooter.jade

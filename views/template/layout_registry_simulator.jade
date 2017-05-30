@@ -1,0 +1,109 @@
+-////////////////////////////////////////////////// Functions //////////////////////////////////////////////////
+-//Print Object Out Formatted
+mixin debug(variable)
+	br
+	br
+	pre #{JSON.stringify(variable, null, "\t")}
+
+-////////////////////////////////////////////////// HTML //////////////////////////////////////////////////
+-//Begin HTML
+doctype html
+html
+	//Built by: Me
+	//ETI Labs
+	//Copyright 2016  - IBM
+	head
+		title #{title}
+		meta(name="viewport" content="initial-scale=1.0, user-scalable=no")
+		link(rel="icon", type="image/png", href="/imgs/favicon.ico")
+		link(rel="stylesheet" href="/css/normalize.css")
+		link(rel="stylesheet" href="/css/skeleton.css")
+		link(rel="stylesheet" href="//fonts.googleapis.com/css?family=Raleway:400,300,600" type="text/css")
+		script(src='/js/util/jquery-1.11.1.min.js')
+		script(src='/js/util/jquery-ui-1.11.4/jquery-ui.min.js')
+		script(src='/js/util/jquery.ui.touch-punch.min.js')
+		script(type='text/javascript').
+			var bag = !{JSON.stringify(bag)};						//throw jade json over to JS
+			console.log('bag', bag);
+			$(document).ready(function(){
+				if(bag.e && bag.e.msg) {
+					$("#errorName").html("Start Up Error");
+					$("#errorNoticeText").html(JSON.stringify(bag.e.msg, null, 4));
+					$("#errorNotificationPanel").show();							//show the error/warning
+				}
+				
+				//Tab Navigation, show the corresponding panel
+				$(".nav").click(function(){
+					var show = $(this).html().trim().toLowerCase();
+					showPanel(show);
+				});
+				function showPanel(show){
+					if(show == '') show = 'home';										//default
+					var part = window.location.pathname.substring(0,3);
+					window.history.pushState({},'', part + '/' + show);					//put it in url so we can f5
+
+					// quick fix to add '_' to name change
+					if (show == 'name change') show = 'name_change';
+					
+					$(".panel").hide();
+					if($("#" + show + "Panel").length == 0){
+						$("#error404").fadeIn();
+					}
+					else{
+						$("#" + show + "Panel").fadeIn(300);
+						$(".selectedNav").removeClass("selectedNav");
+						$(this).addClass("selectedNav");
+					}
+				}
+				
+				//Blockchain panel toggle
+				$("#viewBCWrap").click(function(){
+					if($("#footerWrap").is(":visible")){
+						$("#footerWrap").slideUp();
+					}
+					else{
+						$("#footerWrap").slideDown();
+					}
+				});
+				
+				//Notification panel
+				$("#closeNotification").click(function(){
+					//$("#notificationPanel").animate({right:'-=450'}, 500, function(){
+					//	$(this).hide();
+					//});
+					$("#notificationPanel").animate({width:'toggle'});
+				});
+				
+				$(".backToHome").click(function(){
+					$(".panel").hide();
+					$("#homePanel").show();
+					$("#notificationPanel").animate({width:'toggle'});
+				});
+				
+				//Page refresh show correct panel
+				var pos = window.location.pathname.substring(1).indexOf('/');			//skipping first char find first slash
+				if(pos >= 0){
+					showPanel(window.location.pathname.substring(2 + pos).toLowerCase());
+				}
+				
+
+			});
+		block custom_header
+		
+		body
+			div(class="container")
+				#navigation
+					block navigation
+			
+				#mainPanel
+					#error404(hidden).panel 
+						br
+						center
+							p Error 404
+				
+					block content
+				
+				
+				
+				#footerPanel
+					block footer

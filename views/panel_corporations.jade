@@ -1,0 +1,30 @@
+#corporationsPanel(hidden).panel
+	div(class="row")
+		div(class="twelve columns")
+			h3 Corporations
+			p List of corporations and the status retrieved from the blockchain.
+	div(class="row")
+		div(class="twelve columns")
+			b Filter by Corporate Name:
+			br
+			input(type="text" id="corporateNameFilter" onkeyup="filterCorporationsByName()" placeholder="Corporate Name..." class="u-full-width")
+			p
+	div(class="row")
+		div(class="twelve columns")
+			p
+			table#corporationsTable
+				thead
+					tr 
+						th Corporate Name
+						th Number
+						th Register Date
+						th Jur.
+						th Director
+						th E-Mail
+						th Registered Office Address
+						th Status
+						th &nbsp;
+				tbody#corporationsBody
+	
+			p
+			br

@@ -1,0 +1,22 @@
+extends ./template/layout_diacc.jade
+	
+	
+// --------------- Header -------------- //
+block custom_header
+	script(type='text/javascript').
+		$(document).ready(function(){
+		});
+
+
+block navigation
+	include ./template/nav_diacc.jade
+
+// --------------- Main Stuff  -------------- //
+block content
+	#contentPanel
+		// --------------- Home Panel
+		include ./panel_diacchome.jade
+		
+		
+block footer
+	include ./template/diaccfooter.jade

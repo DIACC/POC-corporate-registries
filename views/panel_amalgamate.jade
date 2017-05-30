@@ -1,0 +1,151 @@
+#amalgamatePanel(hidden).panel
+	div(class="row")
+		div(class="twelve columns")
+			h3 Amalgamate
+			p Amalgamate two corporations into a new corporation. This form will create an amalgamation entry on the blockchain by dissolving the two corporations and registering a new corporation.
+	form(action="/amalgamate" method="POST")#amalgamateform
+		div(class="row")
+			div(class="six columns")
+				h5 Corporation 1 
+				b Jurisdiction:
+				br
+				select(name="corporation1Jurisdiction" class="u-full-width")
+						option(value="" disabled="disabled" selected="selected") Jurisdiction
+						option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
+						option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
+						option(value="#{bag.setup.USER3}") #{bag.setup.USER3longname}
+						option(value="#{bag.setup.USER4}") #{bag.setup.USER4longname}	
+						option(value="#{bag.setup.USER5}") #{bag.setup.USER5longname}
+						option(value="#{bag.setup.USER6}") #{bag.setup.USER6longname}
+						option(value="#{bag.setup.USER7}") #{bag.setup.USER7longname}
+						option(value="#{bag.setup.USER8}") #{bag.setup.USER8longname}
+						option(value="#{bag.setup.USER9}") #{bag.setup.USER9longname}
+						option(value="#{bag.setup.USER10}") #{bag.setup.USER10longname}
+						option(value="#{bag.setup.USER11}") #{bag.setup.USER11longname}
+						option(value="#{bag.setup.USER12}") #{bag.setup.USER12longname}
+						option(value="#{bag.setup.USER13}") #{bag.setup.USER13longname}
+						option(value="#{bag.setup.USER14}") #{bag.setup.USER14longname}
+				b Name:
+				br
+				input(type="text" name="corporation1Name" class="u-full-width")
+			div(class="six columns")
+				h5 Corporation 2 
+				b Jurisdiction:
+				br
+				select(name="corporation2Jurisdiction" class="u-full-width")
+						option(value="" disabled="disabled" selected="selected") Jurisdiction
+						option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
+						option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
+						option(value="#{bag.setup.USER3}") #{bag.setup.USER3longname}
+						option(value="#{bag.setup.USER4}") #{bag.setup.USER4longname}	
+						option(value="#{bag.setup.USER5}") #{bag.setup.USER5longname}
+						option(value="#{bag.setup.USER6}") #{bag.setup.USER6longname}
+						option(value="#{bag.setup.USER7}") #{bag.setup.USER7longname}
+						option(value="#{bag.setup.USER8}") #{bag.setup.USER8longname}
+						option(value="#{bag.setup.USER9}") #{bag.setup.USER9longname}
+						option(value="#{bag.setup.USER10}") #{bag.setup.USER10longname}
+						option(value="#{bag.setup.USER11}") #{bag.setup.USER11longname}
+						option(value="#{bag.setup.USER12}") #{bag.setup.USER12longname}
+						option(value="#{bag.setup.USER13}") #{bag.setup.USER13longname}
+						option(value="#{bag.setup.USER14}") #{bag.setup.USER14longname}
+				b Name:
+				br
+				input(type="text" name="corporation2Name" class="u-full-width")
+		div(class="row")
+			div(class="twelve columns")
+				h5 New Corporation Information		
+		div(class="row")
+			div(class="six columns") 
+					b Jurisdiction:
+					br
+					select(name="newCorporationJurisdiction" class="u-full-width")
+							option(value="" disabled="disabled" selected="selected") Jurisdiction
+							option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
+							option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
+							option(value="#{bag.setup.USER3}") #{bag.setup.USER3longname}
+							option(value="#{bag.setup.USER4}") #{bag.setup.USER4longname}	
+							option(value="#{bag.setup.USER5}") #{bag.setup.USER5longname}
+							option(value="#{bag.setup.USER6}") #{bag.setup.USER6longname}
+							option(value="#{bag.setup.USER7}") #{bag.setup.USER7longname}
+							option(value="#{bag.setup.USER8}") #{bag.setup.USER8longname}
+							option(value="#{bag.setup.USER9}") #{bag.setup.USER9longname}
+							option(value="#{bag.setup.USER10}") #{bag.setup.USER10longname}
+							option(value="#{bag.setup.USER11}") #{bag.setup.USER11longname}
+							option(value="#{bag.setup.USER12}") #{bag.setup.USER12longname}
+							option(value="#{bag.setup.USER13}") #{bag.setup.USER13longname}
+							option(value="#{bag.setup.USER14}") #{bag.setup.USER14longname}
+			div(class="six columns")
+					b Filling Date:
+					br
+					input(type="text" name="newCorporationFillingDate" placeholder="DD-MM-YYYY" class="u-full-width")
+		div(class="row")
+			div(class="six columns") 
+					b Corporate Name:
+					br
+					input(type="text" name="newCorporationCorporateName" placeholder="" class="u-full-width")
+			div(class="six columns")
+					b Corporation Number:
+					br
+					input(type="text" name="newCorporationCorporationNumber" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="six columns")
+					b Director First Name:
+					br
+					input(type="text" name="newCorporationFirstName" placeholder="" class="u-full-width")
+			div(class="six columns")
+					b Director Last Name:
+					br
+					input(type="text" name="newCorporationLastName" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="twelve columns") 
+					b E-Mail Address:
+					br
+					input(type="text" name="newCorporationEmail" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="twelve columns")
+				h5 Registered Office Address
+		div(class="row")
+			div(class="twelve columns")
+					b Street Address:
+					br
+					input(type="text" name="newCorporationStreetAddress" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="six columns")
+					b City:
+					br
+					input(type="text" name="newCorporationCity" placeholder="" class="u-full-width")
+			div(class="three columns")
+					b Province:
+					br
+					select(name="newCorporationProvince" class="u-full-width")
+							option(value="" disabled="disabled" selected="selected") Province
+							option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
+							option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
+							option(value="#{bag.setup.USER3}") #{bag.setup.USER3longname}
+							option(value="#{bag.setup.USER4}") #{bag.setup.USER4longname}	
+							option(value="#{bag.setup.USER5}") #{bag.setup.USER5longname}
+							option(value="#{bag.setup.USER6}") #{bag.setup.USER6longname}
+							option(value="#{bag.setup.USER7}") #{bag.setup.USER7longname}
+							option(value="#{bag.setup.USER8}") #{bag.setup.USER8longname}
+							option(value="#{bag.setup.USER9}") #{bag.setup.USER9longname}
+							option(value="#{bag.setup.USER10}") #{bag.setup.USER10longname}
+							option(value="#{bag.setup.USER11}") #{bag.setup.USER11longname}
+							option(value="#{bag.setup.USER12}") #{bag.setup.USER12longname}
+							option(value="#{bag.setup.USER13}") #{bag.setup.USER13longname}
+			div(class="three columns")
+					b Postal Code:
+					br
+					input(type="text" name="newCorporationPostalCode" placeholder="" class="u-full-width")
+
+		div(class="row")
+			div(class="twelve columns" style="text-align:left")
+				p(style="color:red")#amalgamateValidationMessage
+				button(type="button" class="button-primary")#amalgamate
+					span.fa.fa-check &nbsp;&nbsp;
+					span AMALGAMATE
+		div(class="row")
+			div(class="twelve columns" style="text-align:left")
+				p#amalgamatingMessage
+				
+				
+				

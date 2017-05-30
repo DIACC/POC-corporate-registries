@@ -1,0 +1,83 @@
+#reportPanel(hidden).panel
+	div(class="row")
+		div(class="twelve columns")
+			h3 Report
+			p Perform an annual report for a corporation.  This form will confirm the corporations registered office address and add to the blockchain.
+	form(action="/report" method="POST")#reportform
+		div(class="row")
+			div(class="twelve columns")
+				h5 Corporate Information
+		div(class="row")
+			div(class="six columns") 
+					b Jurisdiction:
+					br
+					select(name="reportJurisdiction" class="u-full-width")
+							option(value="" disabled="disabled" selected="selected") Jurisdiction
+							option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
+							option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
+							option(value="#{bag.setup.USER3}") #{bag.setup.USER3longname}
+							option(value="#{bag.setup.USER4}") #{bag.setup.USER4longname}	
+							option(value="#{bag.setup.USER5}") #{bag.setup.USER5longname}
+							option(value="#{bag.setup.USER6}") #{bag.setup.USER6longname}
+							option(value="#{bag.setup.USER7}") #{bag.setup.USER7longname}
+							option(value="#{bag.setup.USER8}") #{bag.setup.USER8longname}
+							option(value="#{bag.setup.USER9}") #{bag.setup.USER9longname}
+							option(value="#{bag.setup.USER10}") #{bag.setup.USER10longname}
+							option(value="#{bag.setup.USER11}") #{bag.setup.USER11longname}
+							option(value="#{bag.setup.USER12}") #{bag.setup.USER12longname}
+							option(value="#{bag.setup.USER13}") #{bag.setup.USER13longname}
+							option(value="#{bag.setup.USER14}") #{bag.setup.USER14longname}
+			div(class="six columns")
+					b Reporting Date:
+					br
+					input(type="text" name="reportReportingDate" placeholder="DD-MM-YYYY" class="u-full-width")
+		div(class="row")
+			div(class="twelve columns") 
+					b Corporate Name:
+					br
+					input(type="text" name="reportCorporateName" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="twelve columns")
+				h5 Registered Office Address
+		div(class="row")
+			div(class="twelve columns")
+					b Street Address:
+					br
+					input(type="text" name="reportStreetAddress" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="six columns")
+					b City:
+					br
+					input(type="text" name="reportCity" placeholder="" class="u-full-width")
+			div(class="three columns")
+					b Province:
+					br
+					select(name="reportProvince" class="u-full-width")
+							option(value="" disabled="disabled" selected="selected") Province
+							option(value="#{bag.setup.USER1}") #{bag.setup.USER1longname}
+							option(value="#{bag.setup.USER2}") #{bag.setup.USER2longname}
+							option(value="#{bag.setup.USER3}") #{bag.setup.USER3longname}
+							option(value="#{bag.setup.USER4}") #{bag.setup.USER4longname}	
+							option(value="#{bag.setup.USER5}") #{bag.setup.USER5longname}
+							option(value="#{bag.setup.USER6}") #{bag.setup.USER6longname}
+							option(value="#{bag.setup.USER7}") #{bag.setup.USER7longname}
+							option(value="#{bag.setup.USER8}") #{bag.setup.USER8longname}
+							option(value="#{bag.setup.USER9}") #{bag.setup.USER9longname}
+							option(value="#{bag.setup.USER10}") #{bag.setup.USER10longname}
+							option(value="#{bag.setup.USER11}") #{bag.setup.USER11longname}
+							option(value="#{bag.setup.USER12}") #{bag.setup.USER12longname}
+							option(value="#{bag.setup.USER13}") #{bag.setup.USER13longname}
+			div(class="three columns")
+					b Postal Code:
+					br
+					input(type="text" name="reportPostalCode" placeholder="" class="u-full-width")
+		div(class="row")
+			div(class="twelve columns" style="text-align:left")
+				p(style="color:red")#reportValidationMessage
+				button(type="button" class="button-primary")#report
+					span.fa.fa-check &nbsp;&nbsp;
+					span Report
+		div(class="row")
+			div(class="twelve columns" style="text-align:left")
+				p#reportingMessage			
+				

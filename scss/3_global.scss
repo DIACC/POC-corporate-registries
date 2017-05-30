@@ -1,0 +1,296 @@
+@import 'color_theme';
+
+/*Main Layout*/
+#headerPanel {
+  background:#fff;
+  margin-top:10px;
+}
+
+#navPanel{
+	height:60px;
+	line-height: 60px;
+	width:100%;
+	background: $acc_color1;
+	font-size: 15px;
+}
+
+#mainPanel{
+	color: $main_color;
+	min-height: 750px;
+}
+
+#contentPanel {
+	min-height:500px;
+	position: relative;
+	margin:30px 50px auto;
+}
+
+#footerPanel{
+	position: fixed;
+	bottom: 0;
+	width:100%;
+}
+
+
+
+.nav {
+	color:$acc_color3;
+	padding: 0px 30px;
+	display:inline-block;
+}
+.nav:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+.selectedNav{
+	color: $main_color;
+}
+#linkWraps{
+	text-align:center;
+	width:100%;
+	position: absolute;
+	top:0;
+	left:0;
+	z-index: 2;
+}
+#logo{
+	color: $acc_color3;
+	display:inline-block;
+	margin-left: 20px;
+	font-size: 18px;
+	font-weight: 600;
+	background: $acc_color1;
+	position: relative;
+	z-index:4;
+}
+
+
+// --------- Home ---------
+.marblesWrap{
+	width:42%;
+	display:inline-block;
+	text-align: right;
+	color:#fff;
+}
+.legend{
+	font-size:30px;
+	border-bottom: 1px $acc_color2 solid;
+	padding-bottom:5px;
+	text-align: left;
+}
+
+
+.ball{
+	display:inline-block;
+	margin:1px;
+	border:1px $main_bg solid;
+	padding:0 3px;
+}
+.ball:hover{
+	cursor: pointer;
+	border-bottom:1px #fff solid;
+}
+
+#description{
+	position: absolute;
+	bottom:75px;
+	width:100%;
+	text-align: center;
+}
+#toolWrap{
+	width:100%;
+	text-align: center;
+	position: fixed;
+	bottom:55px;
+	margin-left:-50px;
+}
+#trashbin{
+	width:200px;
+	height: 70px;
+	margin:auto;
+	text-align: center;
+	margin-top:-70px;
+}
+
+#user1wrap, #user2wrap{
+	min-height:100px;
+}
+
+
+// --------- Create ---------
+.createball{
+	font-size:275px;
+	float:left;
+	color: transparent;
+	border: 2px dashed $main_color;
+	border-radius: 200px;
+	width: 270px;
+	height: 270px;
+}
+#createform{
+	float: left;
+	margin-left: 40px;
+	margin-top: 40px;
+}
+.createLegend{
+	width:45px;
+	display: inline-block;
+}
+#innerWrap{
+	width:800px;
+	margin:auto;
+	text-align: right;
+	margin-top:50px;
+}
+
+
+// --------- common ---------
+#blockdate{
+	position: absolute;
+	top:30px;
+	right:10px;
+	font-size:13px;
+	color: $hi_color1;
+	font-weight:bold;
+}
+
+.hint{
+	font-size:12px;
+	font-weight:bold;
+	color:$acc_color2;
+}
+#viewBCWrap{
+	color:$main_color;
+	padding:22px;
+	background: $acc_color1;
+	font-size:12px;
+	cursor:pointer;
+	width:180px;
+	text-align: center;
+	margin-left:25px;
+}
+#footerWrap{
+	height: 235px;
+	background: $acc_color0;
+	color: $acc_color2;
+	width:100%;
+	border-top:25px $acc_color1 solid;
+}
+
+#notificationPanel{
+	display:none;
+	width: 450px;
+	position: absolute;
+	right:0;
+	top: 90px;
+	color: $acc_color3;
+	background: $acc_color1;
+	padding: 30px 0;
+	border-left: 25px $hi_color3 solid;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	text-align: center;
+}
+#noticeText, #errorNoticeText{
+	margin-bottom:10px;
+	font-size:13px;
+	width:88%;
+	text-align: center;
+}
+
+#closeNotification{
+	background:initial;
+	color: $main_color;
+}
+
+#noticeIcon, #errorNoticeIcon{
+	position:absolute; 
+	left:-19px; 
+	top: 45px; 
+	color:$acc_color1;
+}
+
+
+// --------- error msg ---------
+#errorNotificationPanel{
+	display:none;
+	width: 450px;
+	position: absolute;
+	right:0;
+	top: 90px;
+	color: $acc_color3;
+	background: $acc_color1;
+	padding: 30px 0;
+	border-left: 25px $hi_color1 solid;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	text-align: center;
+}
+#errorNoticeText{
+	margin-top:10px;
+	text-align: left;
+	margin-left:10px;
+}
+
+#errorNoticeIcon{
+	top:42%;
+}
+
+// --------- marble colors ---------
+.white{color:#FFFEF3;}
+.black{color:#1C2026;}
+.red{color:#F15847;}
+.green{color:#68B369;}
+.blue{color:#3D76BA;}
+.purple{color:#634FA1;}
+.pink{color:#CC5AA2;}
+.orange{color:#ED8F30;}
+.yellow{color:#DAC94E;}
+
+.whitebg{background:#FFFEF3;}
+.blackbg{background:#1C2026}
+.redbg{background:#F15847}
+.greenbg{background:#68B369}
+.bluebg{background:#3D76BA}
+.purplebg{background:#634FA1}
+.pinkbg{background:#CC5AA2}
+.orangebg{background:#ED8F30}
+.yellowbg{background:#DAC94E}
+
+
+.colorSelectWrap{
+	text-align: left;
+	margin: 5px;
+	display: inline-block;
+}
+.colorInput{
+	width:105px;
+	border: 1px solid $acc_color3;
+	border-radius: 20px;
+	padding: 5px;
+	font-size: 13px;
+}
+.colorOptionsWrap{
+	display:none;
+	position:absolute;
+	background: $acc_color1;
+	padding: 10px 0;
+	width:105px;
+	border-radius: 10px;
+	text-align: left;
+	margin-top:1px;
+	z-index:4;
+}
+.colorOption{
+	width: 85px;
+	display:block;
+	padding: 10px;
+	text-align: center;
+	cursor: pointer;
+}
+.colorOption:hover{
+	background: $acc_color0;
+}
+.colorValue{
+	margin-left:10px;
+}
