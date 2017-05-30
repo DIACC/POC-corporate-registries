@@ -17,7 +17,7 @@ There are two primary methods to run this application:
 
 ## Method #1: Bluemix
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/cbaghdassarian/blockchain-diacc-corporate-registries.git)
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/DIACC/POC-corporate-registries.git)
 
 Select the button above to deploy the web app and blockchain component on Bluemix.
 
@@ -104,17 +104,17 @@ To set up a local blockchain network, perform the following steps:
 	When the blockchain network is running, you should see output similar to the following:
 
 	~~~
-...
-vp1_1         | 16:47:34.291 [peer] HandleMessage -> DEBU 10d Handling Message of type: DISC_PEERS 
-vp1_1         | 16:47:34.291 [peer] beforePeers -> DEBU 10e Received DISC_PEERS, grabbing peers message
-vp1_1         | 16:47:34.291 [peer] beforePeers -> DEBU 10f Received PeersMessage with Peers: peers:<ID:<name:"vp3" > address:"172.18.0.4:7051" type:VALIDATOR pkiID:"\226\022dA\020\245\036\222\327\002f\316_\301\2471B\311m\327\267\230\215\227\177z\3008\360\254\263?" > peers:<ID:<name:"vp2" > address:"172.18.0.5:7051" type:VALIDATOR pkiID:"\025F\300\363I%\347\274\316\261G{\233\360gU\344\251\327\226X\222\236\017\003\360s\017OA\233\033" > peers:<ID:<name:"vp1" > address:"172.18.0.6:7051" type:VALIDATOR pkiID:"\325\3741\324\226z\335\255\271\327vP\241\007\200\356\357m\230\np\222cY\210-\341\271\252\3301\234" > 
-vp2_1         | 16:47:34.975 [peer] ensureConnected -> DEBU 111 Touch service indicates no dropped connections
-vp2_1         | 16:47:34.975 [peer] ensureConnected -> DEBU 112 Connected to: [172.18.0.4:7051 172.18.0.6:7051 172.18.0.2:7051]
-vp2_1         | 16:47:34.975 [peer] ensureConnected -> DEBU 113 Discovery knows about: [172.18.0.6:7051 172.18.0.2:7051 172.18.0.4:7051]
-vp1_1         | 16:47:35.210 [peer] ensureConnected -> DEBU 110 Touch service indicates no dropped connections
-vp1_1         | 16:47:35.210 [peer] ensureConnected -> DEBU 111 Connected to: [172.18.0.2:7051 172.18.0.4:7051 172.18.0.5:7051]
-vp1_1         | 16:47:35.210 [peer] ensureConnected -> DEBU 112 Discovery knows about: [172.18.0.2:7051 172.18.0.4:7051 172.18.0.5:7051]
-~~~
+	...
+	vp1_1         | 16:47:34.291 [peer] HandleMessage -> DEBU 10d Handling Message of type: DISC_PEERS 
+	vp1_1         | 16:47:34.291 [peer] beforePeers -> DEBU 10e Received DISC_PEERS, grabbing peers message
+	vp1_1         | 16:47:34.291 [peer] beforePeers -> DEBU 10f Received PeersMessage with Peers: peers:<ID:<name:"vp3" > address:"172.18.0.4:7051" type:VALIDATOR 	pkiID:"\226\022dA\020\245\036\222\327\002f\316_\301\2471B\311m\327\267\230\215\227\177z\3008\360\254\263?" > peers:<ID:<name:"vp2" > address:"172.18.0.5:7051" type:VALIDATOR pkiID:"\025F\300\363I%\347\274\316\261G{\233\360gU\344\251\327\226X\222\236\017\003\360s\017OA\233\033" > 	peers:<ID:<name:"vp1" > address:"172.18.0.6:7051" 	type:VALIDATOR pkiID:"\325\3741\324\226z\335\255\271\327vP\241\007\200\356\357m\230\np\222cY\210-\341\271\252\3301\234" > 
+	vp2_1         | 16:47:34.975 [peer] ensureConnected -> DEBU 111 Touch service indicates no dropped connections
+	vp2_1         | 16:47:34.975 [peer] ensureConnected -> DEBU 112 Connected to: [172.18.0.4:7051 172.18.0.6:7051 172.18.0.2:7051]
+	vp2_1         | 16:47:34.975 [peer] ensureConnected -> DEBU 113 Discovery knows about: [172.18.0.6:7051 172.18.0.2:7051 172.18.0.4:7051]
+	vp1_1         | 16:47:35.210 [peer] ensureConnected -> DEBU 110 Touch service indicates no dropped connections
+	vp1_1         | 16:47:35.210 [peer] ensureConnected -> DEBU 111 Connected to: [172.18.0.2:7051 172.18.0.4:7051 172.18.0.5:7051]
+	vp1_1         | 16:47:35.210 [peer] ensureConnected -> DEBU 112 Discovery knows about: [172.18.0.2:7051 172.18.0.4:7051 172.18.0.5:7051]
+	~~~
 
 Additional help and instructions for setting up and configuring the blockchain network are available from IBM [here](https://hub.docker.com/r/ibmblockchain/fabric-peer/).
 
@@ -125,7 +125,7 @@ The app code needs to be downloaded to your local system.
 2. Run the following command.
 
 	~~~
-	git clone https://github.com/cbaghdassarian/blockchain-diacc-corporate-registries.git
+	git clone https://github.com/DIACC/POC-corporate-registries.git
 	~~~
 	 
 This will install the app code to your local system.
