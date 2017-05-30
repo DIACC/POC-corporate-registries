@@ -143,7 +143,7 @@ This will install the app code to your local system and make the code use the lo
 **Step 4 - Install Dependencies and Run the App**
 
 
-1. Open a command prompt/terminal and browse to the root of the project you just downloaded from github.  (i.e. /Users/User/Documents/BlockChain/blockchain-diacc-corporate-registries)
+1. Open a command prompt/terminal and browse to the root of the project you just downloaded from github.  (i.e. /Users/User/Documents/BlockChain/POC-corporate-registries)
 1. In the command prompt run the following commands:
 
 	~~~
