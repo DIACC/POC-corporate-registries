@@ -26,7 +26,7 @@ Select the button above to deploy the web app and blockchain component on Bluemi
 ## Method #2: Local Setup
 To set up the app locally, both the blockchain and the local web app will need to be configured.  Follow the instructions below to configure the app locally.
 
-**Step 1 Install Software Prerequisites**
+**Step 1 - Install Software Prerequisites**
 
 In order to run the app locally, there are a number of software prerequisites that must be installed on your system.  Please follow the links for each of the software prerequisites below and instll them on your system.
 
@@ -72,7 +72,7 @@ In order to run the app locally, there are a number of software prerequisites th
 	Docker version 17.03.1-ce, build c6d412e
 	~~~
 	
-**Step 2 Configure a local Blockchain Network**
+**Step 2 - Configure a local Blockchain Network**
 
 A local blockchain network will need to be setup to run in Docker.  
 
@@ -120,7 +120,8 @@ To set up a local blockchain network, perform the following steps:
 
 Additional help and instructions for setting up and configuring the blockchain network are available from IBM [here](https://hub.docker.com/r/ibmblockchain/fabric-peer/).
 
-**Step 3 Download the App**
+**Step 3 - Download the App**
+
 The app code needs to be downloaded to your local system.
 
 1. Open a command prompt/terminal and browse to your desired working directory
@@ -132,7 +133,7 @@ The app code needs to be downloaded to your local system.
 	 
 This will install the app code to your local system.
 
-**Step 4 Install Dependencies and Run the App**
+**Step 4 - Install Dependencies and Run the App**
 
 
 1. Open a command prompt/terminal and browse to the root of the project you just downloaded from github.  (i.e. /Users/User/Documents/BlockChain/blockchain-diacc-corporate-registries)
