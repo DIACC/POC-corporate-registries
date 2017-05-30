@@ -120,7 +120,7 @@ To set up a local blockchain network, perform the following steps:
 
 Additional help and instructions for setting up and configuring the blockchain network are available from IBM [here](https://hub.docker.com/r/ibmblockchain/fabric-peer/).
 
-**Step 3 - Download the App**
+**Step 3 - Download the App and point to local blockchain network**
 
 The app code needs to be downloaded to your local system.
 
@@ -130,8 +130,15 @@ The app code needs to be downloaded to your local system.
 	~~~
 	git clone https://github.com/DIACC/POC-corporate-registries.git
 	~~~
+    
+3. Open up app.js and uncomment line 166 and comment out line 167.  It should look as follows:
+
+    ~~~
+    var manual = JSON.parse(fs.readFileSync('mycreds_docker_compose.json', 'utf8'));
+    //var manual = JSON.parse(fs.readFileSync('mycreds_bluemix.json', 'utf8'));
+    ~~~
 	 
-This will install the app code to your local system.
+This will install the app code to your local system and make the code use the local blockchain network.
 
 **Step 4 - Install Dependencies and Run the App**
 

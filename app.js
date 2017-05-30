@@ -163,8 +163,8 @@ var ibc = new Ibc1();
 try{
     //this hard coded list is intentionaly left here, feel free to use it when initially starting out
     //please create your own network when you are up and running
-    //var manual = JSON.parse(fs.readFileSync('mycreds_docker_compose.json', 'utf8'));
-    var manual = JSON.parse(fs.readFileSync('mycreds_bluemix.json', 'utf8'));
+    var manual = JSON.parse(fs.readFileSync('mycreds_docker_compose.json', 'utf8'));
+    //var manual = JSON.parse(fs.readFileSync('mycreds_bluemix.json', 'utf8'));
     var peers = manual.credentials.peers;
     console.log('loading hardcoded peers');
     var users = null;																			//users are only found if security is on
@@ -237,7 +237,7 @@ var options = 	{
     },
     chaincode:{
         zip_url: 'https://github.com/DIACC/POC-corporate-registries/archive/master.zip',
-        unzip_dir: 'blockchain-diacc-corporate-registries-master/chaincode',							//subdirectroy name of chaincode after unzipped
+        unzip_dir: 'POC-corporate-registries-master/chaincode',							//subdirectroy name of chaincode after unzipped
         git_url: 'https://github.com/DIACC/POC-corporate-registries/chaincode',	//GO get http url
 
         //hashed cc name from prev deployment, comment me out to always deploy, uncomment me when its already deployed to skip deploying again
