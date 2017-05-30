@@ -19,7 +19,7 @@ There are two primary methods to run this application:
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/DIACC/POC-corporate-registries.git)
 
-Select the button above to deploy the web app and blockchain component on Bluemix.
+Select the button above to deploy the web app and blockchain component on Bluemix.  When 'deploy' is selected, it takes 5-10 minutes to complete the deployment.
 
 **Note:** a Bluemix ID is required and can be obtained once the button is selected. 
 
