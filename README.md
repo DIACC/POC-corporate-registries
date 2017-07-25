@@ -26,13 +26,21 @@ Select the button above to deploy the web app and blockchain component on Bluemi
 ## Method #2: Local Setup
 To set up the app locally, both the blockchain and the local web app will need to be configured.  Follow the instructions below to configure the app locally.
 
+MacOS notes: software installation requires approximately 375 MB disk space.
+
 **Step 1 - Install Software Prerequisites**
 
 In order to run the app locally, there are a number of software prerequisites that must be installed on your system.  Please follow the links for each of the software prerequisites below and instll them on your system.
 
-1. [Node.js](https://nodejs.org/en/download/) and npm v2+ (npm is included with Node.js)
-2. [Git](https://git-scm.com/downloads) for source code management
+1. [Node.js](https://nodejs.org/en/download/) and npm v2+ (npm is included with Node.js) 
+2. [Git](https://git-scm.com/downloads) for source code management  
 3. [Docker](https://docs.docker.com/engine/installation/) for runninng the HyperLedger Fabric
+
+MacOS: note that Command Line Developer tools required. Enter the following to install:
+
+         ~~~
+         xcode-select --install
+         ~~~
 
 **BEFORE PROCEEDING TO THE NEXT STEP, PLEASE MAKE SURE ALL PREREQUISITES ARE INSTALLED**
 
@@ -59,7 +67,7 @@ In order to run the app locally, there are a number of software prerequisites th
 	~~~
 	git version 2.11.0 (Apple Git-81)
 	~~~
-	
+
 3. To test that Docker is installed, open a terminal window and enter the following:
 
 	~~~
@@ -72,6 +80,8 @@ In order to run the app locally, there are a number of software prerequisites th
 	Docker version 17.03.1-ce, build c6d412e
 	~~~
 	
+        MacOS Troubleshooting: if the docker command is not found, make sure you have run the Docker app to complete the install.
+
 **Step 2 - Configure a local Blockchain Network**
 
 A local blockchain network will need to be setup to run in Docker.  
@@ -165,3 +175,11 @@ This will install the app code to your local system and make the code use the lo
 		[ibc-js] Chain Stats - success
 
 1. The app is running and connected to the blockchain! Open up your browser and browse to [http://localhost:3000](http://localhost:3000). You should see the corporate registries landing page.
+
+==To Cleanly Shut Down==
+1. Ctrl-C out of the app
+2. In the blockchain terminal window, run 
+   
+        ~~~
+        docker-compose -f four-peer-ca.yaml down 
+        ~~~
